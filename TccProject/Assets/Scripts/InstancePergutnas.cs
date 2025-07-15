@@ -32,7 +32,7 @@ public class InstancePergutnas : MonoBehaviour
      }
      public void Load()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
      
      

@@ -16,7 +16,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
     public GameObject fadeImage; // arraste o painel de fade aqui
 
     private bool jaAtivado = false;
-    private string mensagemFinal = "Haruki:... Pai?Ele parecia… feliz. Orgulhoso. Por que apagar isso da nossa história?";
+    private string mensagemFinal = "Haruki:... Pai?Ele pareciaï¿½ feliz. Orgulhoso. Por que apagar isso da nossa histï¿½ria?";
 
     void Update()
     {
@@ -42,7 +42,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
 
         yield return StartCoroutine(FazerFade());
 
-        SceneManager.LoadScene(cenaDestino);
+        SceneManager.LoadScene(6);
     }
 
     IEnumerator FazerFade()
