@@ -8,6 +8,8 @@ public class SelectDialog : MonoBehaviour
 {
     // Start is called before the first frame update
     public Button FirstButton, SecondButton, ThirdButton;
+    public GameObject Respost1;
+    public GameObject DestroyOld;
     void Start()
     {
         FirstButton.onClick.AddListener(TaskOnClick);
@@ -21,7 +23,8 @@ public class SelectDialog : MonoBehaviour
     
     void TaskOnClick()
     {
-        //Output this to console when Button1 or Button3 is clicked
+        Destroy(DestroyOld);
+        Respost1.SetActive(true);
         Debug.Log("You have clicked the button!");
     }
 
