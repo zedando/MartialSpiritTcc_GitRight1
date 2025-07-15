@@ -11,7 +11,7 @@ public class DialogBar : MonoBehaviour
 
     private RectTransform rectTransform;
 
-    private Vector2 hiddenPosition = new Vector2(0, -100);
+    private Vector2 hiddenPosition = new Vector2(0, -500);
 
     private Vector2 visiblePosition = Vector2.zero;
 

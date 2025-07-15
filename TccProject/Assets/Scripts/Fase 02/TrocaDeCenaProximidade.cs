@@ -82,6 +82,11 @@ public class TrocaDeCenaProximidade : MonoBehaviour
         }
 
         telaFade.alpha = 1f;
-        SceneManager.LoadScene(nomeCenaDestino);
+
+       SceneManager.LoadScene(nomeCenaDestino);
+    }
+    public void Scane(){
+        IniciarTransicao();
+        
     }
 }
