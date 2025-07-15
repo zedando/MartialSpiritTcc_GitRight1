@@ -385,10 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1496969055f454da1d8a2d1ab4e3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasImagem: {fileID: 1644886940}
-  botaoClique: {fileID: 0}
-  nomeCena: hh
-  painelFade: {fileID: 317762278}
+  botaoInteracao: {fileID: 1644886945}
+  cenaDestino: hvhv
   duracaoFade: 1
 --- !u!65 &357608754
 BoxCollider:
@@ -1747,6 +1745,7 @@ GameObject:
   - component: {fileID: 1644886944}
   - component: {fileID: 1644886943}
   - component: {fileID: 1644886942}
+  - component: {fileID: 1644886945}
   m_Layer: 0
   m_Name: intera
   m_TagString: Untagged
@@ -1762,7 +1761,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644886940}
   m_LocalRotation: {x: -0.000000021420417, y: 0.7267379, z: -0, w: 0.68691486}
-  m_LocalPosition: {x: 0, y: 0, z: 17.6}
+  m_LocalPosition: {x: 0, y: 0, z: 17.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1771,7 +1770,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 93.227, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -535.98, y: -238.07}
+  m_AnchoredPosition: {x: -535.28, y: -238.07}
   m_SizeDelta: {x: 2.1462, y: 2.6302}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1644886942
@@ -1818,13 +1817,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 357608749}
         m_TargetAssemblyTypeName: LivroBrilhando, Assembly-CSharp
-        m_MethodName: InteragirViaClique
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LivroBrilhando, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1868,6 +1879,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644886940}
   m_CullTransparentMesh: 1
+--- !u!225 &1644886945
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644886940}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &1664370239 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9fd03e453cfe8a343abdce728f0d1978, type: 3}
