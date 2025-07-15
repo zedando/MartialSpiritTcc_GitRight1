@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour
 
     void PlayGame()
     {
-        SceneManager.LoadScene("Fase1");
+        SceneManager.LoadScene("Map");
     }
 
     void OpenSettings()
