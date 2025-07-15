@@ -24,7 +24,7 @@ public class GD_InteractObject : MonoBehaviour
     }
     public void GetStartDialog()
     {
-        GameEvents.Instance.StartDialog(dialogData);
+            GameEvents.Instance.StartDialog(dialogData);
      }
    
 }

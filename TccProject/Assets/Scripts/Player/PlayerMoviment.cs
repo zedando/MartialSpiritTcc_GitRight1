@@ -58,12 +58,21 @@ public class PlayerMoviment : MonoBehaviour
         Vector3 finalVelocity = moveDir * speed + Vector3.up * verticalVelocity;
         controller.Move(finalVelocity * Time.deltaTime);
 
-        if (inputDirection.magnitude >= 0f) {
+        if (inputDirection.magnitude > 0f)
+        {
             animator.SetBool("Andando", true);
-        } 
-        if (inputDirection.magnitude <= 0f) {
-            animator.SetBool("Andando", false);
-        } 
+            animator.SetBool("Tenis", false);
         
+        }
+        if (inputDirection.magnitude <= 0f)
+        {
+            animator.SetBool("Andando", false);
+        }
+
     }
+    public void TakeShoes()
+    {
+        animator.SetBool("Tenis", true);
+    }
+     
 }
