@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class GD_InteractObject : MonoBehaviour
 {
 
-    public string interactionText = "Interact";
+    public string interactionText = "Pressione E";
     public UnityEvent onInteract;
 
     [SerializeField] DialogoSo dialogData;
