@@ -7,10 +7,11 @@ public class InstancePergutnas : MonoBehaviour
 {
      public GameObject Perguntas;
      public GameObject AvisoNãoAbrir;
+     
      // Start is called before the first frame update
      void Start()
      {
-
+          
      }
 
      // Update is called once per frame
@@ -25,8 +26,9 @@ public class InstancePergutnas : MonoBehaviour
           Debug.Log("ola");
      }
      public void Aviso()
-     { 
+     {
           AvisoNãoAbrir.SetActive(true);
      }
+     
      
 }
