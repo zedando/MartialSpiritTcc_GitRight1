@@ -107,6 +107,6 @@ IEnumerator FadeFinal()
     }
 
     // Troca de cena
-    SceneManager.LoadScene("Fase03"); // ou o nome da próxima cena
+    SceneManager.LoadScene("Map1"); // ou o nome da próxima cena
 }
 }

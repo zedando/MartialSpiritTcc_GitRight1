@@ -6,21 +6,39 @@ using System.Collections;
 
 public class TrocaDeCenaProximidade : MonoBehaviour
 {
-   [Header("Configurações")]
-    public CanvasGroup botaoInteracao; // botão de interação (canvas group para controlar alpha)
-    public string cenaDestino = "NomeDaCena"; // nome da cena que vai carregar
-    public float duracaoFade = 1f;
+ [Header("UI")]
+    public GameObject textoUI; // "Pressione E para interagir"
+    public CanvasGroup telaFade; // Objeto com CanvasGroup para fade
 
+    [Header("Cena")]
+    public string nomeCenaDestino = "NomeDaCena";
+
+    [Header("Input")]
+    public InputActionAsset inputAsset;
+
+    private InputAction interagirAction;
     private bool jogadorPerto = false;
-    private bool interagindo = false;
+    private bool jaInteragiu = false;
 
     void Start()
     {
-        if (botaoInteracao != null)
+        if (textoUI != null)
+            textoUI.SetActive(false);
+
+        if (telaFade != null)
+            telaFade.alpha = 0f;
+
+        interagirAction = inputAsset.FindAction("interagir", true);
+        interagirAction.Enable();
+    }
+
+    void Update()
+    {
+        if (!jogadorPerto || jaInteragiu) return;
+
+        if (interagirAction.triggered)
         {
-            botaoInteracao.alpha = 0f;
-            botaoInteracao.interactable = false;
-            botaoInteracao.blocksRaycasts = false;
+            IniciarTransicao();
         }
     }
 
@@ -29,7 +47,7 @@ public class TrocaDeCenaProximidade : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             jogadorPerto = true;
-            MostrarBotao(true);
+            textoUI?.SetActive(true);
         }
     }
 
@@ -38,61 +56,32 @@ public class TrocaDeCenaProximidade : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             jogadorPerto = false;
-            MostrarBotao(false);
+            textoUI?.SetActive(false);
         }
     }
 
-    void MostrarBotao(bool mostrar)
+    private void IniciarTransicao()
     {
-        if (botaoInteracao == null) return;
+        if (jaInteragiu) return;
 
-        botaoInteracao.alpha = mostrar ? 1f : 0f;
-        botaoInteracao.interactable = mostrar;
-        botaoInteracao.blocksRaycasts = mostrar;
+        jaInteragiu = true;
+        textoUI?.SetActive(false);
+        StartCoroutine(FazerFadeETrocarCena());
     }
 
-    // Método chamado pelo PlayerInput via SendMessage
-    public void Interagir()
+    IEnumerator FazerFadeETrocarCena()
     {
-        if (jogadorPerto && !interagindo)
-        {
-            interagindo = true;
-            StartCoroutine(FadeECarregarCena());
-        }
-    }
-
-    IEnumerator FadeECarregarCena()
-    {
-        Image imgFade = CriarImagemFade();
-
+        float duracao = 1.5f;
         float tempo = 0f;
-        Color cor = imgFade.color;
 
-        while (tempo < duracaoFade)
+        while (tempo < duracao)
         {
             tempo += Time.deltaTime;
-            cor.a = Mathf.Lerp(0, 1, tempo / duracaoFade);
-            imgFade.color = cor;
+            telaFade.alpha = Mathf.Lerp(0f, 1f, tempo / duracao);
             yield return null;
         }
 
-        SceneManager.LoadScene(cenaDestino);
-    }
-
-    Image CriarImagemFade()
-    {
-        GameObject go = new GameObject("FadeTela");
-        go.transform.SetParent(FindObjectOfType<Canvas>().transform, false);
-
-        Image img = go.AddComponent<Image>();
-        img.color = new Color(0, 0, 0, 0);
-
-        RectTransform rt = img.GetComponent<RectTransform>();
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-
-        return img;
+        telaFade.alpha = 1f;
+        SceneManager.LoadScene(nomeCenaDestino);
     }
 }
