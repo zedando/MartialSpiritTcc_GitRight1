@@ -13,6 +13,9 @@ public class MainMenu : MonoBehaviour
     public Button backButton;
     public Button exitButton;
 
+
+
+
     void Start()
     {
         settingsPanel.SetActive(false);
@@ -26,7 +29,8 @@ public class MainMenu : MonoBehaviour
 
     void PlayGame()
     {
-        SceneManager.LoadScene("Map");
+        Loader.SceneToLoad = "Map";  
+        SceneManager.LoadScene("LoadingScene");
     }
 
     void OpenSettings()
@@ -43,7 +47,7 @@ public class MainMenu : MonoBehaviour
 
     void ExitGame()
     {
-        Debug.Log("Saindo do jogo...");
+        //Debug.Log("Saindo do jogo...");
         Application.Quit();
     }
 }
