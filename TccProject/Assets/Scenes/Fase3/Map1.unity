@@ -1902,6 +1902,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2369156, y: 2.631981, z: 1}
   m_Center: {x: 0.092098236, y: 0.81599045, z: 0}
+--- !u!114 &946063654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946063648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f7a49705c2d3442b97d72f1a32f3b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionText: Interact
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogData: {fileID: 11400000, guid: 928f6e8f195c54b4cb3a21cec20bab6b, type: 2}
 --- !u!1 &947901141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,9 +2153,11 @@ GameObject:
   - component: {fileID: 1019815781}
   - component: {fileID: 1019815780}
   - component: {fileID: 1019815779}
+  - component: {fileID: 1019815784}
+  - component: {fileID: 1019815783}
   m_Layer: 0
   m_Name: Interect
-  m_TagString: NPC
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2154,8 +2173,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.5268188, y: 1, z: 9.290813}
+  m_Center: {x: -1.2633684, y: 7.0555256e-10, z: 0.87915605}
 --- !u!23 &1019815780
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2213,14 +2232,56 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019815777}
-  m_LocalRotation: {x: -0.0019428061, y: 0.008475677, z: -0.008759606, w: 0.9999238}
-  m_LocalPosition: {x: -111.40001, y: 25.9, z: 62.019997}
+  m_LocalRotation: {x: 0.0006760145, y: 0.2975608, z: -0.008946968, w: 0.9546607}
+  m_LocalPosition: {x: -58.81, y: 25.62, z: 56.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: -0.214, y: 0.973, z: -1.006}
+  m_LocalEulerAnglesHint: {x: 0.379, y: 34.621, z: -0.956}
+--- !u!114 &1019815783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019815777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f7a49705c2d3442b97d72f1a32f3b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionText: Clique E
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1201974577}
+        m_TargetAssemblyTypeName: Fade, Assembly-CSharp
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  dialogData: {fileID: 0}
+--- !u!65 &1019815784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019815777}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.803062, y: 5.651425, z: 8.551363}
+  m_Center: {x: 1.4305093, y: 2.3257382, z: 0.8293955}
 --- !u!1 &1044365708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,6 +2861,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9ea07df36984bd4c9094fc572a2fd57, type: 3}
+--- !u!114 &1201974577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3948781312190753, guid: 28f500db9a7fe6c46b3f12dd1b1fcebc, type: 3}
+  m_PrefabInstance: {fileID: 5392109628166759108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd90c47a1e9d264f9136a048a6b083f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1215082491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12577,7 +12649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5392109627966273753, guid: 28f500db9a7fe6c46b3f12dd1b1fcebc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5392109627966273754, guid: 28f500db9a7fe6c46b3f12dd1b1fcebc, type: 3}
       propertyPath: m_RootOrder
