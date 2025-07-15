@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InstancePergutnas : MonoBehaviour
 {
      public GameObject Perguntas;
      public GameObject AvisoNãoAbrir;
-     
+
      // Start is called before the first frame update
      void Start()
      {
-          
+
      }
 
      // Update is called once per frame
@@ -29,6 +30,11 @@ public class InstancePergutnas : MonoBehaviour
      {
           AvisoNãoAbrir.SetActive(true);
      }
+     public void Load()
+    {
+        SceneManager.LoadScene(2);
+    }
+     
      
      
 }
