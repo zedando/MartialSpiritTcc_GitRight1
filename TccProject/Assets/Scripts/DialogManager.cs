@@ -13,6 +13,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private DialogBar dialogBar;
     [SerializeField] private DialogText dialogText;
+    
 
     [Header("Settings")]
     [SerializeField] private float intervalBetweenSentences = 1;
@@ -39,6 +40,7 @@ public class DialogManager : MonoBehaviour
             charImage.sprite = sentence.ActorData.Sprite;
             yield return dialogText.ShowText(sentence.Content);
             yield return new WaitForSeconds(intervalBetweenSentences);
+            
         }
         yield return dialogBar.HideBar();
         dialogText.HideText();

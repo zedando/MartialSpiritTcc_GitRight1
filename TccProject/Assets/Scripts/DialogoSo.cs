@@ -10,8 +10,9 @@ public class DialogoSo : ScriptableObject
 }
 
 [Serializable]
-public class DialogSentence
+public class DialogSentence 
 {
+    public Instance Pergunta;
     public DialogoScript ActorData;
     [TextArea(3, 5)]
     public string Content;  
