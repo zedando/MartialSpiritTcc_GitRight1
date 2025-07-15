@@ -33,15 +33,22 @@ public class GD_PlayerInteract : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GD_InteractObject interactableObject = other.GetComponent<GD_InteractObject>();
-
+        
+        
         if (interactableObject != null)
         {
             interactablesInRange.Add(interactableObject);
             if (currentInteractable == null)
             {
                 SetCurrentInteractable(interactableObject);
+                if (other.gameObject.CompareTag("NPC"))
+                {
+                    GD_InteractObject objectInteract = currentInteractable.GetComponent<GD_InteractObject>();
+                    objectInteract.GetStartDialog();
+                }
             }
         }
+        
     }
 
     private void OnTriggerExit(Collider other)
@@ -62,7 +69,7 @@ public class GD_PlayerInteract : MonoBehaviour
         currentInteractable = interactable;
         ShowInteractionText();
         GD_InteractObject objectInteract = currentInteractable.GetComponent<GD_InteractObject>();
-        objectInteract.GetStartDialog();
+        
     }
 
     private void RemoveCurrentInteractable()
