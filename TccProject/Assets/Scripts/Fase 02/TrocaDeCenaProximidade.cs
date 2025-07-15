@@ -6,73 +6,93 @@ using System.Collections;
 
 public class TrocaDeCenaProximidade : MonoBehaviour
 {
-    public GameObject canvasImagem;
-    public Button botaoClique;
-    public string nomeCena;
-    public Image painelFade;
+   [Header("Configurações")]
+    public CanvasGroup botaoInteracao; // botão de interação (canvas group para controlar alpha)
+    public string cenaDestino = "NomeDaCena"; // nome da cena que vai carregar
     public float duracaoFade = 1f;
 
-    private bool podeInteragir = false;
-    private bool estaFazendoFade = false;
+    private bool jogadorPerto = false;
+    private bool interagindo = false;
 
     void Start()
     {
-        if (canvasImagem != null)
-            canvasImagem.SetActive(false);
-
-        if (painelFade != null)
-            painelFade.color = new Color(0, 0, 0, 0);
-
-        if (botaoClique != null)
-            botaoClique.onClick.AddListener(IniciarTransicao);
+        if (botaoInteracao != null)
+        {
+            botaoInteracao.alpha = 0f;
+            botaoInteracao.interactable = false;
+            botaoInteracao.blocksRaycasts = false;
+        }
     }
 
-    public void OnInteragir(InputAction.CallbackContext context)
+    private void OnTriggerEnter(Collider other)
     {
-        if (context.performed && podeInteragir && !estaFazendoFade)
-            IniciarTransicao();
+        if (other.CompareTag("Player"))
+        {
+            jogadorPerto = true;
+            MostrarBotao(true);
+        }
     }
 
-    void IniciarTransicao()
+    private void OnTriggerExit(Collider other)
     {
-        if (!estaFazendoFade)
-            StartCoroutine(FazerFadeETrocarCena());
+        if (other.CompareTag("Player"))
+        {
+            jogadorPerto = false;
+            MostrarBotao(false);
+        }
     }
 
-    IEnumerator FazerFadeETrocarCena()
+    void MostrarBotao(bool mostrar)
     {
-        estaFazendoFade = true;
+        if (botaoInteracao == null) return;
+
+        botaoInteracao.alpha = mostrar ? 1f : 0f;
+        botaoInteracao.interactable = mostrar;
+        botaoInteracao.blocksRaycasts = mostrar;
+    }
+
+    // Método chamado pelo PlayerInput via SendMessage
+    public void Interagir()
+    {
+        if (jogadorPerto && !interagindo)
+        {
+            interagindo = true;
+            StartCoroutine(FadeECarregarCena());
+        }
+    }
+
+    IEnumerator FadeECarregarCena()
+    {
+        Image imgFade = CriarImagemFade();
 
         float tempo = 0f;
+        Color cor = imgFade.color;
+
         while (tempo < duracaoFade)
         {
-            float alpha = Mathf.Lerp(0f, 1f, tempo / duracaoFade);
-            painelFade.color = new Color(0, 0, 0, alpha);
             tempo += Time.deltaTime;
+            cor.a = Mathf.Lerp(0, 1, tempo / duracaoFade);
+            imgFade.color = cor;
             yield return null;
         }
 
-        painelFade.color = new Color(0, 0, 0, 1f);
-        SceneManager.LoadScene(nomeCena);
+        SceneManager.LoadScene(cenaDestino);
     }
 
-    void OnTriggerEnter(Collider other)
+    Image CriarImagemFade()
     {
-        if (other.CompareTag("Player"))
-        {
-            podeInteragir = true;
-            if (canvasImagem != null)
-                canvasImagem.SetActive(true);
-        }
-    }
+        GameObject go = new GameObject("FadeTela");
+        go.transform.SetParent(FindObjectOfType<Canvas>().transform, false);
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            podeInteragir = false;
-            if (canvasImagem != null)
-                canvasImagem.SetActive(false);
-        }
+        Image img = go.AddComponent<Image>();
+        img.color = new Color(0, 0, 0, 0);
+
+        RectTransform rt = img.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        return img;
     }
 }
