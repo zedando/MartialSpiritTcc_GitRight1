@@ -12,7 +12,8 @@ public class TutorialManager : MonoBehaviour
 
     private PlayerInput controls;
     private bool pressedW, pressedA, pressedS, pressedD;
-    public bool pressedSpace;
+    public bool pressedSpace = false;
+    public bool spaces;
     public int step = 0;
     public bool canSkipDialog = false;
 
@@ -20,7 +21,6 @@ public class TutorialManager : MonoBehaviour
     {
         controls = new PlayerInput();
 
-        // Movimento
         controls.Player.Move.performed += ctx =>
         {
             Vector2 input = ctx.ReadValue<Vector2>();
@@ -29,15 +29,6 @@ public class TutorialManager : MonoBehaviour
             if (input.y < 0) pressedS = true;
             if (input.x > 0) pressedD = true;
         };
-
-        // Pular (Espaço)
-        if (step == 2 && canSkipDialog)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                pressedSpace = true;
-            }     
-        }
     }
     void OnEnable() => controls.Enable();
     void OnDisable() => controls.Disable();
@@ -52,8 +43,15 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        // Seguir a cabeça do player com as imagens
-        Vector3 headPos = playerHead.position + Vector3.up * 2;
+        if (step == 2 && canSkipDialog == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                pressedSpace = true;
+                spaces = true;
+            }     
+        }
+        Vector3 headPos = playerHead.position + Vector3.up * 3;
         wasdImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
         spacebarImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
 
@@ -80,20 +78,20 @@ public class TutorialManager : MonoBehaviour
         switch (step)
         {
             case 0:
-                dialogText.text = "Vamos começar o tutorial!";
+                dialogText.text = "A jornada começa agora... Vamos aprender os primeiros passos!";
                 Invoke(nameof(NextStep), 2f);
                 break;
             case 1:
-                dialogText.text = "Use as teclas WASD para se mover.";
+                dialogText.text = "Use as teclas <b>W</b>, <b>A</b>, <b>S</b> e <b>D</b> para caminhar pelo mundo.";
                 wasdImage.SetActive(true);
                 break;
             case 2:
-                dialogText.text = "Use a barra de espaço para pular os diálogos.";
+                dialogText.text = "Aperte <b>Espaço</b> para avançar os diálogos. Assim você segue sua jornada no seu ritmo.";
                 wasdImage.SetActive(false);
                 spacebarImage.SetActive(true);
                 break;
             case 3:
-                dialogText.text = "Muito bem! Você está pronto para jogar. Boa sorte!";
+                dialogText.text = "Excelente, guerreiro! Você está pronto para enfrentar o que vier. Boa sorte!";
                 spacebarImage.SetActive(false);
                 Invoke(nameof(EndTutorial), 3f);
                 break;
