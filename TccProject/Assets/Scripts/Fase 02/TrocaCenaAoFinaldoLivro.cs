@@ -16,7 +16,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
     public GameObject fadeImage; // arraste o painel de fade aqui
 
     private bool jaAtivado = false;
-    private string mensagemFinal = "Haruki:... Pai?Ele parecia� feliz. Orgulhoso. Por que apagar isso da nossa hist�ria?";
+    private string mensagemFinal = "Haruki:... Pai?Ele parecia  feliz. Orgulhoso. Por que apagar isso da nossa história?";
 
     void Update()
     {
