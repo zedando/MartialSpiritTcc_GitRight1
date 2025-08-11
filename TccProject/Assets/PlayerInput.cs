@@ -71,6 +71,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MostrarMissao"",
+                    ""type"": ""Button"",
+                    ""id"": ""00bf4d04-1b30-4e5b-946f-37d40159af3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleMiniMapa"",
+                    ""type"": ""Button"",
+                    ""id"": ""586978df-62a1-43ee-bfcc-b613efd2255d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,6 +201,50 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1c0bf27-3913-40e3-a8ca-e0e1be1116b3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MostrarMissao"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90ac2dcc-b4d9-41ff-832c-bcffa969ef8a"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MostrarMissao"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0fd651b-84c3-4b92-ae51-8c1b749e72ec"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleMiniMapa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfeefc1c-f2d8-4656-8e9a-c125ab090a05"",
+                    ""path"": ""<Touchscreen>/touch5/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleMiniMapa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +258,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Interagir = m_Player.FindAction("Interagir", throwIfNotFound: true);
         m_Player_PointerPosition = m_Player.FindAction("PointerPosition", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+        m_Player_MostrarMissao = m_Player.FindAction("MostrarMissao", throwIfNotFound: true);
+        m_Player_ToggleMiniMapa = m_Player.FindAction("ToggleMiniMapa", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,6 +326,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interagir;
     private readonly InputAction m_Player_PointerPosition;
     private readonly InputAction m_Player_Click;
+    private readonly InputAction m_Player_MostrarMissao;
+    private readonly InputAction m_Player_ToggleMiniMapa;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -271,6 +337,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Interagir => m_Wrapper.m_Player_Interagir;
         public InputAction @PointerPosition => m_Wrapper.m_Player_PointerPosition;
         public InputAction @Click => m_Wrapper.m_Player_Click;
+        public InputAction @MostrarMissao => m_Wrapper.m_Player_MostrarMissao;
+        public InputAction @ToggleMiniMapa => m_Wrapper.m_Player_ToggleMiniMapa;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -295,6 +363,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
+            @MostrarMissao.started += instance.OnMostrarMissao;
+            @MostrarMissao.performed += instance.OnMostrarMissao;
+            @MostrarMissao.canceled += instance.OnMostrarMissao;
+            @ToggleMiniMapa.started += instance.OnToggleMiniMapa;
+            @ToggleMiniMapa.performed += instance.OnToggleMiniMapa;
+            @ToggleMiniMapa.canceled += instance.OnToggleMiniMapa;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -314,6 +388,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
+            @MostrarMissao.started -= instance.OnMostrarMissao;
+            @MostrarMissao.performed -= instance.OnMostrarMissao;
+            @MostrarMissao.canceled -= instance.OnMostrarMissao;
+            @ToggleMiniMapa.started -= instance.OnToggleMiniMapa;
+            @ToggleMiniMapa.performed -= instance.OnToggleMiniMapa;
+            @ToggleMiniMapa.canceled -= instance.OnToggleMiniMapa;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -338,5 +418,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnInteragir(InputAction.CallbackContext context);
         void OnPointerPosition(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnMostrarMissao(InputAction.CallbackContext context);
+        void OnToggleMiniMapa(InputAction.CallbackContext context);
     }
 }
