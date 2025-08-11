@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using TMPro;
 
 
 public class SelectDialog : MonoBehaviour
@@ -32,6 +33,10 @@ public class SelectDialog : MonoBehaviour
         DestroyCaixa.SetActive(false);
         Respost1.SetActive(true);
         Debug.Log("You have clicked the button!");
+
+
+
+        PassarDeFase();
     }
     void TaskOnClick1()
     {
@@ -39,6 +44,8 @@ public class SelectDialog : MonoBehaviour
         DestroyCaixa.SetActive(false);
         Respost2.SetActive(true);
         Debug.Log("You have clicked the button!");
+
+        PassarDeFase();
     }
     void TaskOnClick2()
     {
@@ -46,6 +53,14 @@ public class SelectDialog : MonoBehaviour
         DestroyCaixa.SetActive(false);
         Respost3.SetActive(true);
         Debug.Log("You have clicked the button!");
+
+        PassarDeFase();
+    }
+
+    IEnumerator PassarDeFase()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(3);
     }
 
 }

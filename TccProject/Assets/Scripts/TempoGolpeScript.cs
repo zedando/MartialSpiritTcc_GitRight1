@@ -8,19 +8,27 @@ public class TempoGolpeScript : MonoBehaviour
 {
     public Slider slider;
     public float tempoTotal = 2f; // tempo por tecla
-    public Animator playerAnimator;
+    
     public string proximaFase;
 
     // Imagens das teclas no Canvas
     public GameObject teclaJ;
     public GameObject teclaE;
     public GameObject teclaQ;
+    public GameObject SegundaParte;
+    public GameObject PrimeiraParte;
+    public GameObject TerceiraParte;
+    public float Venceu = 0;
+
+
 
     private string teclaAtual;
     private bool minigameAtivo = false;
     private float tempoRestante;
     private int teclasCorretas = 0;
     private string[] teclas = { "J", "E", "Q" };
+    public Animator animator;
+    public Animator Senseianimator;
 
     public void iniciou()
     {
@@ -111,10 +119,31 @@ public class TempoGolpeScript : MonoBehaviour
         teclaE.SetActive(false);
         teclaQ.SetActive(false);
 
-        playerAnimator.SetTrigger("Acertou");
-        yield return new WaitForSeconds(1f);
+        animator.SetBool("Oi-zuki", true);
+        Senseianimator.SetBool("Oi-zuki", true);
 
+        Venceu++;
+        if (Venceu == 1)
+        {
+            SegundaParte.SetActive(true);
+            PrimeiraParte.SetActive(false);
+        }
+        if (Venceu == 2)
+        {
+            TerceiraParte.SetActive(true);
+            SegundaParte.SetActive(false);
+        }
+        
+        
+        
+        
+        yield return new WaitForSeconds(2f);
+
+        animator.SetBool("Oi-zuki", false);
+        Senseianimator.SetBool("Oi-zuki", false);
+           
         SceneManager.LoadScene(proximaFase);
+        
     }
 
     void ReiniciarFase()
