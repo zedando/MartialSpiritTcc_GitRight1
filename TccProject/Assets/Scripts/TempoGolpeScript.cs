@@ -141,8 +141,7 @@ public class TempoGolpeScript : MonoBehaviour
 
         animator.SetBool("Oi-zuki", false);
         Senseianimator.SetBool("Oi-zuki", false);
-           
-        SceneManager.LoadScene(proximaFase);
+
         
     }
 
