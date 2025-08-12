@@ -81,7 +81,7 @@ public class InstancePergutnas : MonoBehaviour
     {
         SceneManager.LoadScene(7);
     }
-    public void Fase4()
+    public void Fase4() 
     {
          SceneManager.LoadScene(9);
     }
