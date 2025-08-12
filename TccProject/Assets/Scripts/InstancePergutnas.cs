@@ -8,6 +8,7 @@ public class InstancePergutnas : MonoBehaviour
 {
      public GameObject Perguntas;
      public GameObject AvisoNãoAbrir;
+     public float tempoParaSumir = 2f;
 
      // Start is called before the first frame update
      void Start()
@@ -28,8 +29,16 @@ public class InstancePergutnas : MonoBehaviour
      }
      public void Aviso()
      {
-          AvisoNãoAbrir.SetActive(true);
+           StartCoroutine(MostrarAviso());
      }
+
+       private IEnumerator MostrarAviso()
+    {
+        AvisoNãoAbrir.SetActive(true);
+        yield return new WaitForSeconds(tempoParaSumir);
+        AvisoNãoAbrir.SetActive(false);
+    }
+     
      public void Load()
     {
         SceneManager.LoadScene(3);
