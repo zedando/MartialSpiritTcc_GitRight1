@@ -39,7 +39,7 @@ public class InstancePergutnas : MonoBehaviour
     {
         Perguntas.SetActive(false);
         Debug.Log("ola");
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene(13);
     }
 
     private IEnumerator AnimaçãoSenseiChute()
@@ -48,7 +48,7 @@ public class InstancePergutnas : MonoBehaviour
         Perguntas.SetActive(false);
         animator.SetBool("MaeGeri", true);
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(8);
+        SceneManager.LoadScene(13);
         animator.SetBool("MaeGeri", false);
 
     }
@@ -89,6 +89,10 @@ public class InstancePergutnas : MonoBehaviour
     public void Fase4() 
     {
          SceneManager.LoadScene(9);
+    }
+    public void Fase5() 
+    {
+         SceneManager.LoadScene(11);
     }
      
      
