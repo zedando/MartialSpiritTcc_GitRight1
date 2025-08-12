@@ -69,6 +69,11 @@ public class InstancePergutnas : MonoBehaviour
     {
         SceneManager.LoadScene(3);
     }
+     public void Loadfase3()
+    {
+        SceneManager.LoadScene(4);
+    }
+
     public void DojoMiniGame()
     {
         SceneManager.LoadScene(5);

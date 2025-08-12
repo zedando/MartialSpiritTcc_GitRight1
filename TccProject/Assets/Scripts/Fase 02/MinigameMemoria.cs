@@ -43,13 +43,13 @@ public CanvasGroup imagemCompletaGroup;
     string[] frases =
     {
         "Haruki: Esse homem... parece com ele.",
-        "Haruki: Espera... esse é o Dojo da foto da vó...",
+        "Haruki: Espera... esse Ã© o Dojo da foto da vila",
         "Haruki: Mas por que esconder isso?",
-        "Haruki: Ele parece feliz. Isso não faz sentido.",
+        "Haruki: Ele parece feliz. Isso nÃ£o faz sentido.",
         "Haruki: Ele viveu isso. Por que nega?",
         "Haruki: Por que jogou isso fora?",
-        "Haruki: Isso é importante pra mim.",
-        "Haruki: Mesmo que ele não entenda...",
+        "Haruki: Isso Ã© importante pra mim.",
+        "Haruki: Mesmo que ele nÃ£o entenda...",
         "Haruki: Eu preciso seguir meu caminho."
     };
 
@@ -66,7 +66,7 @@ IEnumerator DigitarTexto(string texto)
     }
 }
 
-   void FinalizarMinigame()
+   public void FinalizarMinigame()
 { proximoBotao.SetActive(true); 
 
     StartCoroutine(FadeFinal());
@@ -76,9 +76,9 @@ IEnumerator FadeFinal()
     float duracao = 1.5f;
     float tempo = 0f;
 
-    imagemCompletaGroup.gameObject.SetActive(true); // Garante que está ativa
+    imagemCompletaGroup.gameObject.SetActive(true); // Garante que estï¿½ ativa
 
-    // Fade das peças e da imagem final
+    // Fade das peï¿½as e da imagem final
     while (tempo < duracao)
     {
         tempo += Time.deltaTime;
@@ -107,6 +107,6 @@ IEnumerator FadeFinal()
     }
 
     // Troca de cena
-    SceneManager.LoadScene("Map1"); // ou o nome da próxima cena
+    SceneManager.LoadScene("MapFase3"); // ou o nome da prï¿½xima cena
 }
 }

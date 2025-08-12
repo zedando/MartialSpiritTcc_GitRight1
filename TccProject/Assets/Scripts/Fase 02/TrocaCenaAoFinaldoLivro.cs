@@ -42,7 +42,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
 
         yield return StartCoroutine(FazerFade());
 
-        SceneManager.LoadScene(6);
+        SceneManager.LoadScene(10);
     }
 
     IEnumerator FazerFade()
