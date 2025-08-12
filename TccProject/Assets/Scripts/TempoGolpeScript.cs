@@ -8,7 +8,7 @@ public class TempoGolpeScript : MonoBehaviour
 {
     public Slider slider;
     public float tempoTotal = 2f; // tempo por tecla
-    
+
     public string proximaFase;
 
     // Imagens das teclas no Canvas
@@ -85,12 +85,12 @@ public class TempoGolpeScript : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-        
-            
+
+
             if (Input.GetKeyDown(teclaAtual.ToLower()))
             {
 
-                    teclasCorretas++;
+                teclasCorretas++;
                 if (teclasCorretas > 3)
                 {
                     StartCoroutine(PassarDeFase());
@@ -100,7 +100,7 @@ public class TempoGolpeScript : MonoBehaviour
                     NovaTecla();
                 }
             }
-            
+
         }
 
         if (tempoRestante < 0)
@@ -133,20 +133,32 @@ public class TempoGolpeScript : MonoBehaviour
             TerceiraParte.SetActive(true);
             SegundaParte.SetActive(false);
         }
-        
-        
-        
-        
+
+
+
+
         yield return new WaitForSeconds(2f);
 
         animator.SetBool("Oi-zuki", false);
         Senseianimator.SetBool("Oi-zuki", false);
 
-        
+
     }
 
     void ReiniciarFase()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void OnclickAndroid()
+    { 
+        teclasCorretas++;
+                if (teclasCorretas > 3)
+                {
+                    StartCoroutine(PassarDeFase());
+                }
+                else
+                {
+                    NovaTecla();
+                }
     }
 }

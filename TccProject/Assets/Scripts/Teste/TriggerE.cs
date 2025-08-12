@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TriggerE : MonoBehaviour
 {
-    [Header("Objeto que será ativado/desativado")]
+    [Header("Objeto ativado ou desativado")]
     public GameObject objetoParaAtivar; // Arraste aqui no Inspector
+    public GameObject botao;
 
     [Header("Tag do Player")]
     public string tagDoPlayer = "Player";
@@ -23,6 +24,7 @@ public class TriggerE : MonoBehaviour
         {
             if (objetoParaAtivar != null)
                 objetoParaAtivar.SetActive(true);
+                botao.SetActive(true);
         }
     }
 
@@ -32,6 +34,7 @@ public class TriggerE : MonoBehaviour
         {
             if (objetoParaAtivar != null)
                 objetoParaAtivar.SetActive(false);
+               botao.SetActive(false);
         }
     }
 }
