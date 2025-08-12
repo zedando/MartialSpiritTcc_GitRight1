@@ -10,6 +10,8 @@ public class PauseMenu: MonoBehaviour
     public string nomeCenaMenu = "MainMenu";
     public GameObject icone;
     public float fadeDuration = 0.3f; // Tempo do fade
+    public GameObject settingsPanel;
+
 
     public static bool jogoPausado = false;
 
@@ -76,5 +78,17 @@ public class PauseMenu: MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(nomeCenaMenu);
+    }
+
+    public void OpenSettings()
+    {
+        settingsPanel.SetActive(true);
+        //backButton.gameObject.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsPanel.SetActive(false);
+        //backButton.gameObject.SetActive(false);
     }
 }

@@ -151,7 +151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &47528139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,13 +386,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 1006532783}
     m_Modifications:
     - target: {fileID: 1090417234466349704, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
-      propertyPath: m_AnchoredPosition.x
+      propertyPath: m_SizeDelta.x
+      value: 323.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090417234466349704, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090417234466349704, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090417234466349704, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -161.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090417234466349704, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 47.3
       objectReference: {fileID: 0}
     - target: {fileID: 1092257897550096285, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
       propertyPath: m_Name
       value: DialogUi (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6105880992199006868, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2aea40dfb944c054d89194127c728aac, type: 3}
     - target: {fileID: 6330354137605897727, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1988,7 +2008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4d226934e6239447a0b8a6030ac8922, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 25.541063
+      value: 25.84
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4d226934e6239447a0b8a6030ac8922, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2983,6 +3003,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Perguntas: {fileID: 7486517}
   "AvisoN\xE3oAbrir": {fileID: 1539982666}
+  tempoParaSumir: 2
+  "Anima\xE7\xE3oSensei": {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1116339202
 MonoBehaviour:
   m_ObjectHideFlags: 0
