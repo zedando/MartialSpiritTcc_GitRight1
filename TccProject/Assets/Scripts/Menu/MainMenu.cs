@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [Header("Painéis")]
+    [Header("Painï¿½is")]
     public GameObject settingsPanel;
 
-    [Header("Botões")]
+    [Header("Botï¿½es")]
     public Button playButton;
     public Button settingsButton;
     public Button backButton;
@@ -48,6 +48,11 @@ public class MainMenu : MonoBehaviour
     void ExitGame()
     {
         //Debug.Log("Saindo do jogo...");
+        // Application.Quit();
+        #if UNITY_EDITOR
+       UnityEditor.EditorApplication.isPlaying = false;
+        #else
         Application.Quit();
+        #endif
     }
 }
