@@ -39,6 +39,7 @@ public class InstancePergutnas : MonoBehaviour
     {
         Perguntas.SetActive(false);
         Debug.Log("ola");
+        SceneManager.LoadScene(8);
     }
 
     private IEnumerator AnimaçãoSenseiChute()
@@ -47,7 +48,7 @@ public class InstancePergutnas : MonoBehaviour
         Perguntas.SetActive(false);
         animator.SetBool("MaeGeri", true);
         yield return new WaitForSeconds(2f);
-
+        SceneManager.LoadScene(8);
         animator.SetBool("MaeGeri", false);
 
     }
@@ -70,11 +71,19 @@ public class InstancePergutnas : MonoBehaviour
     }
     public void DojoMiniGame()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(5);
     }
     public void MapaFase3()
     {
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene(6);
+    }
+    public void quarto()
+    {
+        SceneManager.LoadScene(7);
+    }
+    public void Fase4()
+    {
+         SceneManager.LoadScene(9);
     }
      
      

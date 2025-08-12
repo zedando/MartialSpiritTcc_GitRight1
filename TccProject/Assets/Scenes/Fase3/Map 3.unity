@@ -2809,7 +2809,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1116339201}
         m_TargetAssemblyTypeName: InstancePergutnas, Assembly-CSharp
-        m_MethodName: Load
+        m_MethodName: quarto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3681,7 +3681,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1116339201}
         m_TargetAssemblyTypeName: InstancePergutnas, Assembly-CSharp
-        m_MethodName: Load
+        m_MethodName: quarto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5857,6 +5857,8 @@ MonoBehaviour:
   Perguntas: {fileID: 7486517}
   "AvisoN\xE3oAbrir": {fileID: 1539982666}
   tempoParaSumir: 1
+  "Anima\xE7\xE3oSensei": {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1116339202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5900,6 +5902,7 @@ MonoBehaviour:
   nomeCenaMenu: Menu
   icone: {fileID: 89499482}
   fadeDuration: 0.3
+  settingsPanel: {fileID: 0}
 --- !u!1 &1135754278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6934397299572405396, guid: 6c45527aee6e5884592a03e01daa4cd4, type: 3}
