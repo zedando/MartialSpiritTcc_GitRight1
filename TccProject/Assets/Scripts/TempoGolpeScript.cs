@@ -18,6 +18,7 @@ public class TempoGolpeScript : MonoBehaviour
     public GameObject SegundaParte;
     public GameObject PrimeiraParte;
     public GameObject TerceiraParte;
+    public GameObject MapaParte;
     public float Venceu = 0;
 
 
@@ -133,6 +134,11 @@ public class TempoGolpeScript : MonoBehaviour
             TerceiraParte.SetActive(true);
             SegundaParte.SetActive(false);
         }
+        if (Venceu == 3)
+        {
+            TerceiraParte.SetActive(false);
+            MapaParte.SetActive(true);
+        }
 
 
 
@@ -150,15 +156,17 @@ public class TempoGolpeScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void OnclickAndroid()
-    { 
+    {
         teclasCorretas++;
-                if (teclasCorretas > 3)
-                {
-                    StartCoroutine(PassarDeFase());
-                }
-                else
-                {
-                    NovaTecla();
-                }
+        if (teclasCorretas > 3)
+        {
+            StartCoroutine(PassarDeFase());
+        }
+        else
+        {
+            NovaTecla();
+        }
     }
+    
+
 }
