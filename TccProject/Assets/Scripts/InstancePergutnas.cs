@@ -48,7 +48,7 @@ public class InstancePergutnas : MonoBehaviour
         Perguntas.SetActive(false);
         animator.SetBool("MaeGeri", true);
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(13);
+        SceneManager.LoadScene("Interior 3");
         animator.SetBool("MaeGeri", false);
 
     }
@@ -92,7 +92,7 @@ public class InstancePergutnas : MonoBehaviour
     }
     public void Fase5() 
     {
-         SceneManager.LoadScene(11);
+         SceneManager.LoadScene("Interior 4");
     }
      
      
