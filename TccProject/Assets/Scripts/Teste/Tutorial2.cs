@@ -33,7 +33,7 @@ public class Tutorial2 : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         isAndroid = true;
 #else
-        isAndroid = true;
+        isAndroid = false;
 #endif
 
         controls = new PlayerInput();
