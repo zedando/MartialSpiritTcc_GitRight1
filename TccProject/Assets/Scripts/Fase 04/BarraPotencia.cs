@@ -20,6 +20,7 @@ public class BarraPotencia : MonoBehaviour
     [Header("Configuracão do Animator")]
     public Animator animator;
     public string parametroMaeGeri = "MaeGeri";
+    public string parametroDefesa = "Defesa";
 
     [Header("Zonas de Acerto")]
     [Range(0f, 1f)] public float zonaPerfeitaCentro = 0.50f;
@@ -27,16 +28,16 @@ public class BarraPotencia : MonoBehaviour
     public float toleranciaBoa = 0.15f;
 
     [Header("Alvo para Balancar")]
-    public AlvoBalanco alvo; // arraste a esfera aqui
+    public AlvoBalanco alvo;
 
     [Header("Sistema de Estabilidade")]
-    public Slider barraEstabilidade;  // assign no Inspector, barra que mostra estabilidade
-    private float estabilidadeAtual = 1f;  // comeca cheia
+    public Slider barraEstabilidade;
+    private float estabilidadeAtual = 1f;
     private int acertosSeguidos = 0;
     public int acertosParaVencer = 3;
 
     [Header("Fade e Cena")]
-    public CanvasGroup fadeCanvasGroup;  // assign no Inspector, painel preto para fade
+    public CanvasGroup fadeCanvasGroup;
     public float duracaoFade = 2f;
     public string nomeCenaVitoria = "CenaVitoria";
     public string nomeCenaDerrota = "CenaDerrota";
@@ -44,16 +45,39 @@ public class BarraPotencia : MonoBehaviour
     private bool executandoGolpe = false;
     private bool jaMostrouDerrota = false;
 
+    // -----------------------
+    // NOVO: Configurações de balanço do ataque
+    // -----------------------
+    [Header("Ângulos de Balanço do Ataque")]
+    public float anguloAtaqueForte = 20f;
+    public float anguloAtaqueMedio = 12f;
+    public float anguloAtaqueFraco = 5f;
+
+    [Header("Ângulo do ataque inimigo")]
+    public float anguloAtaqueInimigo = -20f;
+
+    public enum EixoBalanço { X, Y, Z }
+    [Header("Eixo do balanço do golpe do jogador")]
+    public EixoBalanço eixoDoGolpe = EixoBalanço.X;
+    [Header("Eixo do balanço do ataque inimigo")]
+    public EixoBalanço eixoDoInimigo = EixoBalanço.X;
+
+    [Header("Configuração de Defesa")]
+    public bool modoDefesa = false;     // se true, o alvo ataca sozinho
+    public float intervaloAtaque = 2f;  // tempo entre ataques do alvo
+
     void Start()
     {
         AtualizarBarraEstabilidade();
         if (fadeCanvasGroup != null)
-            fadeCanvasGroup.alpha = 0f; // garante que comece transparente
+            fadeCanvasGroup.alpha = 0f;
+
+        if (modoDefesa)
+            StartCoroutine(AtacarJogador());
     }
 
     void Update()
     {
-        // Oscilacão da barra
         if (subindo)
         {
             barra.value += velocidade * Time.deltaTime;
@@ -67,13 +91,19 @@ public class BarraPotencia : MonoBehaviour
 
         if (!executandoGolpe && Input.GetKeyDown(teclaAcao))
         {
-            VerificarAcerto();
+            if (modoDefesa)
+                VerificarDefesa();
+            else
+                VerificarAcerto();
         }
     }
 
+    // ===========================
+    // ATAQUE DO PLAYER
+    // ===========================
     public void AcionarGolpe()
     {
-        if (!executandoGolpe)
+        if (!executandoGolpe && !modoDefesa)
         {
             VerificarAcerto();
         }
@@ -87,24 +117,24 @@ public class BarraPotencia : MonoBehaviour
         if (distanciaDoCentro <= toleranciaCentro)
         {
             Debug.Log("Centro Exato! Golpe perfeito.");
-            alvo.Balancar(20f);
+            BalancarAlvo(anguloAtaqueForte, eixoDoGolpe);
             acertosSeguidos++;
-            aumentarEstabilidade(0.2f);  // recupera um pouco
+            aumentarEstabilidade(0.2f);
             StartCoroutine(ExecutarGolpe(1.2f, false));
         }
         else if (distanciaDoCentro <= toleranciaBoa)
         {
             Debug.Log("Bom timing! Mas ainda pode melhorar.");
-            alvo.Balancar(12f);
-            acertosSeguidos = 0;  // perdeu sequência
+            BalancarAlvo(anguloAtaqueMedio, eixoDoGolpe);
+            acertosSeguidos = 0;
             diminuirEstabilidade(0.15f);
             StartCoroutine(ExecutarGolpe(0.8f, false));
         }
         else
         {
             Debug.Log("Muito fraco. Concentre-se mais.");
-            alvo.Balancar(5f);
-            acertosSeguidos = 0;  // perdeu sequência
+            BalancarAlvo(anguloAtaqueFraco, eixoDoGolpe);
+            acertosSeguidos = 0;
             diminuirEstabilidade(0.3f);
             StartCoroutine(ExecutarGolpe(0.5f, true));
         }
@@ -112,6 +142,74 @@ public class BarraPotencia : MonoBehaviour
         ChecarVitoriaOuDerrota();
     }
 
+    // ===========================
+    // DEFESA DO PLAYER
+    // ===========================
+    IEnumerator AtacarJogador()
+    {
+        while (modoDefesa)
+        {
+            yield return new WaitForSeconds(intervaloAtaque);
+
+            BalancarAlvo(anguloAtaqueInimigo, eixoDoInimigo);
+            Debug.Log("O inimigo atacou! Defenda-se!");
+        }
+    }
+
+    void VerificarDefesa()
+    {
+        float valor = barra.value;
+        float distanciaDoCentro = Mathf.Abs(valor - zonaPerfeitaCentro);
+
+        if (animator != null && !string.IsNullOrEmpty(parametroDefesa))
+            StartCoroutine(ExecutarDefesa());
+
+        if (distanciaDoCentro <= toleranciaCentro)
+        {
+            Debug.Log("Defesa perfeita! Bloqueou o ataque.");
+            acertosSeguidos++;
+            aumentarEstabilidade(0.2f);
+        }
+        else if (distanciaDoCentro <= toleranciaBoa)
+        {
+            Debug.Log("Defendeu, mas perdeu equilíbrio.");
+            acertosSeguidos = 0;
+            diminuirEstabilidade(0.15f);
+        }
+        else
+        {
+            Debug.Log("Falhou na defesa! Levou o golpe.");
+            acertosSeguidos = 0;
+            diminuirEstabilidade(0.3f);
+        }
+
+        ChecarVitoriaOuDerrota();
+    }
+
+    // ===========================
+    // BALANÇO DO ALVO
+    // ===========================
+    void BalancarAlvo(float angulo, EixoBalanço eixo)
+    {
+        if (alvo == null) return;
+
+        switch (eixo)
+        {
+            case EixoBalanço.X:
+                alvo.BalancarComEixo(angulo, 0, 0);
+                break;
+            case EixoBalanço.Y:
+                alvo.BalancarComEixo(0, angulo, 0);
+                break;
+            case EixoBalanço.Z:
+                alvo.BalancarComEixo(0, 0, angulo);
+                break;
+        }
+    }
+
+    // ===========================
+    // FUNÇÕES DE STATUS
+    // ===========================
     void aumentarEstabilidade(float valor)
     {
         estabilidadeAtual += valor;
@@ -128,7 +226,7 @@ public class BarraPotencia : MonoBehaviour
 
     void AtualizarBarraEstabilidade()
     {
-        if(barraEstabilidade != null)
+        if (barraEstabilidade != null)
             barraEstabilidade.value = estabilidadeAtual;
     }
 
@@ -157,11 +255,14 @@ public class BarraPotencia : MonoBehaviour
         }
     }
 
+    // ===========================
+    // FINALIZAÇÃO E ANIMAÇÃO
+    // ===========================
     IEnumerator FinalizarDepoisDialogo(string cena)
     {
         yield return new WaitForSeconds(5f);
 
-        if(fadeCanvasGroup != null)
+        if (fadeCanvasGroup != null)
         {
             float tempo = 0f;
             while (tempo < duracaoFade)
@@ -191,5 +292,12 @@ public class BarraPotencia : MonoBehaviour
 
         yield return new WaitForSeconds(0.05f);
         executandoGolpe = false;
+    }
+
+    IEnumerator ExecutarDefesa()
+    {
+        animator.SetBool(parametroDefesa, true);
+        yield return new WaitForSeconds(0.6f);
+        animator.SetBool(parametroDefesa, false);
     }
 }
