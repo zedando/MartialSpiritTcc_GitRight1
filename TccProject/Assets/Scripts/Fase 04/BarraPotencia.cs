@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class BarraPotencia : MonoBehaviour
 {
-    [Header("Configuracão da Barra")]
+    [Header("ConfiguracÃ£o da Barra")]
     public Slider barra;
     public float velocidade = 2f;
     private bool subindo = true;
@@ -14,10 +14,10 @@ public class BarraPotencia : MonoBehaviour
     public string FalaDoPersonagemVitoria;
     public string FalaDoPersonagemDerrota;
 
-    [Header("Tecla de Acão (PC)")]
+    [Header("Tecla de AcÃ£o (PC)")]
     public KeyCode teclaAcao = KeyCode.Space;
 
-    [Header("Configuracão do Animator")]
+    [Header("ConfiguracÃ£o do Animator")]
     public Animator animator;
     public string parametroMaeGeri = "MaeGeri";
     public string parametroDefesa = "Defesa";
@@ -34,6 +34,7 @@ public class BarraPotencia : MonoBehaviour
     public Slider barraEstabilidade;
     private float estabilidadeAtual = 1f;
     private int acertosSeguidos = 0;
+    private int errosDefesaSeguidos = 0;
     public int acertosParaVencer = 3;
 
     [Header("Fade e Cena")]
@@ -46,25 +47,27 @@ public class BarraPotencia : MonoBehaviour
     private bool jaMostrouDerrota = false;
 
     // -----------------------
-    // NOVO: Configurações de balanço do ataque
+    // ConfiguraÃ§Ãµes de balanÃ§o do ataque
     // -----------------------
-    [Header("Ângulos de Balanço do Ataque")]
+    [Header("Ã‚ngulos de BalanÃ§o do Ataque")]
     public float anguloAtaqueForte = 20f;
     public float anguloAtaqueMedio = 12f;
     public float anguloAtaqueFraco = 5f;
 
-    [Header("Ângulo do ataque inimigo")]
+    [Header("Ã‚ngulo do ataque inimigo")]
     public float anguloAtaqueInimigo = -20f;
 
-    public enum EixoBalanço { X, Y, Z }
-    [Header("Eixo do balanço do golpe do jogador")]
-    public EixoBalanço eixoDoGolpe = EixoBalanço.X;
-    [Header("Eixo do balanço do ataque inimigo")]
-    public EixoBalanço eixoDoInimigo = EixoBalanço.X;
+    public enum EixoBalanÃ§o { X, Y, Z }
+    [Header("Eixo do balanÃ§o do golpe do jogador")]
+    public EixoBalanÃ§o eixoDoGolpe = EixoBalanÃ§o.X;
+    [Header("Eixo do balanÃ§o do ataque inimigo")]
+    public EixoBalanÃ§o eixoDoInimigo = EixoBalanÃ§o.X;
 
-    [Header("Configuração de Defesa")]
+    [Header("ConfiguraÃ§Ã£o de Defesa")]
     public bool modoDefesa = false;     // se true, o alvo ataca sozinho
     public float intervaloAtaque = 2f;  // tempo entre ataques do alvo
+    public Animator animatorSensei;
+    public string parametroChute = "Chute";
 
     void Start()
     {
@@ -78,6 +81,7 @@ public class BarraPotencia : MonoBehaviour
 
     void Update()
     {
+        // OscilaÃ§Ã£o da barra
         if (subindo)
         {
             barra.value += velocidade * Time.deltaTime;
@@ -149,8 +153,15 @@ public class BarraPotencia : MonoBehaviour
     {
         while (modoDefesa)
         {
-            yield return new WaitForSeconds(intervaloAtaque);
+            yield return new WaitForSeconds(intervaloAtaque - 0.5f); // tempo antes do ataque
+            if (animatorSensei != null && !string.IsNullOrEmpty(parametroChute))
+            {
+                animatorSensei.SetBool(parametroChute, true);
+                yield return new WaitForSeconds(0.5f); // animaÃ§Ã£o do chute
+                animatorSensei.SetBool(parametroChute, false);
+            }
 
+            yield return new WaitForSeconds(0.1f); // intervalo restante
             BalancarAlvo(anguloAtaqueInimigo, eixoDoInimigo);
             Debug.Log("O inimigo atacou! Defenda-se!");
         }
@@ -168,18 +179,21 @@ public class BarraPotencia : MonoBehaviour
         {
             Debug.Log("Defesa perfeita! Bloqueou o ataque.");
             acertosSeguidos++;
+            errosDefesaSeguidos = 0;
             aumentarEstabilidade(0.2f);
         }
         else if (distanciaDoCentro <= toleranciaBoa)
         {
-            Debug.Log("Defendeu, mas perdeu equilíbrio.");
+            Debug.Log("Defendeu, mas perdeu equilÃ­brio.");
             acertosSeguidos = 0;
+            errosDefesaSeguidos++;
             diminuirEstabilidade(0.15f);
         }
         else
         {
             Debug.Log("Falhou na defesa! Levou o golpe.");
             acertosSeguidos = 0;
+            errosDefesaSeguidos++;
             diminuirEstabilidade(0.3f);
         }
 
@@ -187,28 +201,28 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // ===========================
-    // BALANÇO DO ALVO
+    // BALANÃ‡O DO ALVO
     // ===========================
-    void BalancarAlvo(float angulo, EixoBalanço eixo)
+    void BalancarAlvo(float angulo, EixoBalanÃ§o eixo)
     {
         if (alvo == null) return;
 
         switch (eixo)
         {
-            case EixoBalanço.X:
+            case EixoBalanÃ§o.X:
                 alvo.BalancarComEixo(angulo, 0, 0);
                 break;
-            case EixoBalanço.Y:
+            case EixoBalanÃ§o.Y:
                 alvo.BalancarComEixo(0, angulo, 0);
                 break;
-            case EixoBalanço.Z:
+            case EixoBalanÃ§o.Z:
                 alvo.BalancarComEixo(0, 0, angulo);
                 break;
         }
     }
 
     // ===========================
-    // FUNÇÕES DE STATUS
+    // FUNÃ‡Ã•ES DE STATUS
     // ===========================
     void aumentarEstabilidade(float valor)
     {
@@ -232,9 +246,10 @@ public class BarraPotencia : MonoBehaviour
 
     void ChecarVitoriaOuDerrota()
     {
-        if (acertosSeguidos >= acertosParaVencer)
+        if (!modoDefesa && acertosSeguidos >= acertosParaVencer)
         {
-            Debug.Log("Parabéns! Você venceu a fase!");
+            // VitÃ³ria no modo ataque
+            Debug.Log("ParabÃ©ns! VocÃª venceu a fase!");
             dialogoSimples.MostrarDialogo(
                 "Haruki",
                 spriteDoPersonagemHaruki,
@@ -242,8 +257,32 @@ public class BarraPotencia : MonoBehaviour
             );
             StartCoroutine(FinalizarDepoisDialogo(nomeCenaVitoria));
         }
+        else if (modoDefesa && acertosSeguidos >= acertosParaVencer && !jaMostrouDerrota)
+        {
+            // VitÃ³ria no modo defesa
+            Debug.Log("ParabÃ©ns! VocÃª defendeu com sucesso!");
+            dialogoSimples.MostrarDialogo(
+                "Haruki",
+                spriteDoPersonagemHaruki,
+                FalaDoPersonagemVitoria
+            );
+            StartCoroutine(FinalizarDepoisDialogo(nomeCenaVitoria));
+        }
+        else if (modoDefesa && errosDefesaSeguidos >= 3 && !jaMostrouDerrota)
+        {
+            // Derrota por errar 3 defesas
+            jaMostrouDerrota = true;
+            Debug.Log("Game Over! Falhou em defender 3 vezes.");
+            dialogoSimples.MostrarDialogo(
+                "Haruki",
+                spriteDoPersonagemHaruki,
+                FalaDoPersonagemDerrota
+            );
+            StartCoroutine(FinalizarDepoisDialogo(nomeCenaDerrota));
+        }
         else if (estabilidadeAtual <= 0 && !jaMostrouDerrota)
         {
+            // Derrota por estabilidade zerada
             jaMostrouDerrota = true;
             Debug.Log("Game Over! Estabilidade zerada.");
             dialogoSimples.MostrarDialogo(
@@ -256,7 +295,7 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // ===========================
-    // FINALIZAÇÃO E ANIMAÇÃO
+    // FINALIZAÃ‡ÃƒO E ANIMAÃ‡ÃƒO
     // ===========================
     IEnumerator FinalizarDepoisDialogo(string cena)
     {
