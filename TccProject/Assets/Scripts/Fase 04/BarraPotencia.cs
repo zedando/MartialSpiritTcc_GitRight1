@@ -34,7 +34,6 @@ public class BarraPotencia : MonoBehaviour
     public Slider barraEstabilidade;
     private float estabilidadeAtual = 1f;
     private int acertosSeguidos = 0;
-    private int errosDefesaSeguidos = 0;
     public int acertosParaVencer = 3;
 
     [Header("Fade e Cena")]
@@ -66,8 +65,14 @@ public class BarraPotencia : MonoBehaviour
     [Header("Configuração de Defesa")]
     public bool modoDefesa = false;     // se true, o alvo ataca sozinho
     public float intervaloAtaque = 2f;  // tempo entre ataques do alvo
+    public float tempoAntesChute = 0.5f; // tempo antes do chute do sensei
+
+    [Header("Animator do Sensei")]
     public Animator animatorSensei;
-    public string parametroChute = "Chute";
+    public string parametroChuteSensei = "Chute";
+
+    private int falhasDefesa = 0;
+    public int falhasParaDerrota = 3;
 
     void Start()
     {
@@ -153,17 +158,21 @@ public class BarraPotencia : MonoBehaviour
     {
         while (modoDefesa)
         {
-            yield return new WaitForSeconds(intervaloAtaque - 0.5f); // tempo antes do ataque
-            if (animatorSensei != null && !string.IsNullOrEmpty(parametroChute))
-            {
-                animatorSensei.SetBool(parametroChute, true);
-                yield return new WaitForSeconds(0.5f); // animação do chute
-                animatorSensei.SetBool(parametroChute, false);
-            }
+            yield return new WaitForSeconds(intervaloAtaque - tempoAntesChute);
 
-            yield return new WaitForSeconds(0.1f); // intervalo restante
+            // Antes do chute, aciona a animação do sensei
+            if (animatorSensei != null && !string.IsNullOrEmpty(parametroChuteSensei))
+                animatorSensei.SetBool(parametroChuteSensei, true);
+
+            yield return new WaitForSeconds(tempoAntesChute);
+
+            // Balança o alvo para o chute
             BalancarAlvo(anguloAtaqueInimigo, eixoDoInimigo);
             Debug.Log("O inimigo atacou! Defenda-se!");
+
+            // Volta animação do sensei ao padrão
+            if (animatorSensei != null && !string.IsNullOrEmpty(parametroChuteSensei))
+                animatorSensei.SetBool(parametroChuteSensei, false);
         }
     }
 
@@ -179,22 +188,28 @@ public class BarraPotencia : MonoBehaviour
         {
             Debug.Log("Defesa perfeita! Bloqueou o ataque.");
             acertosSeguidos++;
-            errosDefesaSeguidos = 0;
             aumentarEstabilidade(0.2f);
         }
         else if (distanciaDoCentro <= toleranciaBoa)
         {
             Debug.Log("Defendeu, mas perdeu equilíbrio.");
             acertosSeguidos = 0;
-            errosDefesaSeguidos++;
             diminuirEstabilidade(0.15f);
+            falhasDefesa++;
         }
         else
         {
             Debug.Log("Falhou na defesa! Levou o golpe.");
             acertosSeguidos = 0;
-            errosDefesaSeguidos++;
             diminuirEstabilidade(0.3f);
+            falhasDefesa++;
+        }
+
+        // Verifica se jogador falhou 3 vezes no modo defesa
+        if (falhasDefesa >= falhasParaDerrota)
+        {
+            Debug.Log("Você perdeu por não defender 3 vezes!");
+            StartCoroutine(FinalizarDepoisDialogo(nomeCenaDerrota));
         }
 
         ChecarVitoriaOuDerrota();
@@ -246,9 +261,8 @@ public class BarraPotencia : MonoBehaviour
 
     void ChecarVitoriaOuDerrota()
     {
-        if (!modoDefesa && acertosSeguidos >= acertosParaVencer)
+        if (acertosSeguidos >= acertosParaVencer && !modoDefesa)
         {
-            // Vitória no modo ataque
             Debug.Log("Parabéns! Você venceu a fase!");
             dialogoSimples.MostrarDialogo(
                 "Haruki",
@@ -257,32 +271,8 @@ public class BarraPotencia : MonoBehaviour
             );
             StartCoroutine(FinalizarDepoisDialogo(nomeCenaVitoria));
         }
-        else if (modoDefesa && acertosSeguidos >= acertosParaVencer && !jaMostrouDerrota)
-        {
-            // Vitória no modo defesa
-            Debug.Log("Parabéns! Você defendeu com sucesso!");
-            dialogoSimples.MostrarDialogo(
-                "Haruki",
-                spriteDoPersonagemHaruki,
-                FalaDoPersonagemVitoria
-            );
-            StartCoroutine(FinalizarDepoisDialogo(nomeCenaVitoria));
-        }
-        else if (modoDefesa && errosDefesaSeguidos >= 3 && !jaMostrouDerrota)
-        {
-            // Derrota por errar 3 defesas
-            jaMostrouDerrota = true;
-            Debug.Log("Game Over! Falhou em defender 3 vezes.");
-            dialogoSimples.MostrarDialogo(
-                "Haruki",
-                spriteDoPersonagemHaruki,
-                FalaDoPersonagemDerrota
-            );
-            StartCoroutine(FinalizarDepoisDialogo(nomeCenaDerrota));
-        }
         else if (estabilidadeAtual <= 0 && !jaMostrouDerrota)
         {
-            // Derrota por estabilidade zerada
             jaMostrouDerrota = true;
             Debug.Log("Game Over! Estabilidade zerada.");
             dialogoSimples.MostrarDialogo(
