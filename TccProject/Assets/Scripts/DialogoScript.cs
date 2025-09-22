@@ -8,7 +8,8 @@ public class DialogoScript : ScriptableObject
     // Start is called before the first frame update
     
     public string CharName;
-    public Sprite Sprite; 
+    public Sprite Sprite;
+    
 
     void Start()
     {

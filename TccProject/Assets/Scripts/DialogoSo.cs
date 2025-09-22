@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-[CreateAssetMenu(menuName ="ScriptableObject/Dialogue")]
+[CreateAssetMenu(menuName = "ScriptableObject/Dialogue")]
 public class DialogoSo : ScriptableObject
 {
     public List<DialogSentence> Sentence;
+    public bool ativaPerguntasNoFinal;
 }
 
 [Serializable]
-public class DialogSentence 
+public class DialogSentence
 {
-    
+
     public DialogoScript ActorData;
     [TextArea(3, 5)]
-    public string Content;  
+    public string Content;
+   
+    
+    
+    
+    
 }
