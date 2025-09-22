@@ -40,11 +40,11 @@ public class MinigameCombo : MonoBehaviour
     public string parametroJodanUke = "JodanUke";
     public string parametroSenseiAtaque = "Ataque";
 
-    [Header("Diálogo Sensei")]
+    [Header("Diálogo")]
     public DialogoSimples dialogoSimples;
     public Sprite spriteSensei;
-    public string falaInicial = "Agora, mostre-me tudo o que aprendeu. Com um só sopro, mostre cinco caminhos.";
-    public string falaFinal = "A técnica é o corpo. O espírito... é você quem molda.";
+    [TextArea] public string falaInicial = "Agora, mostre-me tudo o que aprendeu. Com um só sopro, mostre cinco caminhos.";
+    [TextArea] public string falaFinal = "A técnica é o corpo. O espírito... é você quem molda.";
 
     private Queue<Golpe> sequencia;
     private List<GameObject> icones;
@@ -52,31 +52,37 @@ public class MinigameCombo : MonoBehaviour
     private float velocidadeHUD;
     private int rodadaAtual = 1;
     private bool minigameIniciado = false;
+    private int totalRodadas = 2;
 
     public enum Golpe { OiZuki, MaeGeri, MawashiGeri, GedanBarai, JodanUke }
 
     void Start()
     {
-        // Mostra a fala inicial antes de iniciar o minigame
-        dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaInicial);
-        StartCoroutine(EsperarDialogoInicial());
+        // Mostra diálogo inicial e inicia o minigame após fechar
+        if(dialogoSimples != null)
+        {
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaInicial);
+            StartCoroutine(EsperarDialogoInicial());
+        }
+        else
+        {
+            minigameIniciado = true;
+            IniciarRodada();
+        }
     }
 
     IEnumerator EsperarDialogoInicial()
     {
-        while (dialogoSimples.gameObject.activeInHierarchy && dialogoSimples.GetComponent<CanvasGroup>().alpha > 0)
-        {
-            yield return null;
-        }
-
-        // Inicia a primeira rodada depois do diálogo
+        yield return new WaitForSeconds(4f);
+        dialogoSimples.FecharDialogo();
+        yield return null;
         minigameIniciado = true;
         IniciarRodada();
     }
 
     void Update()
     {
-        if (!comboAtivo || !minigameIniciado) return;
+        if (!minigameIniciado || !comboAtivo) return;
 
         MoverHUD();
 
@@ -151,7 +157,9 @@ public class MinigameCombo : MonoBehaviour
             AtivarAnimacaoGolpe(golpeTentado);
 
             if (golpeTentado == Golpe.GedanBarai || golpeTentado == Golpe.JodanUke)
+            {
                 AtacarSensei();
+            }
 
             sequencia.Dequeue();
             icones.RemoveAt(0);
@@ -210,8 +218,11 @@ public class MinigameCombo : MonoBehaviour
         }
         else
         {
-            // Fala final do Sensei
-            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
+            // Mostra diálogo final
+            if (dialogoSimples != null)
+            {
+                dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
+            }
         }
     }
 
