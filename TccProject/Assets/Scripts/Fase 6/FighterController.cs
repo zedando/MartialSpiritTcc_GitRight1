@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class FighterController : MonoBehaviour
@@ -24,8 +25,8 @@ public class FighterController : MonoBehaviour
     public float danoOiZuki = 10f;
     public float danoMaeGeri = 15f;
     public float danoMawashiGeri = 20f;
-    public float danoGedanBarai = 0f; // Defesa
-    public float danoJodanUke = 0f; // Defesa
+    public float danoGedanBarai = 0f;
+    public float danoJodanUke = 0f;
 
     [Header("Teclas")]
     public KeyCode teclaOiZuki = KeyCode.J;
@@ -42,41 +43,78 @@ public class FighterController : MonoBehaviour
     public GameObject efeitoImpactoPrefab;
     public GameObject efeitoTrilhaGolpe;
 
+    [Header("Dialogo")]
+    public DialogoSimples dialogoSimples;
+    public Sprite spriteSensei;
+    public Sprite spriteJuiz;
+
     private float vidaAtual;
     private float estaminaAtual;
     private bool golpeExecutando = false;
     private bool defendendo = false;
+    private bool invulneravel = false;
+    private bool lutaIniciada = false;
 
     void Start()
     {
         vidaAtual = vidaMax;
         estaminaAtual = estaminaMax;
         AtualizarBarras();
+        StartCoroutine(DialogoInicial());
     }
 
     void Update()
     {
+        if (!lutaIniciada) return;
         if (golpeExecutando) return;
 
-        if (Input.GetKeyDown(teclaOiZuki)) StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
-        if (Input.GetKeyDown(teclaMaeGeri)) StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));
-        if (Input.GetKeyDown(teclaMawashiGeri)) StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri));
+        // Ataques só se tiver estamina suficiente
+        if (estaminaAtual >= 20f)
+        {
+            if (Input.GetKeyDown(teclaOiZuki)) StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
+            if (Input.GetKeyDown(teclaMaeGeri)) StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));
+            if (Input.GetKeyDown(teclaMawashiGeri)) StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri));
+        }
 
-        if (Input.GetKeyDown(teclaGedanBarai)) StartCoroutine(ExecutarDefesa(parametroGedanBarai));
-        if (Input.GetKeyDown(teclaJodanUke)) StartCoroutine(ExecutarDefesa(parametroJodanUke));
+        if (Input.GetKeyDown(teclaGedanBarai) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroGedanBarai));
+        if (Input.GetKeyDown(teclaJodanUke) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroJodanUke));
+
+        // Recupera estamina quando não atacando
+        if (!golpeExecutando && !defendendo)
+        {
+            estaminaAtual += 15f * Time.deltaTime;
+            if (estaminaAtual > estaminaMax) estaminaAtual = estaminaMax;
+            AtualizarBarras();
+        }
+    }
+
+    IEnumerator DialogoInicial()
+    {
+        if (dialogoSimples != null)
+        {
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Você treinou para este momento. Agora, não é sobre vencer ou perder — é sobre mostrar quem você se tornou.");
+            yield return new WaitForSeconds(4f);
+            dialogoSimples.FecharDialogo();
+
+            yield return new WaitForSeconds(0.5f);
+            dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "Comece!");
+            yield return new WaitForSeconds(2f);
+            dialogoSimples.FecharDialogo();
+        }
+
+        lutaIniciada = true;
+        inimigo.lutaIniciada = true;
     }
 
     IEnumerator ExecutarGolpe(string parametro, float dano)
     {
         golpeExecutando = true;
+        estaminaAtual -= 20f;
+        AtualizarBarras();
 
-        // Spawn do efeito de golpe
         if (efeitoGolpePrefab != null)
-        {
             Instantiate(efeitoGolpePrefab, transform.position + Vector3.right * 1f, Quaternion.identity);
-        }
 
-        // Spawn da trilha luminosa
         if (efeitoTrilhaGolpe != null)
         {
             GameObject trilha = Instantiate(efeitoTrilhaGolpe, transform.position + Vector3.right * 1f, Quaternion.identity);
@@ -84,14 +122,14 @@ public class FighterController : MonoBehaviour
         }
 
         animator.SetBool(parametro, true);
-        yield return new WaitForSeconds(0.4f); // Golpe rápido
+        yield return new WaitForSeconds(0.4f);
         animator.SetBool(parametro, false);
 
         animator.SetBool(parametroIdle, true);
         yield return new WaitForSeconds(0.05f);
         animator.SetBool(parametroIdle, false);
 
-        if (inimigo != null)
+        if (inimigo != null && Vector3.Distance(transform.position, inimigo.transform.position) <= 2f)
             inimigo.ReceberDano(dano, efeitoImpactoPrefab);
 
         golpeExecutando = false;
@@ -100,10 +138,14 @@ public class FighterController : MonoBehaviour
     IEnumerator ExecutarDefesa(string parametro)
     {
         defendendo = true;
+        invulneravel = true;
+        estaminaAtual -= 10f;
+        AtualizarBarras();
+
         animator.SetBool(parametroDefesa, true);
         animator.SetBool(parametro, true);
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(2f);
 
         animator.SetBool(parametro, false);
         animator.SetBool(parametroDefesa, false);
@@ -112,30 +154,26 @@ public class FighterController : MonoBehaviour
         animator.SetBool(parametroIdle, false);
 
         defendendo = false;
+        invulneravel = false;
     }
 
     public void ReceberDano(float dano, GameObject efeitoImpacto = null)
     {
-        if (defendendo)
-            dano *= 0.3f;
+        if (invulneravel) return;
 
         vidaAtual -= dano;
         if (vidaAtual < 0) vidaAtual = 0;
         AtualizarBarras();
 
         if (efeitoImpacto != null)
-        {
             Instantiate(efeitoImpacto, transform.position + Vector3.right * 0.5f, Quaternion.identity);
-        }
 
         StartCoroutine(ImpactShake());
 
         if (vidaAtual <= 0)
         {
             Debug.Log("Player derrotado!");
-            animator.SetBool(parametroIdle, false);
-            animator.SetBool(parametroDefesa, false);
-            // Aqui pode chamar fim de combate ou cena de derrota
+            SceneManager.LoadScene("CenaDerrota");
         }
     }
 
