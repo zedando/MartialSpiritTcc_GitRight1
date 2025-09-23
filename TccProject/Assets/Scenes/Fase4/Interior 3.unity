@@ -2009,6 +2009,7 @@ GameObject:
   - component: {fileID: 530779279}
   - component: {fileID: 530779278}
   - component: {fileID: 530779280}
+  - component: {fileID: 530779281}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -2060,6 +2061,8 @@ MonoBehaviour:
   animatorSensei: {fileID: 0}
   parametroChuteSensei: Chute
   falhasParaDerrota: 3
+  eventoAtaque: event:/SocoChute/chuteVento
+  eventoDefesa: event:/SocoChute/chuteVento2
 --- !u!4 &530779279
 Transform:
   m_ObjectHideFlags: 0
@@ -2092,6 +2095,20 @@ MonoBehaviour:
   txtNome: {fileID: 1370243306}
   txtFala: {fileID: 1565990580}
   tempoPorLetra: 0.03
+--- !u!114 &530779281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530779277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &535448575
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,6 +5206,20 @@ MonoBehaviour:
   alturaFechada: 70
   alturaAberta: 200
   velocidadeAnimacao: 8
+--- !u!114 &1018175010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018174999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1019441944
 GameObject:
   m_ObjectHideFlags: 0

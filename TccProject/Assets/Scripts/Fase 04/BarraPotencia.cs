@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using FMODUnity;
 
 public class BarraPotencia : MonoBehaviour
 {
@@ -45,9 +46,6 @@ public class BarraPotencia : MonoBehaviour
     private bool executandoGolpe = false;
     private bool jaMostrouDerrota = false;
 
-    // -----------------------
-    // Configurações de balanço do ataque
-    // -----------------------
     [Header("Ângulos de Balanço do Ataque")]
     public float anguloAtaqueForte = 20f;
     public float anguloAtaqueMedio = 12f;
@@ -63,9 +61,9 @@ public class BarraPotencia : MonoBehaviour
     public EixoBalanço eixoDoInimigo = EixoBalanço.X;
 
     [Header("Configuração de Defesa")]
-    public bool modoDefesa = false;     // se true, o alvo ataca sozinho
-    public float intervaloAtaque = 2f;  // tempo entre ataques do alvo
-    public float tempoAntesChute = 0.5f; // tempo antes do chute do sensei
+    public bool modoDefesa = false;
+    public float intervaloAtaque = 2f;
+    public float tempoAntesChute = 0.5f;
 
     [Header("Animator do Sensei")]
     public Animator animatorSensei;
@@ -73,6 +71,9 @@ public class BarraPotencia : MonoBehaviour
 
     private int falhasDefesa = 0;
     public int falhasParaDerrota = 3;
+
+    [EventRef] public string eventoAtaque = "event:/SocoChute/chuteVento";
+    [EventRef] public string eventoDefesa = "event:/SocoChute/chuteVento2";
 
     void Start()
     {
@@ -86,7 +87,6 @@ public class BarraPotencia : MonoBehaviour
 
     void Update()
     {
-        // Oscilação da barra
         if (subindo)
         {
             barra.value += velocidade * Time.deltaTime;
@@ -107,9 +107,6 @@ public class BarraPotencia : MonoBehaviour
         }
     }
 
-    // ===========================
-    // ATAQUE DO PLAYER
-    // ===========================
     public void AcionarGolpe()
     {
         if (!executandoGolpe && !modoDefesa)
@@ -125,7 +122,6 @@ public class BarraPotencia : MonoBehaviour
 
         if (distanciaDoCentro <= toleranciaCentro)
         {
-            Debug.Log("Centro Exato! Golpe perfeito.");
             BalancarAlvo(anguloAtaqueForte, eixoDoGolpe);
             acertosSeguidos++;
             aumentarEstabilidade(0.2f);
@@ -133,7 +129,6 @@ public class BarraPotencia : MonoBehaviour
         }
         else if (distanciaDoCentro <= toleranciaBoa)
         {
-            Debug.Log("Bom timing! Mas ainda pode melhorar.");
             BalancarAlvo(anguloAtaqueMedio, eixoDoGolpe);
             acertosSeguidos = 0;
             diminuirEstabilidade(0.15f);
@@ -141,7 +136,6 @@ public class BarraPotencia : MonoBehaviour
         }
         else
         {
-            Debug.Log("Muito fraco. Concentre-se mais.");
             BalancarAlvo(anguloAtaqueFraco, eixoDoGolpe);
             acertosSeguidos = 0;
             diminuirEstabilidade(0.3f);
@@ -151,26 +145,16 @@ public class BarraPotencia : MonoBehaviour
         ChecarVitoriaOuDerrota();
     }
 
-    // ===========================
-    // DEFESA DO PLAYER
-    // ===========================
     IEnumerator AtacarJogador()
     {
         while (modoDefesa)
         {
             yield return new WaitForSeconds(intervaloAtaque - tempoAntesChute);
-
-            // Antes do chute, aciona a animação do sensei
             if (animatorSensei != null && !string.IsNullOrEmpty(parametroChuteSensei))
                 animatorSensei.SetBool(parametroChuteSensei, true);
 
             yield return new WaitForSeconds(tempoAntesChute);
-
-            // Balança o alvo para o chute
             BalancarAlvo(anguloAtaqueInimigo, eixoDoInimigo);
-            Debug.Log("O inimigo atacou! Defenda-se!");
-
-            // Volta animação do sensei ao padrão
             if (animatorSensei != null && !string.IsNullOrEmpty(parametroChuteSensei))
                 animatorSensei.SetBool(parametroChuteSensei, false);
         }
@@ -180,65 +164,46 @@ public class BarraPotencia : MonoBehaviour
     {
         float valor = barra.value;
         float distanciaDoCentro = Mathf.Abs(valor - zonaPerfeitaCentro);
-
         if (animator != null && !string.IsNullOrEmpty(parametroDefesa))
             StartCoroutine(ExecutarDefesa());
 
         if (distanciaDoCentro <= toleranciaCentro)
         {
-            Debug.Log("Defesa perfeita! Bloqueou o ataque.");
             acertosSeguidos++;
             aumentarEstabilidade(0.2f);
         }
         else if (distanciaDoCentro <= toleranciaBoa)
         {
-            Debug.Log("Defendeu, mas perdeu equilíbrio.");
             acertosSeguidos = 0;
             diminuirEstabilidade(0.15f);
             falhasDefesa++;
         }
         else
         {
-            Debug.Log("Falhou na defesa! Levou o golpe.");
             acertosSeguidos = 0;
             diminuirEstabilidade(0.3f);
             falhasDefesa++;
         }
 
-        // Verifica se jogador falhou 3 vezes no modo defesa
         if (falhasDefesa >= falhasParaDerrota)
         {
-            Debug.Log("Você perdeu por não defender 3 vezes!");
             StartCoroutine(FinalizarDepoisDialogo(nomeCenaDerrota));
         }
 
         ChecarVitoriaOuDerrota();
     }
 
-    // ===========================
-    // BALANÇO DO ALVO
-    // ===========================
     void BalancarAlvo(float angulo, EixoBalanço eixo)
     {
         if (alvo == null) return;
-
         switch (eixo)
         {
-            case EixoBalanço.X:
-                alvo.BalancarComEixo(angulo, 0, 0);
-                break;
-            case EixoBalanço.Y:
-                alvo.BalancarComEixo(0, angulo, 0);
-                break;
-            case EixoBalanço.Z:
-                alvo.BalancarComEixo(0, 0, angulo);
-                break;
+            case EixoBalanço.X: alvo.BalancarComEixo(angulo, 0, 0); break;
+            case EixoBalanço.Y: alvo.BalancarComEixo(0, angulo, 0); break;
+            case EixoBalanço.Z: alvo.BalancarComEixo(0, 0, angulo); break;
         }
     }
 
-    // ===========================
-    // FUNÇÕES DE STATUS
-    // ===========================
     void aumentarEstabilidade(float valor)
     {
         estabilidadeAtual += valor;
@@ -263,34 +228,20 @@ public class BarraPotencia : MonoBehaviour
     {
         if (acertosSeguidos >= acertosParaVencer && !modoDefesa)
         {
-            Debug.Log("Parabéns! Você venceu a fase!");
-            dialogoSimples.MostrarDialogo(
-                "Haruki",
-                spriteDoPersonagemHaruki,
-                FalaDoPersonagemVitoria
-            );
+            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, FalaDoPersonagemVitoria);
             StartCoroutine(FinalizarDepoisDialogo(nomeCenaVitoria));
         }
         else if (estabilidadeAtual <= 0 && !jaMostrouDerrota)
         {
             jaMostrouDerrota = true;
-            Debug.Log("Game Over! Estabilidade zerada.");
-            dialogoSimples.MostrarDialogo(
-                "Haruki",
-                spriteDoPersonagemHaruki,
-                FalaDoPersonagemDerrota
-            );
+            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, FalaDoPersonagemDerrota);
             StartCoroutine(FinalizarDepoisDialogo(nomeCenaDerrota));
         }
     }
 
-    // ===========================
-    // FINALIZAÇÃO E ANIMAÇÃO
-    // ===========================
     IEnumerator FinalizarDepoisDialogo(string cena)
     {
         yield return new WaitForSeconds(5f);
-
         if (fadeCanvasGroup != null)
         {
             float tempo = 0f;
@@ -301,32 +252,39 @@ public class BarraPotencia : MonoBehaviour
                 yield return null;
             }
         }
-
         SceneManager.LoadScene(cena);
     }
 
-    IEnumerator ExecutarGolpe(float speed, bool cortarNoMeio)
-    {
-        executandoGolpe = true;
-        animator.speed = speed;
-        animator.SetBool(parametroMaeGeri, true);
+  IEnumerator ExecutarGolpe(float speed, bool cortarNoMeio)
+{
+    executandoGolpe = true;
 
-        if (cortarNoMeio)
-            yield return new WaitForSeconds(0.4f / speed);
-        else
-            yield return new WaitForSeconds(0.9f / speed);
+    if (!string.IsNullOrEmpty(eventoAtaque))
+        RuntimeManager.PlayOneShot(eventoAtaque, transform.position);
 
-        animator.SetBool(parametroMaeGeri, false);
-        animator.speed = 1f;
+    animator.speed = speed;
+    animator.SetBool(parametroMaeGeri, true);
 
-        yield return new WaitForSeconds(0.05f);
-        executandoGolpe = false;
-    }
+    if (cortarNoMeio)
+        yield return new WaitForSeconds(0.4f / speed);
+    else
+        yield return new WaitForSeconds(0.9f / speed);
 
-    IEnumerator ExecutarDefesa()
-    {
-        animator.SetBool(parametroDefesa, true);
-        yield return new WaitForSeconds(0.6f);
-        animator.SetBool(parametroDefesa, false);
-    }
+    animator.SetBool(parametroMaeGeri, false);
+    animator.speed = 1f;
+
+    yield return new WaitForSeconds(0.05f);
+    executandoGolpe = false;
+}
+
+IEnumerator ExecutarDefesa()
+{
+    if (!string.IsNullOrEmpty(eventoDefesa))
+        RuntimeManager.PlayOneShot(eventoDefesa, transform.position);
+
+    animator.SetBool(parametroDefesa, true);
+    yield return new WaitForSeconds(0.6f);
+    animator.SetBool(parametroDefesa, false);
+}
+
 }
