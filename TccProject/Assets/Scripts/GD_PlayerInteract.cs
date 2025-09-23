@@ -248,7 +248,7 @@ public class GD_PlayerInteract : MonoBehaviour
     {
         if (playerLivesText != null)
         {
-            playerLivesText.text = "Player Vidas: " + playerLives;
+            playerLivesText.text = "Haruki: " + playerLives;
         }
     }
 }
