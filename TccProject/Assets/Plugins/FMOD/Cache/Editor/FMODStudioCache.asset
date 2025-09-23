@@ -27,6 +27,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 85365
+--- !u!114 &-6873639401553223009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/DojoSound
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/DojoSound
+  Guid:
+    Data1: -346269835
+    Data2: 1231473842
+    Data3: -1107570019
+    Data4: -527935403
+  Banks:
+  - {fileID: 7824878125090292553}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 58040
+--- !u!114 &-6565819464587769966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/MusicJapanese2
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/MusicJapanese2
+  Guid:
+    Data1: -1207013363
+    Data2: 1290401502
+    Data3: 921095840
+    Data4: -1395434285
+  Banks:
+  - {fileID: 7824878125090292553}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 76363
 --- !u!114 &-6081851590116054564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +216,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 99946
+--- !u!114 &-3875477868060538522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/sinoJapones
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/sinoJapones
+  Guid:
+    Data1: -505491957
+    Data2: 1105898070
+    Data3: -747786099
+    Data4: -769654955
+  Banks:
+  - {fileID: 7824878125090292553}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 302889
 --- !u!114 &-2312208005510580919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,13 +359,17 @@ MonoBehaviour:
   - {fileID: 8345399095858096045}
   - {fileID: 1268324318410059488}
   - {fileID: -8861374019263252931}
+  - {fileID: -3875477868060538522}
+  - {fileID: -6565819464587769966}
+  - {fileID: -6873639401553223009}
+  - {fileID: 6080480955936518705}
   EditorParameters: []
   MasterBanks:
   - {fileID: 7824878125090292553}
   StringsBanks:
   - {fileID: 1575795537762336460}
   cacheVersion: 131849
-  cacheTime: 638942309003751575
+  cacheTime: 638942404915468255
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -324,6 +409,14 @@ MonoBehaviour:
     index: 17
   - key: event:/ambiente/pessoasFundoambi
     index: 18
+  - key: event:/SocoChute/sinoJapones
+    index: 19
+  - key: event:/SocoChute/MusicJapanese2
+    index: 20
+  - key: event:/SocoChute/DojoSound
+    index: 21
+  - key: event:/SocoChute/VillageSound
+    index: 22
 --- !u!114 &1268324318410059488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,10 +459,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638942309003751575
+  lastModified: 638942404915468255
   FileSizes:
   - Name: Desktop
-    Value: 1666
+    Value: 1858
   Exists: 1
 --- !u!114 &1759374650190240018
 MonoBehaviour:
@@ -533,6 +626,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 350
+--- !u!114 &6080480955936518705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/VillageSound
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/VillageSound
+  Guid:
+    Data1: 1400568795
+    Data2: 1110405249
+    Data3: -502208887
+    Data4: -1878962720
+  Banks:
+  - {fileID: 7824878125090292553}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 201017
 --- !u!114 &7824878125090292553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,10 +668,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638942309003539845
+  lastModified: 638942404915448302
   FileSizes:
   - Name: Desktop
-    Value: 9740192
+    Value: 18767328
   Exists: 1
 --- !u!114 &8345399095858096045
 MonoBehaviour:
