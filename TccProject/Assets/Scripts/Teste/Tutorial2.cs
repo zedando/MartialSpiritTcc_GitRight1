@@ -94,7 +94,7 @@ public class Tutorial2 : MonoBehaviour
         switch (step)
         {
             case 0:
-                typingCoroutine = StartCoroutine(TypeText("A jornada come�a agora... Vamos aprender os primeiros passos!", 0.055f, autoNextDelay: 3.0f));
+                typingCoroutine = StartCoroutine(TypeText("A jornada começa agora... Vamos aprender os primeiros passos!", 0.055f, autoNextDelay: 3.0f));
                 break;
             case 1:
                 if (!isAndroid)
@@ -105,7 +105,7 @@ public class Tutorial2 : MonoBehaviour
                 else
                 {
                     analogImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Mova o anal�gico para todos os lados para explorar o mundo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText("Mova o analógico para todos os lados para explorar o mundo.", 0.055f));
                 }
                 break;
             case 2:
@@ -113,16 +113,16 @@ public class Tutorial2 : MonoBehaviour
                 if (!isAndroid)
                 {
                     spacebarImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Aperte Espa�o para avan�ar os di�logos. Assim voc� segue sua jornada no seu ritmo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText("Aperte Espaço para avan�ar os diálogos. Assim você segue sua jornada no seu ritmo.", 0.055f));
                 }
                 else
                 {
                     tapImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Toque na caixa de di�logo para avan�ar os di�logos e seguir sua aventura no seu ritmo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText("Toque na caixa de diálogo para avançar os diálogos e seguir sua aventura no seu ritmo.", 0.055f));
                 }
                 break;
             case 3:
-                typingCoroutine = StartCoroutine(TypeText("Excelente, guerreiro! Voc� est� pronto para enfrentar o que vier. Boa sorte!", 0.055f, autoNextDelay: 4.5f, endTutorial: true));
+                typingCoroutine = StartCoroutine(TypeText("Excelente, guerreiro! Você está pronto para enfrentar o que vier. Boa sorte!", 0.055f, autoNextDelay: 4.5f, endTutorial: true));
                 break;
         }
     }
