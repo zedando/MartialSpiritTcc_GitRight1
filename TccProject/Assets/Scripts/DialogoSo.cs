@@ -1,25 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
-[CreateAssetMenu(menuName = "ScriptableObject/Dialogue")]
+
+[CreateAssetMenu(menuName ="ScriptableObject/Dialogue")]
 public class DialogoSo : ScriptableObject
 {
     public List<DialogSentence> Sentence;
-    public bool ativaPerguntasNoFinal;
 }
 
 [Serializable]
 public class DialogSentence
 {
-
     public DialogoScript ActorData;
     [TextArea(3, 5)]
     public string Content;
-   
-    
-    
-    
-    
+
+    [Header("Perguntas")]
+    public string perguntasID; // um identificador para escolher a caixa na cena
 }
