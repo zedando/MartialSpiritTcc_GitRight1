@@ -36,7 +36,7 @@ public class SelectDialog : MonoBehaviour
 
 
 
-        PassarDeFase();
+        
     }
     void TaskOnClick1()
     {
@@ -45,7 +45,7 @@ public class SelectDialog : MonoBehaviour
         Respost2.SetActive(true);
         Debug.Log("You have clicked the button!");
 
-        PassarDeFase();
+        
     }
     void TaskOnClick2()
     {
@@ -54,13 +54,9 @@ public class SelectDialog : MonoBehaviour
         Respost3.SetActive(true);
         Debug.Log("You have clicked the button!");
 
-        PassarDeFase();
+        
     }
 
-    IEnumerator PassarDeFase()
-    {
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(3);
-    }
+   
 
 }

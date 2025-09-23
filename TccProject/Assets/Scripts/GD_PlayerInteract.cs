@@ -33,7 +33,6 @@ public class GD_PlayerInteract : MonoBehaviour
     void Start()
     {
         if (interactionText != null) interactionText.SetActive(false);
-
         UpdatePlayerLivesUI();
     }
 
@@ -45,30 +44,49 @@ public class GD_PlayerInteract : MonoBehaviour
             Interact();
         }
 
-        // Defesa (L pressionado)
-        isDefending = Input.GetKey(KeyCode.L);
-        if (animator != null)
-        {
-            animator.SetBool("Defendendo", isDefending);
-        }
+        // Defesa (L no teclado)
+        HandleDefense();
 
         // Ataques só se NÃO estiver defendendo
         if (!isDefending)
         {
-            // Soco (J)
             if (Input.GetKeyDown(KeyCode.J) && Time.time >= nextPunchTime)
-            {
                 AttackPunch();
-            }
 
-            // Chute (K)
             if (Input.GetKeyDown(KeyCode.K) && Time.time >= nextKickTime)
-            {
                 AttackKick();
-            }
         }
 
-        // Reset ataque quando anda
+        HandleMovement();
+    }
+
+    // ---- Defesa ----
+    private void HandleDefense()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+            StartDefense();
+
+        if (Input.GetKeyUp(KeyCode.L))
+            StopDefense();
+    }
+
+    public void StartDefense()
+    {
+        isDefending = true;
+        if (animator != null)
+            animator.SetBool("Defendendo", true);
+    }
+
+    public void StopDefense()
+    {
+        isDefending = false;
+        if (animator != null)
+            animator.SetBool("Defendendo", false);
+    }
+
+    // ---- Movimento ----
+    private void HandleMovement()
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -87,10 +105,10 @@ public class GD_PlayerInteract : MonoBehaviour
         }
     }
 
-    private void AttackPunch()
+    // ---- Ataques ----
+    public void AttackPunch()
     {
         if (animator != null) animator.SetTrigger("Oi-zuki");
-
         nextPunchTime = Time.time + punchCooldown;
 
         if (enemiesInRange.Count > 0)
@@ -107,10 +125,9 @@ public class GD_PlayerInteract : MonoBehaviour
         }
     }
 
-    private void AttackKick()
+    public void AttackKick()
     {
         if (animator != null) animator.SetTrigger("MaeGeri");
-
         nextKickTime = Time.time + kickCooldown;
 
         if (enemiesInRange.Count > 0)
@@ -127,9 +144,9 @@ public class GD_PlayerInteract : MonoBehaviour
         }
     }
 
+    // ---- Interação ----
     private void OnTriggerEnter(Collider other)
     {
-        // Objetos interagíveis
         GD_InteractObject interactableObject = other.GetComponent<GD_InteractObject>();
         if (interactableObject != null)
         {
@@ -144,7 +161,6 @@ public class GD_PlayerInteract : MonoBehaviour
             }
         }
 
-        // Inimigos
         if (other.CompareTag("Enemy") && !enemiesInRange.Contains(other.gameObject))
         {
             enemiesInRange.Add(other.gameObject);
@@ -153,7 +169,6 @@ public class GD_PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Saiu de alcance de objeto interagível
         GD_InteractObject interactableObject = other.GetComponent<GD_InteractObject>();
         if (interactableObject != null)
         {
@@ -164,7 +179,6 @@ public class GD_PlayerInteract : MonoBehaviour
             }
         }
 
-        // Saiu de alcance do inimigo
         if (other.CompareTag("Enemy") && enemiesInRange.Contains(other.gameObject))
         {
             enemiesInRange.Remove(other.gameObject);
@@ -209,12 +223,13 @@ public class GD_PlayerInteract : MonoBehaviour
         }
     }
 
+    // ---- Vida ----
     public void TakeDamage(int damage)
     {
         if (isDefending)
         {
             Debug.Log("Player defendeu o ataque!");
-            return; // não toma dano
+            return;
         }
 
         playerLives -= damage;
@@ -225,7 +240,7 @@ public class GD_PlayerInteract : MonoBehaviour
         if (playerLives <= 0)
         {
             Debug.Log("Player morreu!");
-            // Aqui você pode reiniciar a cena ou mostrar tela de Game Over
+            // aqui pode reiniciar cena ou game over
         }
     }
 

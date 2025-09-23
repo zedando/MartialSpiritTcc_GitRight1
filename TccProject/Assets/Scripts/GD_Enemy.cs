@@ -24,6 +24,13 @@ public class GD_Enemy : MonoBehaviour
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
+        // Faz o inimigo parar perto do player
+        agent.stoppingDistance = attackRange - 0.5f;
+
+        // registra no manager
+        if (GD_EnemyManager.instance != null)
+            GD_EnemyManager.instance.RegisterEnemy();
+
         UpdateEnemyLivesUI();
     }
 
@@ -33,6 +40,13 @@ public class GD_Enemy : MonoBehaviour
 
         // Seguir o player
         agent.SetDestination(player.position);
+
+        // Atualizar animação de movimento
+        if (animator != null)
+        {
+            bool isMoving = agent.velocity.magnitude > 0.1f;
+            animator.SetBool("Andando", isMoving);
+        }
 
         // Verificar distância para ataque
         float distance = Vector3.Distance(transform.position, player.position);
@@ -83,6 +97,11 @@ public class GD_Enemy : MonoBehaviour
                 animator.SetTrigger("Morrer"); // animação de morte
 
             Debug.Log("Inimigo morreu!");
+
+            // avisa o manager
+            if (GD_EnemyManager.instance != null)
+                GD_EnemyManager.instance.EnemyDied();
+
             Destroy(gameObject, 2f); // espera 2s antes de sumir
         }
     }

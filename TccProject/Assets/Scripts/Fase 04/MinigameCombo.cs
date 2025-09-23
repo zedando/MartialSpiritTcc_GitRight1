@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -46,6 +47,9 @@ public class MinigameCombo : MonoBehaviour
     [TextArea] public string falaInicial = "Agora, mostre-me tudo o que aprendeu. Com um só sopro, mostre cinco caminhos.";
     [TextArea] public string falaFinal = "A técnica é o corpo. O espírito... é você quem molda.";
 
+    [Header("Cena Final")]
+    public string nomeCenaFinal;
+
     private Queue<Golpe> sequencia;
     private List<GameObject> icones;
     private bool comboAtivo = false;
@@ -59,7 +63,7 @@ public class MinigameCombo : MonoBehaviour
     void Start()
     {
         // Mostra diálogo inicial e inicia o minigame após fechar
-        if(dialogoSimples != null)
+        if (dialogoSimples != null)
         {
             dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaInicial);
             StartCoroutine(EsperarDialogoInicial());
@@ -92,6 +96,13 @@ public class MinigameCombo : MonoBehaviour
         if (Input.GetKeyDown(teclaGedanBarai)) VerificarAcerto(Golpe.GedanBarai);
         if (Input.GetKeyDown(teclaJodanUke)) VerificarAcerto(Golpe.JodanUke);
     }
+
+    // ------------------ OnClick para celular ------------------
+    public void OnClickOiZuki() => VerificarAcerto(Golpe.OiZuki);
+    public void OnClickMaeGeri() => VerificarAcerto(Golpe.MaeGeri);
+    public void OnClickMawashiGeri() => VerificarAcerto(Golpe.MawashiGeri);
+    public void OnClickGedanBarai() => VerificarAcerto(Golpe.GedanBarai);
+    public void OnClickJodanUke() => VerificarAcerto(Golpe.JodanUke);
 
     void IniciarRodada()
     {
@@ -199,32 +210,34 @@ public class MinigameCombo : MonoBehaviour
         }
     }
 
-    IEnumerator FinalizarRodada()
+   IEnumerator FinalizarRodada()
+{
+    comboAtivo = false;
+
+    if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, true);
+
+    yield return new WaitForSeconds(2f);
+
+    if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, false);
+
+    if (rodadaAtual == 1)
     {
-        comboAtivo = false;
-
+        rodadaAtual = 2;
+        IniciarRodada();
+    }
+    else
+    {
+        // Ativa aura só no final da segunda rodada
         if (animatorHaruki != null) animatorHaruki.SetBool(parametroAura, true);
-        if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, true);
 
-        yield return new WaitForSeconds(2f);
-
-        if (animatorHaruki != null) animatorHaruki.SetBool(parametroAura, false);
-        if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, false);
-
-        if (rodadaAtual == 1)
+        // Mostra diálogo final
+        if (dialogoSimples != null)
         {
-            rodadaAtual = 2;
-            IniciarRodada();
-        }
-        else
-        {
-            // Mostra diálogo final
-            if (dialogoSimples != null)
-            {
-                dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
-            }
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
         }
     }
+}
+
 
     void AtivarAnimacaoGolpe(Golpe g)
     {
