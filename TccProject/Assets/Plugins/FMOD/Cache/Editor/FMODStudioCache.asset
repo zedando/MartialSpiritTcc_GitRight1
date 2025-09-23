@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8861374019263252931
+--- !u!114 &-8745232050323890657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/pessoasFundoambi
+  m_Name: event:/SocoChute/chuteVento
   m_EditorClassIdentifier: 
-  Path: event:/ambiente/pessoasFundoambi
+  Path: event:/SocoChute/chuteVento
   Guid:
-    Data1: -1586708491
-    Data2: 1327381504
-    Data3: -399462763
-    Data4: 780387971
+    Data1: -333445311
+    Data2: 1176024448
+    Data3: 1842713494
+    Data4: -1519278817
   Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 1
+  - {fileID: 4378747992833192922}
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 85365
---- !u!114 &-6081851590116054564
+  Length: 350
+--- !u!114 &-8649093385000585434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37,24 +37,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/plateia/plateiaDerrota
+  m_Name: event:/SocoChute/soco3
   m_EditorClassIdentifier: 
-  Path: event:/plateia/plateiaDerrota
+  Path: event:/SocoChute/soco3
   Guid:
-    Data1: -1408965106
-    Data2: 1287665115
-    Data3: -1462110299
-    Data4: 56661045
+    Data1: 1564056296
+    Data2: 1158272933
+    Data3: -1654652269
+    Data4: -1119918461
   Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 1
+  - {fileID: 4378747992833192922}
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3000
---- !u!114 &-5892072314300894275
+  Length: 460
+--- !u!114 &-8075180635166632374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,51 +64,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/plateia/plateiaVitoria
+  m_Name: event:/SocoChute/soco1
   m_EditorClassIdentifier: 
-  Path: event:/plateia/plateiaVitoria
+  Path: event:/SocoChute/soco1
   Guid:
-    Data1: 1758614786
-    Data2: 1287236236
-    Data3: -1741795174
-    Data4: 92423578
+    Data1: 399537334
+    Data2: 1322101523
+    Data3: -894144072
+    Data4: 1921356106
   Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 1
+  - {fileID: 4378747992833192922}
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 10000
---- !u!114 &-5713418180611546032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/ambientePassaro
-  m_EditorClassIdentifier: 
-  Path: event:/ambiente/ambientePassaro
-  Guid:
-    Data1: -1161815985
-    Data2: 1191865497
-    Data3: 1310478257
-    Data4: 255409851
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 15000
---- !u!114 &-5467884606582650970
+  Length: 340
+--- !u!114 &-7173343904932953764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,7 +100,7 @@ MonoBehaviour:
     Data3: -1169608013
     Data4: -691242263
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -135,7 +108,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 340
---- !u!114 &-5360418925283822137
+--- !u!114 &-5906893854766330782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,24 +118,132 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/som ambiente1
+  m_Name: event:/plateia/plateiaVitoria
   m_EditorClassIdentifier: 
-  Path: event:/ambiente/som ambiente1
+  Path: event:/plateia/plateiaVitoria
   Guid:
-    Data1: -1308606688
-    Data2: 1110446563
-    Data3: -1851203440
-    Data4: -1253474910
+    Data1: 1758614786
+    Data2: 1287236236
+    Data3: -1741795174
+    Data4: 92423578
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 99946
---- !u!114 &-2312208005510580919
+  Length: 10000
+--- !u!114 &-5383301900142553267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/plateia/plateiaDerrota
+  m_EditorClassIdentifier: 
+  Path: event:/plateia/plateiaDerrota
+  Guid:
+    Data1: -1408965106
+    Data2: 1287665115
+    Data3: -1462110299
+    Data4: 56661045
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
+--- !u!114 &-4216205666058664319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/ambientePassaro
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/ambientePassaro
+  Guid:
+    Data1: -1161815985
+    Data2: 1191865497
+    Data3: 1310478257
+    Data4: 255409851
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 15000
+--- !u!114 &-3707018703771362625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/Neighborhood_Night_ODC-0012-037
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/Neighborhood_Night_ODC-0012-037
+  Guid:
+    Data1: 276572779
+    Data2: 1091812124
+    Data3: -472604522
+    Data4: 1291903106
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 278560
+--- !u!114 &-3078678024577668965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/socoVento
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/socoVento
+  Guid:
+    Data1: 47973875
+    Data2: 1079846833
+    Data3: 1530502546
+    Data4: 90568973
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 520
+--- !u!114 &-2670933047186157735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +262,7 @@ MonoBehaviour:
     Data3: 167130290
     Data4: -1086004934
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -189,7 +270,61 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 230
---- !u!114 &-1100289684935203992
+--- !u!114 &-2431568423125463630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/som ambiente1
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/som ambiente1
+  Guid:
+    Data1: -1308606688
+    Data2: 1110446563
+    Data3: -1851203440
+    Data4: -1253474910
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 99946
+--- !u!114 &-2118430726828942021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/pessoasFundoambi
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/pessoasFundoambi
+  Guid:
+    Data1: -1586708491
+    Data2: 1327381504
+    Data3: -399462763
+    Data4: 780387971
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 85365
+--- !u!114 &-1593456681873209096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,7 +343,7 @@ MonoBehaviour:
     Data3: -2020367735
     Data4: 1359135296
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -216,33 +351,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 200
---- !u!114 &-145835897842444119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/192271__lebaston100__click
-  m_EditorClassIdentifier: 
-  Path: event:/ambiente/192271__lebaston100__click
-  Guid:
-    Data1: -345764711
-    Data2: 1334119128
-    Data3: 885461179
-    Data4: -172678035
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1001
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,39 +364,35 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 1575795537762336460}
-  - {fileID: 7824878125090292553}
+  - {fileID: 3322673413810640277}
+  - {fileID: 4378747992833192922}
   EditorEvents:
-  - {fileID: 3869988245180172668}
-  - {fileID: -5892072314300894275}
-  - {fileID: -2312208005510580919}
-  - {fileID: -6081851590116054564}
-  - {fileID: -5360418925283822137}
-  - {fileID: -1100289684935203992}
-  - {fileID: 3515723260095365370}
-  - {fileID: 5939799670536601104}
-  - {fileID: -5713418180611546032}
-  - {fileID: 9148811843404088716}
-  - {fileID: -5467884606582650970}
-  - {fileID: 5019322173466939358}
-  - {fileID: 8730694339200682426}
-  - {fileID: -145835897842444119}
-  - {fileID: 1759374650190240018}
-  - {fileID: 4447232046090008571}
-  - {fileID: 8345399095858096045}
-  - {fileID: 1268324318410059488}
-  - {fileID: -8861374019263252931}
+  - {fileID: 5998098791254935050}
+  - {fileID: -5906893854766330782}
+  - {fileID: -2670933047186157735}
+  - {fileID: -5383301900142553267}
+  - {fileID: -2431568423125463630}
+  - {fileID: -1593456681873209096}
+  - {fileID: 6562886805454768567}
+  - {fileID: -8745232050323890657}
+  - {fileID: -4216205666058664319}
+  - {fileID: -3707018703771362625}
+  - {fileID: -7173343904932953764}
+  - {fileID: 3219316985184385996}
+  - {fileID: 5300020088263948683}
+  - {fileID: 8906638828726353426}
+  - {fileID: -8075180635166632374}
+  - {fileID: 3752732354736270216}
+  - {fileID: -8649093385000585434}
+  - {fileID: -3078678024577668965}
+  - {fileID: -2118430726828942021}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   StringsBanks:
-  - {fileID: 1575795537762336460}
+  - {fileID: 3322673413810640277}
   cacheVersion: 131849
-<<<<<<< HEAD
   cacheTime: 638942386947870377
-=======
-  cacheTime: 638942384768202040
->>>>>>> 4b51a46d9bef6054fe4194042dc01ce6350d7ed3
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -328,166 +432,7 @@ MonoBehaviour:
     index: 17
   - key: event:/ambiente/pessoasFundoambi
     index: 18
---- !u!114 &1268324318410059488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/socoVento
-  m_EditorClassIdentifier: 
-  Path: event:/SocoChute/socoVento
-  Guid:
-    Data1: 47973875
-    Data2: 1079846833
-    Data3: 1530502546
-    Data4: 90568973
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 520
---- !u!114 &1575795537762336460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-<<<<<<< HEAD
-  lastModified: 638942386947870377
-=======
-  lastModified: 638942384768202040
->>>>>>> 4b51a46d9bef6054fe4194042dc01ce6350d7ed3
-  FileSizes:
-  - Name: Desktop
-    Value: 1666
-  Exists: 1
---- !u!114 &1759374650190240018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/soco1
-  m_EditorClassIdentifier: 
-  Path: event:/SocoChute/soco1
-  Guid:
-    Data1: 399537334
-    Data2: 1322101523
-    Data3: -894144072
-    Data4: 1921356106
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 340
---- !u!114 &3515723260095365370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/chuteVento2
-  m_EditorClassIdentifier: 
-  Path: event:/SocoChute/chuteVento2
-  Guid:
-    Data1: 521992511
-    Data2: 1179352002
-    Data3: -483629900
-    Data4: -2113544131
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 290
---- !u!114 &3869988245180172668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/somDano
-  m_EditorClassIdentifier: 
-  Path: event:/SocoChute/somDano
-  Guid:
-    Data1: -1691909887
-    Data2: 1237468632
-    Data3: 1039476618
-    Data4: -1020055798
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 450
---- !u!114 &4447232046090008571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/madeiraa
-  m_EditorClassIdentifier: 
-  Path: event:/ambiente/madeiraa
-  Guid:
-    Data1: 948704441
-    Data2: 1094013308
-    Data3: 517228943
-    Data4: 845634005
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 287
---- !u!114 &5019322173466939358
+--- !u!114 &3219316985184385996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,7 +451,7 @@ MonoBehaviour:
     Data3: -1814526841
     Data4: -1915597216
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -514,7 +459,27 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 19500
---- !u!114 &5939799670536601104
+--- !u!114 &3322673413810640277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638942386947870377
+  FileSizes:
+  - Name: Desktop
+    Value: 1666
+  Exists: 1
+--- !u!114 &3752732354736270216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -524,24 +489,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/chuteVento
+  m_Name: event:/ambiente/madeiraa
   m_EditorClassIdentifier: 
-  Path: event:/SocoChute/chuteVento
+  Path: event:/ambiente/madeiraa
   Guid:
-    Data1: -333445311
-    Data2: 1176024448
-    Data3: 1842713494
-    Data4: -1519278817
+    Data1: 948704441
+    Data2: 1094013308
+    Data3: 517228943
+    Data4: 845634005
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 350
---- !u!114 &7824878125090292553
+  Length: 287
+--- !u!114 &4378747992833192922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -556,43 +521,12 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-<<<<<<< HEAD
   lastModified: 638942386947860247
-=======
-  lastModified: 638942384768202040
->>>>>>> 4b51a46d9bef6054fe4194042dc01ce6350d7ed3
   FileSizes:
   - Name: Desktop
     Value: 9740192
   Exists: 1
---- !u!114 &8345399095858096045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SocoChute/soco3
-  m_EditorClassIdentifier: 
-  Path: event:/SocoChute/soco3
-  Guid:
-    Data1: 1564056296
-    Data2: 1158272933
-    Data3: -1654652269
-    Data4: -1119918461
-  Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 460
---- !u!114 &8730694339200682426
+--- !u!114 &5300020088263948683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -611,7 +545,7 @@ MonoBehaviour:
     Data3: 605179833
     Data4: 1531871598
   Banks:
-  - {fileID: 7824878125090292553}
+  - {fileID: 4378747992833192922}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -619,7 +553,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
---- !u!114 &9148811843404088716
+--- !u!114 &5998098791254935050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -629,20 +563,74 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/Neighborhood_Night_ODC-0012-037
+  m_Name: event:/SocoChute/somDano
   m_EditorClassIdentifier: 
-  Path: event:/ambiente/Neighborhood_Night_ODC-0012-037
+  Path: event:/SocoChute/somDano
   Guid:
-    Data1: 276572779
-    Data2: 1091812124
-    Data3: -472604522
-    Data4: 1291903106
+    Data1: -1691909887
+    Data2: 1237468632
+    Data3: 1039476618
+    Data4: -1020055798
   Banks:
-  - {fileID: 7824878125090292553}
-  IsStream: 1
+  - {fileID: 4378747992833192922}
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 278560
+  Length: 450
+--- !u!114 &6562886805454768567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SocoChute/chuteVento2
+  m_EditorClassIdentifier: 
+  Path: event:/SocoChute/chuteVento2
+  Guid:
+    Data1: 521992511
+    Data2: 1179352002
+    Data3: -483629900
+    Data4: -2113544131
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 290
+--- !u!114 &8906638828726353426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/192271__lebaston100__click
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/192271__lebaston100__click
+  Guid:
+    Data1: -345764711
+    Data2: 1334119128
+    Data3: 885461179
+    Data4: -172678035
+  Banks:
+  - {fileID: 4378747992833192922}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1001
