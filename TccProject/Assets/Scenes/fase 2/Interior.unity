@@ -483,6 +483,7 @@ MonoBehaviour:
   imagemLivroUI: {fileID: 1310629548}
   nomeLivroUI: {fileID: 2103924792}
   caixaDescricaoUI: {fileID: 669327554}
+  eventoInteragirLivro: event:/ambiente/192271__lebaston100__click
 --- !u!65 &147698291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3872,6 +3873,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  footstepEventPath: event:/ambiente/madeiraa
+  stepInterval: 0.4
 --- !u!114 &1018175007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3921,6 +3924,20 @@ MonoBehaviour:
   alturaFechada: 70
   alturaAberta: 200
   velocidadeAnimacao: 8
+--- !u!114 &1018175009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018174999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1018884341
 GameObject:
   m_ObjectHideFlags: 0

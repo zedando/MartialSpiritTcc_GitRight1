@@ -1,19 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using FMODUnity;
 
 public class PlayerMoviment : MonoBehaviour
 {
     public float speed = 5f;
-    public float gravity = -9.81f; // força da gravidade
-    public Transform cameraTransform; // Arraste a Main Camera ou CameraRig aqui
+    public float gravity = -9.81f;
+    public Transform cameraTransform;
 
     private CharacterController controller;
     private Animator animator;
-
     private PlayerInput controls;
     private Vector2 moveInput;
-    private float verticalVelocity; // velocidade no eixo Y
+    private float verticalVelocity;
+
+    [Header("FMOD")]
+    public string footstepEventPath = "event:/ambiente/madeiraa"; // coloque o caminho correto do FMOD
+    private float stepTimer = 0f;
+    public float stepInterval = 0.4f; // intervalo entre passos
 
     void Awake()
     {
@@ -32,15 +36,10 @@ public class PlayerMoviment : MonoBehaviour
     {
         // Gravidade
         if (controller.isGrounded && verticalVelocity < 0)
-        {
-            verticalVelocity = -2f; // manter o personagem no chão
-        }
+            verticalVelocity = -2f;
         else
-        {
             verticalVelocity += gravity * Time.deltaTime;
-        }
 
-        // Movimento no plano XZ
         Vector3 inputDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         Vector3 moveDir = Vector3.zero;
 
@@ -49,30 +48,31 @@ public class PlayerMoviment : MonoBehaviour
             moveDir = cameraTransform.TransformDirection(inputDirection);
             moveDir.y = 0f;
             moveDir.Normalize();
-
-            // Faz o player olhar na direção do movimento
             transform.forward = moveDir;
-        }
 
-        // Combina o movimento horizontal com a gravidade
-        Vector3 finalVelocity = moveDir * speed + Vector3.up * verticalVelocity;
-        controller.Move(finalVelocity * Time.deltaTime);
-
-        if (inputDirection.magnitude > 0f)
-        {
             animator.SetBool("Andando", true);
             animator.SetBool("Tenis", false);
-        
+
+            // Passos FMOD
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepInterval)
+            {
+                RuntimeManager.PlayOneShot(footstepEventPath, transform.position);
+                stepTimer = 0f;
+            }
         }
-        if (inputDirection.magnitude <= 0f)
+        else
         {
             animator.SetBool("Andando", false);
+            stepTimer = stepInterval; // reinicia timer para tocar o som no próximo movimento
         }
 
+        Vector3 finalVelocity = moveDir * speed + Vector3.up * verticalVelocity;
+        controller.Move(finalVelocity * Time.deltaTime);
     }
+
     public void TakeShoes()
     {
         animator.SetBool("Tenis", true);
     }
-     
 }

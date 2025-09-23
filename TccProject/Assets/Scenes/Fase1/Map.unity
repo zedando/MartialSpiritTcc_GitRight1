@@ -5426,6 +5426,98 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8279803727749152700, guid: 6c45527aee6e5884592a03e01daa4cd4, type: 3}
+--- !u!1 &899482465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 899482467}
+  - component: {fileID: 899482466}
+  - component: {fileID: 899482468}
+  - component: {fileID: 899482469}
+  m_Layer: 0
+  m_Name: audiomanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &899482466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899482465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b03a2ac794d7dc941b13b5054d523444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventoAmbiente: event:/ambiente/som ambiente1
+--- !u!4 &899482467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899482465}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.9425287, y: 2.1780944, z: 10.885279}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &899482468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899482465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 899482465}
+--- !u!114 &899482469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899482465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1308606688
+      Data2: 1110446563
+      Data3: -1851203440
+      Data4: -1253474910
+    Path: event:/ambiente/som ambiente1
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &900286249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8360171286488792045, guid: 6c45527aee6e5884592a03e01daa4cd4, type: 3}
@@ -8585,6 +8677,8 @@ MonoBehaviour:
   speed: 3
   gravity: -9.81
   cameraTransform: {fileID: 1044365712}
+  footstepEventPath: event:/ambiente/passosTerra
+  stepInterval: 0.7
 --- !u!114 &1338901696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8706,6 +8800,20 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1338901702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338901691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 1338901691}
 --- !u!1 &1339324261 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6479702315894703169, guid: 6c45527aee6e5884592a03e01daa4cd4, type: 3}
@@ -9704,6 +9812,7 @@ GameObject:
   - component: {fileID: 1518694986}
   - component: {fileID: 1518694985}
   - component: {fileID: 1518694988}
+  - component: {fileID: 1518694989}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -9761,7 +9870,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518694984}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &1518694987
 Transform:
   m_ObjectHideFlags: 0
@@ -9791,6 +9900,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1338901692}
   offset: {x: 0, y: 20, z: 0}
+--- !u!114 &1518694989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518694984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1522186218
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Collections;
+using FMODUnity; //  Import do FMOD
 
 public class TrocaDeCenaProximidade : MonoBehaviour
 {
- [Header("UI")]
+    [Header("UI")]
     public GameObject textoUI; // "Pressione E para interagir"
     public CanvasGroup telaFade; // Objeto com CanvasGroup para fade
 
@@ -15,6 +15,10 @@ public class TrocaDeCenaProximidade : MonoBehaviour
 
     [Header("Input")]
     public InputActionAsset inputAsset;
+
+    [Header("Som")]
+    [EventRef]
+    public string eventoTrocaCena; // Caminho do evento no FMOD (ex: "event:/UI/TrocaCena")
 
     private InputAction interagirAction;
     private bool jogadorPerto = false;
@@ -66,6 +70,13 @@ public class TrocaDeCenaProximidade : MonoBehaviour
 
         jaInteragiu = true;
         textoUI?.SetActive(false);
+
+        //  Toca o som da troca de cena
+        if (!string.IsNullOrEmpty(eventoTrocaCena))
+        {
+            RuntimeManager.PlayOneShot(eventoTrocaCena, transform.position);
+        }
+
         StartCoroutine(FazerFadeETrocarCena());
     }
 
@@ -83,10 +94,12 @@ public class TrocaDeCenaProximidade : MonoBehaviour
 
         telaFade.alpha = 1f;
 
-       SceneManager.LoadScene(nomeCenaDestino);
+        SceneManager.LoadScene(nomeCenaDestino);
     }
-    public void Scane(){
+
+    // Caso queira chamar a transição por outro script
+    public void Scane()
+    {
         IniciarTransicao();
-        
     }
 }

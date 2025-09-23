@@ -3208,6 +3208,7 @@ MonoBehaviour:
   telaFade: {fileID: 1584378167}
   nomeCenaDestino: Sala
   inputAsset: {fileID: -944628639613478452, guid: c2c6ec0b6266403459c19b66b1151ac9, type: 3}
+  eventoTrocaCena: event:/barulhoPorta
 --- !u!65 &938854322
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6726,6 +6727,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 449676038}
+  footstepEventPath: event:/ambiente/madeiraa
+  stepInterval: 0.4
 --- !u!114 &1939402712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6801,6 +6804,20 @@ CapsuleCollider:
   m_Height: 4.5191193
   m_Direction: 1
   m_Center: {x: 0.12624359, y: 1.7595596, z: 0}
+--- !u!114 &1939402716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939402707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1967996164 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1502877291743220047, guid: 50ae3f584c86a8b45a8ed0534790bf83, type: 3}

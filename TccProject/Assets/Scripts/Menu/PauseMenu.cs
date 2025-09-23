@@ -2,16 +2,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using FMODUnity;
 
 public class PauseMenu: MonoBehaviour
 {
     [Header("Referências")]
-    public CanvasGroup pauseCanvasGroup; // CanvasGroup do painel principal
+    public CanvasGroup pauseCanvasGroup;
     public string nomeCenaMenu = "MainMenu";
     public GameObject icone;
-    public float fadeDuration = 0.3f; // Tempo do fade
+    public float fadeDuration = 0.3f;
     public GameObject settingsPanel;
 
+    [Header("Som")]
+    [EventRef] public string eventoAbrirPause = "event:/ambiente/192271__lebaston100__click";
+    [EventRef] public string eventoFecharPause = "event:/ambiente/192271__lebaston100__click";
 
     public static bool jogoPausado = false;
 
@@ -28,13 +32,18 @@ public class PauseMenu: MonoBehaviour
         if (jogoPausado)
             StartCoroutine(FadeOutAndResume());
         else
-        icone.SetActive(true);
+        {
+            icone.SetActive(true);
             StartCoroutine(FadeInAndPause());
             icone.SetActive(false);
+        }
     }
 
     IEnumerator FadeInAndPause()
     {
+        if (!string.IsNullOrEmpty(eventoAbrirPause))
+            RuntimeManager.PlayOneShot(eventoAbrirPause);
+
         pauseCanvasGroup.gameObject.SetActive(true);
         pauseCanvasGroup.alpha = 0;
 
@@ -46,13 +55,16 @@ public class PauseMenu: MonoBehaviour
             yield return null;
         }
 
-        pauseCanvasGroup.alpha = 1; // Mantém opacidade final
+        pauseCanvasGroup.alpha = 1;
         Time.timeScale = 0f;
         jogoPausado = true;
     }
 
     IEnumerator FadeOutAndResume()
     {
+        if (!string.IsNullOrEmpty(eventoFecharPause))
+            RuntimeManager.PlayOneShot(eventoFecharPause);
+
         Time.timeScale = 1f;
 
         float t = 0;
@@ -83,12 +95,10 @@ public class PauseMenu: MonoBehaviour
     public void OpenSettings()
     {
         settingsPanel.SetActive(true);
-        //backButton.gameObject.SetActive(true);
     }
 
     public void CloseSettings()
     {
         settingsPanel.SetActive(false);
-        //backButton.gameObject.SetActive(false);
     }
 }
