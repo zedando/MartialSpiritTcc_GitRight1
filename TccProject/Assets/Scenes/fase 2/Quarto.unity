@@ -1727,10 +1727,10 @@ RectTransform:
   m_Father: {fileID: 1036483772}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 92.229, y: -412.61}
-  m_SizeDelta: {x: 1002.676, y: 186.77}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 92.229, y: 127.390015}
+  m_SizeDelta: {x: 1002.676, y: 186.77002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &564191863
 MonoBehaviour:
@@ -3365,9 +3365,9 @@ RectTransform:
   m_Father: {fileID: 1036483772}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 73, y: -335.29395}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 73, y: 204.70605}
   m_SizeDelta: {x: 1200, y: 473.249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976272784
@@ -4266,7 +4266,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 23.35257, y: -7.7599144, z: -656.8605, w: -84.51049}
+  m_margin: {x: 23.35257, y: -7.7599144, z: 0.8171997, w: 0.584526}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4297,8 +4297,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -297.7, y: -25.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 47.187, y: -78.137}
+  m_SizeDelta: {x: 889.773, y: 154.874}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1198720222 stripped
 GameObject:
@@ -7353,5 +7353,5 @@ MonoBehaviour:
   characterSprite: {fileID: 21300000, guid: 5962af9c6dc6e1148ac2fba7c5a1a4c0, type: 3}
   characterName: Haruki
   dialogLines:
-  - "Esse quarto foi meu esconderijo quando o mundo \nl\xE1 fora pesava\r  \ndemais."
-  typingSpeed: 0.05
+  - "Esse quarto foi meu esconderijo quando o mundo l\xE1 fora  pesava \rdemais."
+  typingSpeed: 0.04
