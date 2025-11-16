@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{b2003f20-11e3-4230-90e0-a891a27d49b5}">
 		<property name="name">
 			<value>som ambiente1</value>
@@ -92,11 +92,17 @@
 		<property name="length">
 			<value>99.946666666666673</value>
 		</property>
+		<property name="volume">
+			<value>-24</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{880acdb1-c7b3-4d7c-a15d-ad787c54a67e}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{55ad3f98-1911-492e-8198-5acb347f003d}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>

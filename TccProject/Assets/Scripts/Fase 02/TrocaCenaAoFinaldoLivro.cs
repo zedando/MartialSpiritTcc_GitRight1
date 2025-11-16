@@ -9,6 +9,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
 {
     public EndlessBook book;
     public TextMeshProUGUI textoFinal;
+    public GameObject box;
     public string cenaDestino = "Memorias";
     public float tempoEntreLetras = 0.08f;
     public float tempoAteTrocarCena = 11f;
@@ -30,6 +31,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
     IEnumerator ExecutarFinal()
     {
         textoFinal.gameObject.SetActive(true);
+        box.gameObject.SetActive(true);
         textoFinal.text = "";
 
         foreach (char c in mensagemFinal)

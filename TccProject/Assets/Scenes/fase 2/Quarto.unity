@@ -227,8 +227,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294638335
-  m_fontColor: {r: 1, g: 0.9792453, b: 0.9792453, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1727,10 +1727,10 @@ RectTransform:
   m_Father: {fileID: 1036483772}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 92.229, y: -412.61}
-  m_SizeDelta: {x: 1002.676, y: 186.77}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 92.229, y: 127.390015}
+  m_SizeDelta: {x: 1002.676, y: 186.77002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &564191863
 MonoBehaviour:
@@ -3208,6 +3208,7 @@ MonoBehaviour:
   telaFade: {fileID: 1584378167}
   nomeCenaDestino: Sala
   inputAsset: {fileID: -944628639613478452, guid: c2c6ec0b6266403459c19b66b1151ac9, type: 3}
+  eventoTrocaCena: event:/barulhoPorta
 --- !u!65 &938854322
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3364,9 +3365,9 @@ RectTransform:
   m_Father: {fileID: 1036483772}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 73, y: -335.29395}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 73, y: 204.70605}
   m_SizeDelta: {x: 1200, y: 473.249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976272784
@@ -3540,9 +3541,9 @@ RectTransform:
   m_Father: {fileID: 1036483772}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -201, y: -116}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 759, y: -116}
   m_SizeDelta: {x: 347.305, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1028642368
@@ -4211,8 +4212,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4265,7 +4266,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -17.24908, z: -682.553, w: -111.062225}
+  m_margin: {x: 23.35257, y: -7.7599144, z: 0.8171997, w: 0.584526}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4296,8 +4297,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -297.7, y: -25.7}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 47.187, y: -78.137}
+  m_SizeDelta: {x: 889.773, y: 154.874}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1198720222 stripped
 GameObject:
@@ -4892,6 +4893,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358276783}
   m_CullTransparentMesh: 1
+--- !u!1 &1392211423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392211425}
+  - component: {fileID: 1392211424}
+  - component: {fileID: 1392211426}
+  m_Layer: 0
+  m_Name: SomFmod
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1392211424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392211423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1207013363
+      Data2: 1290401502
+      Data3: 921095840
+      Data4: -1395434285
+    Path: event:/SocoChute/MusicJapanese2
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!4 &1392211425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392211423}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 426.93048, y: 145.08815, z: -205.57599}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1392211426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392211423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1397826444 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5117700066308340382, guid: 50ae3f584c86a8b45a8ed0534790bf83, type: 3}
@@ -5508,8 +5587,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5726,8 +5805,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5939,6 +6018,8 @@ MonoBehaviour:
   icone: {fileID: 1358276783}
   fadeDuration: 0.3
   settingsPanel: {fileID: 446518107}
+  eventoAbrirPause: event:/ambiente/192271__lebaston100__click
+  eventoFecharPause: event:/ambiente/192271__lebaston100__click
 --- !u!114 &1755070531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6726,6 +6807,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 449676038}
+  footstepEventPath: event:/ambiente/madeiraa
+  stepInterval: 0.4
 --- !u!114 &1939402712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6801,6 +6884,20 @@ CapsuleCollider:
   m_Height: 4.5191193
   m_Direction: 1
   m_Center: {x: 0.12624359, y: 1.7595596, z: 0}
+--- !u!114 &1939402716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939402707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1967996164 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1502877291743220047, guid: 50ae3f584c86a8b45a8ed0534790bf83, type: 3}
@@ -7256,5 +7353,5 @@ MonoBehaviour:
   characterSprite: {fileID: 21300000, guid: 5962af9c6dc6e1148ac2fba7c5a1a4c0, type: 3}
   characterName: Haruki
   dialogLines:
-  - "Esse quarto foi meu esconderijo quando o mundo l\xE1 fora pesava\r demais."
-  typingSpeed: 0.05
+  - "Esse quarto foi meu esconderijo quando o mundo l\xE1 fora  pesava \rdemais."
+  typingSpeed: 0.04

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{ec200741-b580-4618-9693-d56d1fa571a5}">
 		<property name="name">
 			<value>chuteVento</value>
@@ -72,6 +72,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{96fe0454-67c4-417b-b416-2bd31ee07d09}">
+		<property name="volume">
+			<value>-20</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{9ebccd91-933f-46db-913c-db97a0e8a59b}</destination>
 		</relationship>

@@ -110,7 +110,7 @@ public class GD_Enemy : MonoBehaviour
     {
         if (enemyLivesText != null)
         {
-            enemyLivesText.text = "Enemy HP: " + enemyLives;
+            enemyLivesText.text = "Valentão: " + enemyLives;
         }
     }
 }

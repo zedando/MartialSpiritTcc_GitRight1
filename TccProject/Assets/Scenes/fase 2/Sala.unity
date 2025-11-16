@@ -1220,6 +1220,7 @@ GameObject:
   - component: {fileID: 421495501}
   - component: {fileID: 421495503}
   - component: {fileID: 421495502}
+  - component: {fileID: 421495504}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -1258,6 +1259,7 @@ MonoBehaviour:
   telaFade: {fileID: 317762277}
   nomeCenaDestino: Interior
   inputAsset: {fileID: -944628639613478452, guid: c2c6ec0b6266403459c19b66b1151ac9, type: 3}
+  eventoTrocaCena: event:/barulhoPorta
 --- !u!65 &421495503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1271,6 +1273,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06637007, y: 0.008916072, z: 0.010011581}
   m_Center: {x: 0.020194836, y: 0.005797974, z: 0.003199501}
+--- !u!114 &421495504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421495500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &432217499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2516,8 +2532,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2864,6 +2880,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  footstepEventPath: event:/ambiente/madeiraa
+  stepInterval: 0.4
 --- !u!114 &1018175007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2913,6 +2931,20 @@ MonoBehaviour:
   alturaFechada: 70
   alturaAberta: 200
   velocidadeAnimacao: 8
+--- !u!114 &1018175009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018174999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1064698950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,8 +3012,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294638335
-  m_fontColor: {r: 1, g: 0.9792453, b: 0.9792453, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3232,6 +3264,8 @@ MonoBehaviour:
   icone: {fileID: 581931593}
   fadeDuration: 0.3
   settingsPanel: {fileID: 1588987775}
+  eventoAbrirPause: event:/ambiente/192271__lebaston100__click
+  eventoFecharPause: event:/ambiente/192271__lebaston100__click
 --- !u!114 &1127201321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3310,9 +3344,9 @@ RectTransform:
   m_Father: {fileID: 1211624912}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 84.908, y: -401.20987}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 84.908, y: 138.79013}
   m_SizeDelta: {x: 467.82, y: 90.849}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1137018070
@@ -4230,10 +4264,10 @@ RectTransform:
   m_Father: {fileID: 1211624912}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -400.48486, y: -125.09094}
-  m_SizeDelta: {x: 407.6367, y: 138.3469}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 559.51514, y: -125.09094}
+  m_SizeDelta: {x: 407.63672, y: 138.3469}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1411417326
 MonoBehaviour:
@@ -4485,8 +4519,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5531,6 +5565,84 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fd03e453cfe8a343abdce728f0d1978, type: 3}
+--- !u!1 &1942828785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942828788}
+  - component: {fileID: 1942828787}
+  - component: {fileID: 1942828786}
+  m_Layer: 0
+  m_Name: Som
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942828786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942828785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
+--- !u!114 &1942828787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942828785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -505491957
+      Data2: 1105898070
+      Data3: -747786099
+      Data4: -769654955
+    Path: event:/SocoChute/sinoJapones
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!4 &1942828788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942828785}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 426.93048, y: 145.08815, z: -205.57599}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1998610943
 GameObject:
   m_ObjectHideFlags: 0
@@ -5645,9 +5757,9 @@ RectTransform:
   m_Father: {fileID: 1211624912}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 73, y: -335.29395}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 73, y: 204.70605}
   m_SizeDelta: {x: 1200, y: 473.249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005680939
@@ -5754,8 +5866,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280370021
+  m_fontColor: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

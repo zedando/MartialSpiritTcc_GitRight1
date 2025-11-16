@@ -5,27 +5,28 @@ using UnityEngine.UI;
 
 public class DialogTrigger : MonoBehaviour
 {
-  [Header("UI da Dialog")]
-    public GameObject dialogPanel;      
-    public Image characterImage;        
-    public TMP_Text characterNameText;  
-    public TMP_Text dialogText;         
+    [Header("UI da Dialog")]
+    public GameObject dialogPanel;
+    public Image characterImage;
+    public TMP_Text characterNameText;
+    public TMP_Text dialogText;
 
     [Header("Configuração do diálogo")]
-    public Sprite characterSprite;      
-    public string characterName;        
+    public Sprite characterSprite;
+    public string characterName;
     [TextArea(3, 10)]
-    public string[] dialogLines;       
-
-    public float typingSpeed = 0.05f;   
+    public string[] dialogLines;
+    public float typingSpeed = 0.05f;
 
     private int currentLine = 0;
     private bool isTyping = false;
     private bool cancelTyping = false;
+    private Coroutine typingCoroutine;
+    private bool lineJustFinished = false;
 
     private void Start()
     {
-        dialogPanel.SetActive(false);  
+        dialogPanel.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,10 +45,11 @@ public class DialogTrigger : MonoBehaviour
             {
                 if (isTyping)
                 {
-                    cancelTyping = true;  
+                    cancelTyping = true;
                 }
-                else
+                else if (lineJustFinished)
                 {
+                    lineJustFinished = false;
                     NextLine();
                 }
             }
@@ -60,13 +62,16 @@ public class DialogTrigger : MonoBehaviour
         characterImage.sprite = characterSprite;
         characterNameText.text = characterName;
         currentLine = 0;
-        StartCoroutine(TypeDialog(dialogLines[currentLine]));
+        string cleanedLine = CleanText(dialogLines[currentLine]);
+        typingCoroutine = StartCoroutine(TypeDialog(cleanedLine));
     }
 
     IEnumerator TypeDialog(string line)
     {
         isTyping = true;
+        cancelTyping = false;
         dialogText.text = "";
+
         foreach (char letter in line.ToCharArray())
         {
             if (cancelTyping)
@@ -74,11 +79,14 @@ public class DialogTrigger : MonoBehaviour
                 dialogText.text = line;
                 break;
             }
+
             dialogText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
+
         isTyping = false;
         cancelTyping = false;
+        lineJustFinished = true;
     }
 
     public void NextLine()
@@ -86,7 +94,9 @@ public class DialogTrigger : MonoBehaviour
         if (currentLine < dialogLines.Length - 1)
         {
             currentLine++;
-            StartCoroutine(TypeDialog(dialogLines[currentLine]));
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            string cleanedLine = CleanText(dialogLines[currentLine]);
+            typingCoroutine = StartCoroutine(TypeDialog(cleanedLine));
         }
         else
         {
@@ -96,7 +106,13 @@ public class DialogTrigger : MonoBehaviour
 
     private void EndDialog()
     {
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         dialogPanel.SetActive(false);
-        Destroy(gameObject); 
+        Destroy(gameObject);
+    }
+
+    private string CleanText(string input)
+    {
+        return input.Replace("\n", " ").Replace("\r", "").Trim();
     }
 }

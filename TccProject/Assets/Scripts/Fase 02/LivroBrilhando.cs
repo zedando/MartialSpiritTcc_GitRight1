@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using FMODUnity; //  Import do FMOD
 
 public class LivroBrilhando : MonoBehaviour
 {
@@ -27,6 +28,10 @@ public class LivroBrilhando : MonoBehaviour
     public CanvasGroup imagemLivroUI;
     public CanvasGroup nomeLivroUI;
     public CanvasGroup caixaDescricaoUI;
+
+    [Header("Som")]
+    [EventRef]
+    public string eventoInteragirLivro; // Ex: "event:/Interacao/LivroAbrindo"
 
     private InputAction interagirAction;
     private Material material;
@@ -118,6 +123,13 @@ public class LivroBrilhando : MonoBehaviour
         if (!jaInteragiu && jogadorPerto)
         {
             textoUI?.SetActive(false);
+
+            //  Toca o som de interação com o livro
+            if (!string.IsNullOrEmpty(eventoInteragirLivro))
+            {
+                RuntimeManager.PlayOneShot(eventoInteragirLivro, transform.position);
+            }
+
             StartCoroutine(MostrarLivroComFade());
             jaInteragiu = true;
         }
