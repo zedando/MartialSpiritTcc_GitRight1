@@ -98,59 +98,86 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     // -----------------------------------------
 IEnumerator PlayVideoMode()
 {
-    // Mostra a imagem sobre o vídeo (para evitar flicker)
-    canvasImageOverlay.gameObject.SetActive(true);
-    canvasImageOverlay.color = new Color(1, 1, 1, 1);
+    // --- GARANTE QUE A IMAGEM DA CUTSCENE ESTÁ VISÍVEL ---
 
-    // Esconde o vídeo até estar pronto
-    videoRawImage.color = new Color(1, 1, 1, 0);
+    if (canvasImageOverlay != null)
+    {
+        canvasImageOverlay.gameObject.SetActive(true);
 
-    // Mantém imagem por 3s antes do vídeo
+        // garante alpha 1 (totalmente visível)
+        Color startColor = canvasImageOverlay.color;
+        startColor.a = 1f;
+        canvasImageOverlay.color = startColor;
+    }
+
+    // vídeo está invisível até estar pronto
+    videoRawImage.color = new Color(1,1,1,0);
+
+
+    // --- IMAGEM FICA 3s NA TELA ---
+
     yield return new WaitForSeconds(imageOnScreenBeforeVideo);
 
-    // Prepara o vídeo
+
+    // --- PREPARA O VÍDEO ---
+
     videoPlayer.Prepare();
     while (!videoPlayer.isPrepared)
         yield return null;
-
-    // Começa a tocar invisível
+    videoPlayer.playbackSpeed = 0.8f;
     videoPlayer.time = 0;
     videoPlayer.Play();
 
-    // Espera o vídeo realmente renderizar
+    // espera o primeiro frame existir
     while (videoPlayer.texture == null)
         yield return null;
 
-    // Dá 1 frame extra para garantir que foi desenhado
     yield return new WaitForEndOfFrame();
 
-    // Agora revela o vídeo
-    videoRawImage.color = new Color(1, 1, 1, 1);
 
-    // Faz fade da imagem da cutscene (MS sem flicker)
-    float t = 0;
-    while (t < 1f)
+    // --- FADE SUAVE NA IMAGEM ANTES DO VÍDEO APARECER ---
+
+    float fadeT = 0f;
+    float fadeSpeed = 1.5f; // ajuste de velocidade do fade
+
+    Color overlayColor = canvasImageOverlay.color;
+
+    while (fadeT < 1f)
     {
-        canvasImageOverlay.color = new Color(1, 1, 1, 1 - t);
-        t += Time.deltaTime * 2; // velocidade do fade
+        overlayColor.a = Mathf.Lerp(1f, 0f, fadeT);
+        canvasImageOverlay.color = overlayColor;
+
+        fadeT += Time.deltaTime * fadeSpeed;
         yield return null;
     }
-    canvasImageOverlay.color = new Color(1, 1, 1, 0);
+
+    // garante invisível e desativa
+    overlayColor.a = 0f;
+    canvasImageOverlay.color = overlayColor;
     canvasImageOverlay.gameObject.SetActive(false);
 
-    // Espera o vídeo terminar
+
+    // --- REVELA O VÍDEO ---
+
+    videoRawImage.color = new Color(1,1,1,1);
+
+    // espera o vídeo terminar
     while (videoPlayer.isPlaying)
         yield return null;
 
     yield return new WaitForSeconds(0.2f);
 
+
+    // --- EFEITO VERMELHO OPCIONAL ---
     if (enableRedFlash)
         yield return StartCoroutine(RedFlashEffect());
 
-    yield return StartCoroutine(FadeOut());
 
+    // --- FADE FINAL + TROCA DE CENA ---
+    yield return StartCoroutine(FadeOut());
     SceneManager.LoadScene(nextSceneName);
 }
+
 
 
 
