@@ -8,7 +8,7 @@ using FMODUnity; //  Import do FMOD
 
 public class LivroBrilhando : MonoBehaviour
 {
-    [Header("Botão de Continuar")]
+    [Header("Botï¿½o de Continuar")]
     public CanvasGroup botaoContinuarUI;
     public string nomeCenaDestino = "NomeDaCena";
 
@@ -124,7 +124,7 @@ public class LivroBrilhando : MonoBehaviour
         {
             textoUI?.SetActive(false);
 
-            //  Toca o som de interação com o livro
+            //  Toca o som de interaï¿½ï¿½o com o livro
             if (!string.IsNullOrEmpty(eventoInteragirLivro))
             {
                 RuntimeManager.PlayOneShot(eventoInteragirLivro, transform.position);
@@ -146,6 +146,7 @@ public class LivroBrilhando : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         yield return StartCoroutine(FadeCanvasGroup(caixaDescricaoUI, 1f, 0.8f));
         yield return new WaitForSeconds(0.9f);
+        SceneManager.LoadScene(nomeCenaDestino);
         yield return StartCoroutine(FadeCanvasGroup(botaoContinuarUI, 1f, 0.9f));
     }
 
