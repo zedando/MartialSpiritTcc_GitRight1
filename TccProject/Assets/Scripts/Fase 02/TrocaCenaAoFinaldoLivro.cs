@@ -10,7 +10,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
     public EndlessBook book;
     public TextMeshProUGUI textoFinal;
     public GameObject box;
-    public string cenaDestino = "Memorias";
+    public string cenaDestino = "MiniGameAcontecendo";
     public float tempoEntreLetras = 0.08f;
     public float tempoAteTrocarCena = 11f;
 
@@ -44,7 +44,7 @@ public class TrocaCenaAoFinaldoLivro : MonoBehaviour
 
         yield return StartCoroutine(FazerFade());
 
-        SceneManager.LoadScene(10);
+        SceneManager.LoadScene(cenaDestino);
     }
 
     IEnumerator FazerFade()
