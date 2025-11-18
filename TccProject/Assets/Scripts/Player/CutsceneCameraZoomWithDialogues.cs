@@ -11,14 +11,13 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public RectTransform imageTransform;
 
     [Header("Depth Zoom Settings")]
-    public bool enableZoom = true;        // <- NOVO: ativar/desativar zoom
+    public bool enableZoom = true;
     public float targetScale = 2f;
     public float depthAmount = 300f;
     public float zoomDuration = 10f;
 
     [Header("Dialogues")]
     public Image canvasImageOverlay;
-
     public TMP_Text dialogueText;
     [TextArea(2, 4)]
     public string[] dialogues;
@@ -27,7 +26,7 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public float typeSpeed = 0.04f;
 
     [Header("Fade Settings")]
-    public Image fadeOverlay;
+    public Image fadeOverlay;         // DEVE estar acima de tudo no Canvas (ordenado no inspector)
     public float fadeDuration = 1f;
     public bool useFade = true;
 
@@ -44,23 +43,49 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public float redIntensity = 0.35f;
 
     [Header("Video Cutscene Mode")]
-    public bool playVideoInstead = false;          // <- NOVO
-    public VideoPlayer videoPlayer;                // <- NOVO
-    public RawImage videoRawImage;                 // <- NOVO
-    public float imageOnScreenBeforeVideo = 3f;    // <- NOVO (3s antes do vídeo)
+    public bool playVideoInstead = false;
+    public VideoPlayer videoPlayer;
+    public RawImage videoRawImage;
+    public float imageOnScreenBeforeVideo = 3f;
 
-    void Start()
+    private bool videoFinished = false;
+
+    void Awake()
     {
+        // Garantias iniciais - overlays com alpha 0 e ativos para evitar que Fade não apareça.
         if (redOverlay != null)
         {
             Color rc = redOverlay.color;
-            rc.a = 0;
+            rc.a = 0f;
             redOverlay.color = rc;
+            redOverlay.gameObject.SetActive(true);
         }
 
-        // Vídeo começa escondido
+        if (fadeOverlay != null)
+        {
+            Color fc = fadeOverlay.color;
+            fc.a = 0f;
+            fadeOverlay.color = fc;
+            fadeOverlay.gameObject.SetActive(true); // importante: ativo e acima de tudo no Canvas
+        }
+
         if (videoRawImage != null)
-            videoRawImage.color = new Color(1, 1, 1, 0);
+        {
+            videoRawImage.color = new Color(1f, 1f, 1f, 0f);
+            videoRawImage.gameObject.SetActive(true);
+        }
+
+        if (canvasImageOverlay != null)
+            canvasImageOverlay.gameObject.SetActive(true);
+    }
+
+    void Start()
+    {
+        if (videoPlayer != null)
+        {
+            videoPlayer.loopPointReached += OnVideoEnd;
+            videoPlayer.isLooping = false;
+        }
 
         StartCoroutine(PlayCutscene());
     }
@@ -70,23 +95,30 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
         if (useFade)
             yield return StartCoroutine(FadeIn());
 
-        // 🔥 MODO VÍDEO?
         if (playVideoInstead)
         {
             yield return StartCoroutine(PlayVideoMode());
         }
         else
         {
-            // 🔥 MODO IMAGEM + DIÁLOGOS
-            if (enableZoom)
+            if (enableZoom && imageTransform != null)
                 StartCoroutine(DepthZoom());
 
             yield return StartCoroutine(ShowDialogues());
 
             yield return new WaitForSeconds(fadeOutDelay);
 
-            if (enableRedFlash)
+            if (enableRedFlash && redOverlay != null)
                 yield return StartCoroutine(RedFlashEffect());
+
+            // Garantia: deixa fadeOverlay ativo e com alpha 0 antes de iniciar fade out
+            if (fadeOverlay != null)
+            {
+                fadeOverlay.gameObject.SetActive(true);
+                Color c = fadeOverlay.color;
+                c.a = 0f;
+                fadeOverlay.color = c;
+            }
 
             yield return StartCoroutine(FadeOut());
             SceneManager.LoadScene(nextSceneName);
@@ -94,107 +126,114 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     }
 
     // -----------------------------------------
-    //  NOVO: SEÇÃO DO MODO VÍDEO
+    //              MODO VÍDEO
     // -----------------------------------------
-IEnumerator PlayVideoMode()
-{
-    // --- GARANTE QUE A IMAGEM DA CUTSCENE ESTÁ VISÍVEL ---
-
-    if (canvasImageOverlay != null)
+    IEnumerator PlayVideoMode()
     {
-        canvasImageOverlay.gameObject.SetActive(true);
+        // Mostra a imagem antes do vídeo
+        if (canvasImageOverlay != null)
+        {
+            canvasImageOverlay.gameObject.SetActive(true);
+            Color col = canvasImageOverlay.color;
+            col.a = 1f;
+            canvasImageOverlay.color = col;
+        }
 
-        // garante alpha 1 (totalmente visível)
-        Color startColor = canvasImageOverlay.color;
-        startColor.a = 1f;
-        canvasImageOverlay.color = startColor;
+        // Tempo para mostrar a imagem
+        yield return new WaitForSeconds(imageOnScreenBeforeVideo);
+
+        // Prepara o vídeo
+        if (videoPlayer == null || videoRawImage == null)
+        {
+            Debug.LogWarning("VideoPlayer ou VideoRawImage não atribuídos.");
+            yield break;
+        }
+
+        videoPlayer.Prepare();
+        while (!videoPlayer.isPrepared)
+            yield return null;
+
+        // Atribui textura ao RawImage (essencial)
+        if (videoPlayer.texture != null)
+            videoRawImage.texture = videoPlayer.texture;
+
+        // Garante invisibilidade do vídeo antes do fade
+        videoRawImage.color = new Color(1f, 1f, 1f, 0f);
+
+        videoPlayer.time = 0;
+        videoPlayer.playbackSpeed = 1f;
+        videoPlayer.Play();
+
+        yield return new WaitForEndOfFrame();
+
+        // Fade suave da imagem para o vídeo
+        if (canvasImageOverlay != null)
+        {
+            float t = 0f;
+            float fadeSpeed = 1.5f;
+            Color imgCol = canvasImageOverlay.color;
+
+            while (t < 1f)
+            {
+                imgCol.a = Mathf.Lerp(1f, 0f, t);
+                canvasImageOverlay.color = imgCol;
+                t += Time.deltaTime * fadeSpeed;
+                yield return null;
+            }
+
+            imgCol.a = 0f;
+            canvasImageOverlay.color = imgCol;
+            canvasImageOverlay.gameObject.SetActive(false);
+        }
+
+        // Revela o RawImage do vídeo
+        videoRawImage.color = new Color(1f, 1f, 1f, 1f);
+
+        // Aguarda o evento de fim do vídeo
+        while (!videoFinished)
+            yield return null;
+
+        // Pequena pausa
+        yield return new WaitForSeconds(0.2f);
+
+        if (enableRedFlash && redOverlay != null)
+            yield return StartCoroutine(RedFlashEffect());
+
+        // Garantia: ativa overlay de fade e zera alpha
+        if (fadeOverlay != null)
+        {
+            fadeOverlay.gameObject.SetActive(true);
+            Color c = fadeOverlay.color;
+            c.a = 0f;
+            fadeOverlay.color = c;
+        }
+
+        // Fade final e troca de cena
+        yield return StartCoroutine(FadeOut());
+        SceneManager.LoadScene(nextSceneName);
     }
 
-    // vídeo está invisível até estar pronto
-    videoRawImage.color = new Color(1,1,1,0);
-
-
-    // --- IMAGEM FICA 3s NA TELA ---
-
-    yield return new WaitForSeconds(imageOnScreenBeforeVideo);
-
-
-    // --- PREPARA O VÍDEO ---
-
-    videoPlayer.Prepare();
-    while (!videoPlayer.isPrepared)
-        yield return null;
-    videoPlayer.playbackSpeed = 0.8f;
-    videoPlayer.time = 0;
-    videoPlayer.Play();
-
-    // espera o primeiro frame existir
-    while (videoPlayer.texture == null)
-        yield return null;
-
-    yield return new WaitForEndOfFrame();
-
-
-    // --- FADE SUAVE NA IMAGEM ANTES DO VÍDEO APARECER ---
-
-    float fadeT = 0f;
-    float fadeSpeed = 1.5f; // ajuste de velocidade do fade
-
-    Color overlayColor = canvasImageOverlay.color;
-
-    while (fadeT < 1f)
+    void OnVideoEnd(VideoPlayer vp)
     {
-        overlayColor.a = Mathf.Lerp(1f, 0f, fadeT);
-        canvasImageOverlay.color = overlayColor;
-
-        fadeT += Time.deltaTime * fadeSpeed;
-        yield return null;
+        videoFinished = true;
     }
 
-    // garante invisível e desativa
-    overlayColor.a = 0f;
-    canvasImageOverlay.color = overlayColor;
-    canvasImageOverlay.gameObject.SetActive(false);
-
-
-    // --- REVELA O VÍDEO ---
-
-    videoRawImage.color = new Color(1,1,1,1);
-
-    // espera o vídeo terminar
-    while (videoPlayer.isPlaying)
-        yield return null;
-
-    yield return new WaitForSeconds(0.2f);
-
-
-    // --- EFEITO VERMELHO OPCIONAL ---
-    if (enableRedFlash)
-        yield return StartCoroutine(RedFlashEffect());
-
-
-    // --- FADE FINAL + TROCA DE CENA ---
-    yield return StartCoroutine(FadeOut());
-    SceneManager.LoadScene(nextSceneName);
-}
-
-
-
-
-
     // -----------------------------------------
-    // PARTES ORIGINAIS
+    //              PARTES ORIGINAIS
     // -----------------------------------------
 
     IEnumerator DepthZoom()
     {
+        if (imageTransform == null)
+            yield break;
+
         Vector3 startScale = imageTransform.localScale;
         Vector3 endScale = new Vector3(targetScale, targetScale, 1);
 
         float startZ = imageTransform.anchoredPosition3D.z;
         float endZ = startZ - depthAmount;
 
-        float t = 0;
+        float t = 0f;
         while (t < 1f)
         {
             imageTransform.localScale = Vector3.Lerp(startScale, endScale, t);
@@ -215,6 +254,9 @@ IEnumerator PlayVideoMode()
 
     IEnumerator ShowDialogues()
     {
+        if (dialogueText == null || dialogues == null)
+            yield break;
+
         foreach (string line in dialogues)
         {
             if (typewriterEffect)
@@ -239,50 +281,63 @@ IEnumerator PlayVideoMode()
 
     IEnumerator FadeIn()
     {
+        if (fadeOverlay == null)
+            yield break;
+
+        // garante overlay ativo e alpha inicial = 1 (tela preta)
+        fadeOverlay.gameObject.SetActive(true);
         Color c = fadeOverlay.color;
-        c.a = 1;
+        c.a = 1f;
         fadeOverlay.color = c;
 
-        float t = 0;
+        float t = 0f;
         while (t < 1f)
         {
-            c.a = Mathf.Lerp(1, 0, t);
+            c.a = Mathf.Lerp(1f, 0f, t);
             fadeOverlay.color = c;
             t += Time.deltaTime / fadeDuration;
             yield return null;
         }
 
-        c.a = 0;
+        c.a = 0f;
         fadeOverlay.color = c;
     }
 
     IEnumerator FadeOut()
     {
+        if (fadeOverlay == null)
+            yield break;
+
+        // garante overlay ativo e alpha inicial = 0
+        fadeOverlay.gameObject.SetActive(true);
         Color c = fadeOverlay.color;
-        c.a = 0;
+        c.a = 0f;
         fadeOverlay.color = c;
 
-        float t = 0;
+        float t = 0f;
         while (t < 1f)
         {
-            c.a = Mathf.Lerp(0, 1, t);
+            c.a = Mathf.Lerp(0f, 1f, t);
             fadeOverlay.color = c;
             t += Time.deltaTime / fadeDuration;
             yield return null;
         }
 
-        c.a = 1;
+        c.a = 1f;
         fadeOverlay.color = c;
     }
 
     IEnumerator RedFlashEffect()
     {
+        if (redOverlay == null)
+            yield break;
+
         Color c = redOverlay.color;
 
-        float t = 0;
+        float t = 0f;
         while (t < 1f)
         {
-            c.a = Mathf.Lerp(0, redIntensity, t);
+            c.a = Mathf.Lerp(0f, redIntensity, t);
             redOverlay.color = c;
             t += Time.deltaTime / redFlashDuration;
             yield return null;
@@ -293,16 +348,16 @@ IEnumerator PlayVideoMode()
 
         yield return new WaitForSeconds(redFlashTime);
 
-        t = 0;
+        t = 0f;
         while (t < 1f)
         {
-            c.a = Mathf.Lerp(redIntensity, 0, t);
+            c.a = Mathf.Lerp(redIntensity, 0f, t);
             redOverlay.color = c;
             t += Time.deltaTime / redFlashDuration;
             yield return null;
         }
 
-        c.a = 0;
+        c.a = 0f;
         redOverlay.color = c;
     }
 }

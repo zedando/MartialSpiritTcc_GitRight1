@@ -64,7 +64,9 @@ public class InstancePergutnas : MonoBehaviour
         yield return new WaitForSeconds(tempoParaSumir);
         AvisoNãoAbrir.SetActive(false);
     }
-
+ public void cutscen33()
+    {
+SceneManager.LoadScene("ct-fase3");    }
     public void Load()
     {
         SceneManager.LoadScene(3);
