@@ -67,6 +67,12 @@ public class InstancePergutnas : MonoBehaviour
  public void cutscen33()
     {
 SceneManager.LoadScene("ct-fase3");    }
+
+public void cutscene5() 
+    {
+         SceneManager.LoadScene("ct-fase5");
+    }
+     
     public void Load()
     {
         SceneManager.LoadScene(3);

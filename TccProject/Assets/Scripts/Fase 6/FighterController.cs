@@ -68,7 +68,7 @@ public class FighterController : MonoBehaviour
         if (!lutaIniciada) return;
         if (golpeExecutando) return;
 
-        // Ataques só se tiver estamina suficiente
+        // Ataques sï¿½ se tiver estamina suficiente
         if (estaminaAtual >= 20f)
         {
             if (Input.GetKeyDown(teclaOiZuki)) StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
@@ -79,7 +79,7 @@ public class FighterController : MonoBehaviour
         if (Input.GetKeyDown(teclaGedanBarai) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroGedanBarai));
         if (Input.GetKeyDown(teclaJodanUke) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroJodanUke));
 
-        // Recupera estamina quando não atacando
+        // Recupera estamina quando nï¿½o atacando
         if (!golpeExecutando && !defendendo)
         {
             estaminaAtual += 15f * Time.deltaTime;
@@ -92,7 +92,7 @@ public class FighterController : MonoBehaviour
     {
         if (dialogoSimples != null)
         {
-            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Você treinou para este momento. Agora, não é sobre vencer ou perder — é sobre mostrar quem você se tornou.");
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Vocï¿½ treinou para este momento. Agora, nï¿½o ï¿½ sobre vencer ou perder ï¿½ ï¿½ sobre mostrar quem vocï¿½ se tornou.");
             yield return new WaitForSeconds(4f);
             dialogoSimples.FecharDialogo();
 
@@ -173,7 +173,7 @@ public class FighterController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             Debug.Log("Player derrotado!");
-            SceneManager.LoadScene("CenaDerrota");
+            SceneManager.LoadScene("ct-derrota");
         }
     }
 
@@ -201,7 +201,7 @@ public class FighterController : MonoBehaviour
     }
 
     // -----------------------------
-    // Métodos OnClick para Mobile
+    // Mï¿½todos OnClick para Mobile
     // -----------------------------
     public void BtnOiZuki() => StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
     public void BtnMaeGeri() => StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));

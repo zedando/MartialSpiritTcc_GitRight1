@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Refer�ncias")]
+    [Header("Referências")]
     public Transform alvo;
     public FighterController playerController;
 
@@ -34,6 +35,9 @@ public class EnemyController : MonoBehaviour
     [Header("Controle Luta")]
     public bool lutaIniciada = false;
 
+    [Header("Cena ao morrer")]
+    public string cenaAoMorrer = "CenaVitoria"; // Coloque aqui no Inspector
+
     private bool atacando = false;
     private bool morto = false;
 
@@ -51,7 +55,7 @@ public class EnemyController : MonoBehaviour
 
         float distancia = Vector3.Distance(transform.position, alvo.position);
 
-        // Se estamina estiver baixa, recuar e recuperar
+        // Recuperar estamina recuando
         if (estaminaAtual < 20f)
         {
             Vector3 direcaoRecuo = (transform.position - alvo.position).normalized;
@@ -65,7 +69,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        // Se longe, correr atr�s
+        // Mover até o player
         if (distancia > distanciaAtaque)
         {
             MoverAtrasDoPlayer();
@@ -126,7 +130,7 @@ public class EnemyController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             vidaAtual = 0;
-            Morrer();
+            StartCoroutine(Morrer());  // 👈 Usa coroutine para esperar animação
         }
 
         if (efeitoImpacto != null)
@@ -136,16 +140,24 @@ public class EnemyController : MonoBehaviour
         AtualizarBarras();
     }
 
-    void Morrer()
+    IEnumerator Morrer()
     {
         morto = true;
+
         if (animator != null)
         {
             animator.SetBool(parametroCorrendo, false);
             animator.SetBool(parametroAtaque, false);
             animator.SetTrigger(parametroMorte);
         }
+
         Debug.Log("Inimigo derrotado!");
+
+        // Espera animação de morte (ajuste conforme sua animação)
+        yield return new WaitForSeconds(1.2f);
+
+        // Troca de cena
+        SceneManager.LoadScene(cenaAoMorrer);
     }
 
     IEnumerator ImpactShake()
