@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 using UnityEngine.UI;
+using echo17.EndlessBook;
+using System.Collections;
 
 public class DetectCollisions : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class DetectCollisions : MonoBehaviour
     private float timeRemaining = 30f;
     private bool timerIsRunning = true;
     private int lives = 3;
+    public string cenaDestinoperdeu = "MiniGameAcontecendo";
+    public string cenaDestinoganhou = "MiniGameAcontecendo";
 
     void Start()
     {
@@ -26,6 +30,7 @@ public class DetectCollisions : MonoBehaviour
             {
                 timeRemaining -= Time.deltaTime;
                 UpdateTimerUI();
+                
             }
             else
             {
@@ -33,6 +38,7 @@ public class DetectCollisions : MonoBehaviour
                 timerIsRunning = false;
                 UpdateTimerUI();
                 Debug.Log("Tempo acabou!");
+                SceneManager.LoadScene(cenaDestinoganhou);
             }
         }
     }
@@ -60,6 +66,7 @@ public class DetectCollisions : MonoBehaviour
         {
             Debug.Log("Game Over!");
             // Aqui você pode desativar o jogador, mostrar tela final, etc.
+            SceneManager.LoadScene(cenaDestinoperdeu);
         }
     }
 }
