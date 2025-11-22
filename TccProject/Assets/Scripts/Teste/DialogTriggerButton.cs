@@ -34,7 +34,7 @@ public class DialogTriggerButton : MonoBehaviour
     public string eventoInteragirObjeto;
     public string SomDialog;
 
-    private EventInstance somDialogInstance;
+    private EventInstance dialogSound; // <-- SOM CONTROLADO
 
     private void Start()
     {
@@ -43,9 +43,6 @@ public class DialogTriggerButton : MonoBehaviour
         actionButton.gameObject.SetActive(false);
 
         actionButton.onClick.AddListener(OnActionButtonClicked);
-
-        // Criar instância do som de digitação
-        somDialogInstance = RuntimeManager.CreateInstance(SomDialog);
     }
 
     private void Update()
@@ -72,10 +69,10 @@ public class DialogTriggerButton : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                StopDialogSound(); // <-- PARA O SOM AO PULAR
+
                 if (isTyping)
                 {
-                    // Para som ao pular uma fala
-                    somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                     cancelTyping = true;
                 }
                 else
@@ -114,11 +111,10 @@ public class DialogTriggerButton : MonoBehaviour
         }
         else if (dialogActive)
         {
+            StopDialogSound(); // <-- PARA O SOM AO PULAR
+
             if (isTyping)
-            {
-                somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 cancelTyping = true;
-            }
             else
                 NextLine();
         }
@@ -135,6 +131,9 @@ public class DialogTriggerButton : MonoBehaviour
         characterNameText.text = characterName;
 
         currentLine = 0;
+
+        PlayDialogSound(); // <-- SOM COMEÇA
+
         StartCoroutine(TypeDialog(dialogLines[currentLine]));
     }
 
@@ -142,9 +141,6 @@ public class DialogTriggerButton : MonoBehaviour
     {
         isTyping = true;
         dialogText.text = "";
-
-        // Inicia som ao começar a escrever
-        somDialogInstance.start();
 
         foreach (char letter in line.ToCharArray())
         {
@@ -158,9 +154,6 @@ public class DialogTriggerButton : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        // Para o som após terminar de escrever
-        somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-
         isTyping = false;
         cancelTyping = false;
     }
@@ -170,6 +163,9 @@ public class DialogTriggerButton : MonoBehaviour
         if (currentLine < dialogLines.Length - 1)
         {
             currentLine++;
+
+            PlayDialogSound(); // <-- SOM RECOMEÇA PARA A PRÓXIMA FALA
+
             StartCoroutine(TypeDialog(dialogLines[currentLine]));
         }
         else
@@ -180,13 +176,34 @@ public class DialogTriggerButton : MonoBehaviour
 
     private void EndDialog()
     {
+        StopDialogSound(); // <-- SOM PARA AO TERMINAR
+
         dialogActive = false;
         dialogPanel.SetActive(false);
         actionButton.gameObject.SetActive(false);
 
-        
-        somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-
         Destroy(gameObject);
+    }
+
+    // -----------------------------
+    // CONTROLE DO SOM
+    // -----------------------------
+
+    private void PlayDialogSound()
+    {
+        StopDialogSound();  // Garante que não duplique
+
+        dialogSound = RuntimeManager.CreateInstance(SomDialog);
+        dialogSound.set3DAttributes(RuntimeUtils.To3DAttributes(transform));
+        dialogSound.start();
+    }
+
+    private void StopDialogSound()
+    {
+        if (dialogSound.isValid())
+        {
+            dialogSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            dialogSound.release();
+        }
     }
 }
