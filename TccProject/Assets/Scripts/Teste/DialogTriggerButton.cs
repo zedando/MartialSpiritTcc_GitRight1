@@ -2,20 +2,23 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
+using FMOD.Studio;
 
 public class DialogTriggerButton : MonoBehaviour
 {
     [Header("UI da Dialog")]
-    public GameObject dialogPanel;      // Painel do diálogo (desativado no início)
-    public Image characterImage;        // Foto do personagem
-    public TMP_Text characterNameText;  // Nome do personagem
-    public TMP_Text dialogText;         // Texto do diálogo
-    public GameObject keyEImage;        // Imagem pequena do 'E' para aparecer quando o player estiver no trigger
-    public Button actionButton;         // Botão grande para abrir/avançar diálogo (na tela)
+    public GameObject dialogPanel;
+    public Image characterImage;
+    public TMP_Text characterNameText;
+    public TMP_Text dialogText;
+    public GameObject keyEImage;
+    public Button actionButton;
 
-    [Header("Configuração do diálogo")]
+    [Header("ConfiguraÃ§Ã£o do diÃ¡logo")]
     public Sprite characterSprite;
     public string characterName;
+
     [TextArea(3, 10)]
     public string[] dialogLines;
 
@@ -24,28 +27,37 @@ public class DialogTriggerButton : MonoBehaviour
     private int currentLine = 0;
     private bool isTyping = false;
     private bool cancelTyping = false;
-    private bool playerInRange = false;  // Controla se player está no trigger
-    private bool dialogActive = false;   // Se o diálogo está aberto
+    private bool playerInRange = false;
+    private bool dialogActive = false;
+
+    [Header("Som")]
+    public string eventoInteragirObjeto;
+    public string SomDialog;
+
+    private EventInstance somDialogInstance;
 
     private void Start()
     {
         dialogPanel.SetActive(false);
         keyEImage.SetActive(false);
         actionButton.gameObject.SetActive(false);
+
         actionButton.onClick.AddListener(OnActionButtonClicked);
+
+        // Criar instÃ¢ncia do som de digitaÃ§Ã£o
+        somDialogInstance = RuntimeManager.CreateInstance(SomDialog);
     }
 
     private void Update()
     {
         if (playerInRange && !dialogActive)
         {
-            // Mostra a imagem do E e o botão para abrir diálogo
             keyEImage.SetActive(true);
             actionButton.gameObject.SetActive(true);
 
-            // Tecla E para iniciar diálogo
             if (Input.GetKeyDown(KeyCode.E))
             {
+                RuntimeManager.PlayOneShot(eventoInteragirObjeto, transform.position);
                 StartDialog();
             }
         }
@@ -58,11 +70,12 @@ public class DialogTriggerButton : MonoBehaviour
 
         if (dialogActive)
         {
-            // No diálogo aberto, tecla E avança o texto
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (isTyping)
                 {
+                    // Para som ao pular uma fala
+                    somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                     cancelTyping = true;
                 }
                 else
@@ -76,9 +89,7 @@ public class DialogTriggerButton : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
             playerInRange = true;
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -86,7 +97,7 @@ public class DialogTriggerButton : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            // Se o player sair do trigger, fecha UI 'E' e botão se diálogo não estiver aberto
+
             if (!dialogActive)
             {
                 keyEImage.SetActive(false);
@@ -105,12 +116,11 @@ public class DialogTriggerButton : MonoBehaviour
         {
             if (isTyping)
             {
+                somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 cancelTyping = true;
             }
             else
-            {
                 NextLine();
-            }
         }
     }
 
@@ -119,9 +129,11 @@ public class DialogTriggerButton : MonoBehaviour
         dialogActive = true;
         dialogPanel.SetActive(true);
         keyEImage.SetActive(false);
-        actionButton.gameObject.SetActive(true); // mantém botão para avançar diálogo
+        actionButton.gameObject.SetActive(true);
+
         characterImage.sprite = characterSprite;
         characterNameText.text = characterName;
+
         currentLine = 0;
         StartCoroutine(TypeDialog(dialogLines[currentLine]));
     }
@@ -130,6 +142,10 @@ public class DialogTriggerButton : MonoBehaviour
     {
         isTyping = true;
         dialogText.text = "";
+
+        // Inicia som ao comeÃ§ar a escrever
+        somDialogInstance.start();
+
         foreach (char letter in line.ToCharArray())
         {
             if (cancelTyping)
@@ -137,9 +153,14 @@ public class DialogTriggerButton : MonoBehaviour
                 dialogText.text = line;
                 break;
             }
+
             dialogText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
+
+        // Para o som apÃ³s terminar de escrever
+        somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
         isTyping = false;
         cancelTyping = false;
     }
@@ -162,6 +183,10 @@ public class DialogTriggerButton : MonoBehaviour
         dialogActive = false;
         dialogPanel.SetActive(false);
         actionButton.gameObject.SetActive(false);
+
+        
+        somDialogInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
         Destroy(gameObject);
     }
 }

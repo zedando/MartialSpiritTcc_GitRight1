@@ -54,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 278560
+--- !u!114 &-7644708715889280644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/click
+  m_EditorClassIdentifier: 
+  Path: event:/click
+  Guid:
+    Data1: -1763848048
+    Data2: 1152374607
+    Data3: 2004986795
+    Data4: 654883039
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 261
 --- !u!114 &-7096331580694982669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,11 +123,38 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638989647926219256
+  lastModified: 638994310417575599
   FileSizes:
   - Name: Desktop
-    Value: 1858
+    Value: 2320
   Exists: 1
+--- !u!114 &-6255561543317569589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/dojoSound
+  m_EditorClassIdentifier: 
+  Path: event:/dojoSound
+  Guid:
+    Data1: 324115650
+    Data2: 1168882510
+    Data3: 1502199487
+    Data4: 234941363
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 58040
 --- !u!114 &-5957770421296013656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,11 +170,38 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638989647921731668
+  lastModified: 638994310417555644
   FileSizes:
   - Name: Desktop
-    Value: 18767328
+    Value: 28318144
   Exists: 1
+--- !u!114 &-4996218371214749279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Japan-epic-music-348163
+  m_EditorClassIdentifier: 
+  Path: event:/Japan-epic-music-348163
+  Guid:
+    Data1: 1404107932
+    Data2: 1217910394
+    Data3: 1258740664
+    Data4: 1139032388
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 135768
 --- !u!114 &-4529488856473891775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +283,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 287
+--- !u!114 &-1675546834374035412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/aplausos
+  m_EditorClassIdentifier: 
+  Path: event:/aplausos
+  Guid:
+    Data1: 133777732
+    Data2: 1109276005
+    Data3: -1052535627
+    Data4: -137330996
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5041
 --- !u!114 &-1587177546770304164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,13 +403,22 @@ MonoBehaviour:
   - {fileID: 5463338108940093051}
   - {fileID: 4982889362925768176}
   - {fileID: 5485935457754884231}
+  - {fileID: -1675546834374035412}
+  - {fileID: 1510325990964606974}
+  - {fileID: 1119480252542168923}
+  - {fileID: 3165201746619845162}
+  - {fileID: 7337150997965983084}
+  - {fileID: -7644708715889280644}
+  - {fileID: -4996218371214749279}
+  - {fileID: 8302801916507227487}
+  - {fileID: -6255561543317569589}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5957770421296013656}
   StringsBanks:
   - {fileID: -6470456029987895073}
   cacheVersion: 131849
-  cacheTime: 638989647926219256
+  cacheTime: 638994310417575599
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -349,6 +466,54 @@ MonoBehaviour:
     index: 21
   - key: event:/ambiente/pessoasFundoambi
     index: 22
+  - key: event:/aplausos
+    index: 23
+  - key: event:/Village
+    index: 24
+  - key: "event:/Japanese Music \uFF5C Koto & Shakuhachi (Haruko Watanabe & Rodrigo
+      Rodriguez)"
+    index: 25
+  - key: event:/door
+    index: 26
+  - key: event:/dialog1
+    index: 27
+  - key: event:/click
+    index: 28
+  - key: event:/Japan-epic-music-348163
+    index: 29
+  - key: event:/impacto
+    index: 30
+  - key: event:/dojoSound
+    index: 31
+--- !u!114 &1119480252542168923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/Japanese Music \uFF5C Koto & Shakuhachi (Haruko Watanabe & Rodrigo
+    Rodriguez)"
+  m_EditorClassIdentifier: 
+  Path: "event:/Japanese Music \uFF5C Koto & Shakuhachi (Haruko Watanabe & Rodrigo
+    Rodriguez)"
+  Guid:
+    Data1: -625071753
+    Data2: 1234895689
+    Data3: 1539034540
+    Data4: 287466893
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 380667
 --- !u!114 &1232188376044481032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +541,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 230
+--- !u!114 &1510325990964606974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Village
+  m_EditorClassIdentifier: 
+  Path: event:/Village
+  Guid:
+    Data1: 436175954
+    Data2: 1319851876
+    Data3: -767810389
+    Data4: 489020240
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 197135
 --- !u!114 &2588387261521083351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +595,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 58040
+--- !u!114 &3165201746619845162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/door
+  m_EditorClassIdentifier: 
+  Path: event:/door
+  Guid:
+    Data1: -819680128
+    Data2: 1303063211
+    Data3: 91016366
+    Data4: 1213139004
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2639
 --- !u!114 &3330679914158721492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,6 +919,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3000
+--- !u!114 &7337150997965983084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/dialog1
+  m_EditorClassIdentifier: 
+  Path: event:/dialog1
+  Guid:
+    Data1: -519070332
+    Data2: 1119947295
+    Data3: -954277194
+    Data4: -1992587107
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 522
+--- !u!114 &8302801916507227487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/impacto
+  m_EditorClassIdentifier: 
+  Path: event:/impacto
+  Guid:
+    Data1: -1580932928
+    Data2: 1158756375
+    Data3: 1286692780
+    Data4: -1245706255
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 640
 --- !u!114 &8888367354646603326
 MonoBehaviour:
   m_ObjectHideFlags: 0
