@@ -11,10 +11,16 @@ public class BarraPotencia : MonoBehaviour
     public float velocidade = 2f;
     private bool subindo = true;
 
+    [Header("Sistema de Diálogo")]
     public DialogoSimples dialogoSimples;
     public Sprite spriteDoPersonagemHaruki;
     public string FalaDoPersonagemVitoria;
     public string FalaDoPersonagemDerrota;
+
+    [Header("Fala Inicial (opcional)")]
+    public bool usarFalaInicial = false;
+    [TextArea] public string falaInicial;
+    public float tempoVisivelFalaInicial = 2f;
 
     [Header("Tecla de Acão (PC)")]
     public KeyCode teclaAcao = KeyCode.Space;
@@ -91,6 +97,9 @@ public class BarraPotencia : MonoBehaviour
     // NOVO: guarda a coroutine de ataque para podermos parar quando necessário
     private Coroutine atacarCoroutine = null;
 
+    // ==========================================================
+    // START (mantém inicializações originais, mas delega fluxo para coroutine)
+    // ==========================================================
     void Start()
     {
         AtualizarBarraEstabilidade();
@@ -98,6 +107,29 @@ public class BarraPotencia : MonoBehaviour
         if (fadeCanvasGroup != null)
             fadeCanvasGroup.alpha = 0f;
 
+        // roda rotina que garante o DialogoSimples esteja pronto antes de mostrar fala inicial
+        StartCoroutine(IniciarFaseComPossivelFalaInicial());
+    }
+
+    IEnumerator IniciarFaseComPossivelFalaInicial()
+    {
+        // espera 1 frame para garantir que outros Starts (ex: DialogoSimples) já rodaram
+        yield return null;
+
+        if (usarFalaInicial && dialogoSimples != null && !string.IsNullOrEmpty(falaInicial))
+        {
+            executandoGolpe = true; // pausa input/ movimentação durante a fala inicial
+
+            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, falaInicial);
+
+            yield return new WaitForSeconds(tempoVisivelFalaInicial);
+
+            dialogoSimples.FecharDialogo();
+
+            executandoGolpe = false;
+        }
+
+        // continua comportamento normal: se estiver em modo defesa, inicia a coroutine de ataques
         if (modoDefesa)
             atacarCoroutine = StartCoroutine(AtacarJogador());
     }
