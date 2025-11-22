@@ -2035,6 +2035,9 @@ MonoBehaviour:
   spriteDoPersonagemHaruki: {fileID: 21300000, guid: 5962af9c6dc6e1148ac2fba7c5a1a4c0, type: 3}
   FalaDoPersonagemVitoria: Parece que peguei o jeito, vou para o proximo treinamento...
   FalaDoPersonagemDerrota: Parece que ainda preciso treinar mais.
+  usarFalaInicial: 1
+  falaInicial: Mais um dia se iniciando ja focado para mais um treino...
+  tempoVisivelFalaInicial: 5.16
   teclaAcao: 32
   animator: {fileID: 1018175002}
   parametroMaeGeri: MaeGeri
@@ -2063,6 +2066,7 @@ MonoBehaviour:
   falhasParaDerrota: 3
   eventoAtaque: event:/SocoChute/chuteVento
   eventoDefesa: event:/SocoChute/chuteVento2
+  tempoJanelaDefesa: 0.25
 --- !u!4 &530779279
 Transform:
   m_ObjectHideFlags: 0
@@ -5350,6 +5354,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  objectToChangeMaterial: {fileID: 0}
+  newMaterial: {fileID: 0}
   footstepEventPath: event:/ambiente/madeiraa
   stepInterval: 0.4
 --- !u!114 &1018175007

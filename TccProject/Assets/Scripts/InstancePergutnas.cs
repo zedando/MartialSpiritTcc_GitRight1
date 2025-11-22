@@ -79,7 +79,7 @@ public void cutscene5()
     }
      public void Loadfase3()
     {
-        SceneManager.LoadScene(4);
+       SceneManager.LoadScene("ct-fase3");
     }
 
     public void DojoMiniGame()

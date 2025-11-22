@@ -1565,7 +1565,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1093511965}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1995,15 +1995,18 @@ MonoBehaviour:
   velocidade: 2
   dialogoSimples: {fileID: 530779280}
   spriteDoPersonagemHaruki: {fileID: 21300000, guid: 5962af9c6dc6e1148ac2fba7c5a1a4c0, type: 3}
-  FalaDoPersonagemVitoria: Parece que peguei o jeito, vou para o proximo treinamento...
-  FalaDoPersonagemDerrota: Parece que ainda preciso treinar mais.
+  FalaDoPersonagemVitoria: hhhhhhhhhhh
+  FalaDoPersonagemDerrota: bbbbbbbbbbbbbbbbbbbb
+  usarFalaInicial: 0
+  falaInicial: 
+  tempoVisivelFalaInicial: 2
   teclaAcao: 32
   animator: {fileID: 1018175002}
-  parametroMaeGeri: GedanBarai
+  parametroMaeGeri: 
   parametroDefesa: GedanBarai
   zonaPerfeitaCentro: 0.46
-  toleranciaCentro: 0.34
-  toleranciaBoa: 0.15
+  toleranciaCentro: 5.45
+  toleranciaBoa: 6.48
   alvo: {fileID: 1959177753}
   barraEstabilidade: {fileID: 1067887856}
   acertosParaVencer: 3
@@ -2025,6 +2028,7 @@ MonoBehaviour:
   falhasParaDerrota: 3
   eventoAtaque: event:/SocoChute/chuteVento
   eventoDefesa: event:/SocoChute/chuteVento2
+  tempoJanelaDefesa: 0.17
 --- !u!4 &530779279
 Transform:
   m_ObjectHideFlags: 0
@@ -2256,7 +2260,7 @@ RectTransform:
   m_Children:
   - {fileID: 1797028409}
   m_Father: {fileID: 1093511965}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4200,7 +4204,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1093511965}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -5394,6 +5398,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  objectToChangeMaterial: {fileID: 0}
+  newMaterial: {fileID: 0}
   footstepEventPath: event:/ambiente/madeiraa
   stepInterval: 0.4
 --- !u!114 &1018175007
@@ -5867,11 +5873,11 @@ RectTransform:
   - {fileID: 264936663}
   - {fileID: 1067887855}
   - {fileID: 1116112373}
-  - {fileID: 1282392077}
   - {fileID: 423431114}
   - {fileID: 1647665819}
   - {fileID: 841932279}
   - {fileID: 548730166}
+  - {fileID: 1282392077}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6478,7 +6484,7 @@ RectTransform:
   - {fileID: 424024958}
   - {fileID: 640733768}
   m_Father: {fileID: 1093511965}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7969,7 +7975,7 @@ RectTransform:
   - {fileID: 1697594968}
   - {fileID: 1835680889}
   m_Father: {fileID: 1093511965}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}

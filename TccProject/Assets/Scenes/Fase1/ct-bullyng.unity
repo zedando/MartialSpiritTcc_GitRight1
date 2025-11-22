@@ -215,12 +215,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2090406776}
   - {fileID: 2113903824}
   - {fileID: 1599238088}
   - {fileID: 1842878104}
   - {fileID: 934089965}
   - {fileID: 1360384776}
+  - {fileID: 2090406776}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -254,7 +254,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798555902}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 8397c9e5b927ba447b3ef7d6518f8166, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: bdf39cf5f87fede4780b6a65c7a792c7, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -411,7 +411,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -581,7 +581,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -654,7 +654,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -776,7 +776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1842878101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,7 +840,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -876,31 +876,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2931b1f646851e94797c36c158e2cb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageTransform: {fileID: 2113903824}
-  enableZoom: 1
-  targetScale: 5
-  depthAmount: 4.7
-  zoomDuration: 555.72
-  canvasImageOverlay: {fileID: 934089967}
-  dialogueText: {fileID: 1599238089}
+  videoMode: 2
+  imageTransform: {fileID: 0}
+  enableZoom: 0
+  targetScale: 2
+  depthAmount: 300
+  zoomDuration: 10
+  canvasImageOverlay: {fileID: 0}
+  dialogueText: {fileID: 0}
   dialogues: []
-  dialogueDelay: 6
-  typewriterEffect: 0
+  dialogueDelay: 2
+  typewriterEffect: 1
   typeSpeed: 0.04
   fadeOverlay: {fileID: 2090406773}
-  fadeDuration: 4.18
+  fadeDuration: 1
   useFade: 1
   fadeOutDelay: 3
   nextSceneName: Map
   enableRedFlash: 0
-  redOverlay: {fileID: 1842878101}
-  redFlashTime: 6.4
-  redFlashDuration: 3.59
-  redIntensity: 0.201
-  playVideoInstead: 1
+  redOverlay: {fileID: 0}
+  redFlashTime: 1
+  redFlashDuration: 1
+  redIntensity: 0.35
   videoPlayer: {fileID: 798555903}
   videoRawImage: {fileID: 1360384777}
-  imageOnScreenBeforeVideo: 1.2
+  imageOnScreenBeforeVideo: 3
 --- !u!4 &2000587521
 Transform:
   m_ObjectHideFlags: 0
@@ -998,7 +998,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1104,7 +1104,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 553408271}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

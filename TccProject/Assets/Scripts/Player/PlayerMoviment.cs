@@ -14,10 +14,14 @@ public class PlayerMoviment : MonoBehaviour
     private Vector2 moveInput;
     private float verticalVelocity;
 
+    [Header("Troca de Material ao pegar o tênis")]
+    public Renderer objectToChangeMaterial;   // objeto cujo material será trocado
+    public Material newMaterial;              // novo material
+
     [Header("FMOD")]
-    public string footstepEventPath = "event:/ambiente/madeiraa"; // coloque o caminho correto do FMOD
+    public string footstepEventPath = "event:/ambiente/madeiraa";
     private float stepTimer = 0f;
-    public float stepInterval = 0.4f; // intervalo entre passos
+    public float stepInterval = 0.4f;
 
     void Awake()
     {
@@ -53,7 +57,7 @@ public class PlayerMoviment : MonoBehaviour
             animator.SetBool("Andando", true);
             animator.SetBool("Tenis", false);
 
-            // Passos FMOD
+            // Som de passos
             stepTimer += Time.deltaTime;
             if (stepTimer >= stepInterval)
             {
@@ -64,7 +68,7 @@ public class PlayerMoviment : MonoBehaviour
         else
         {
             animator.SetBool("Andando", false);
-            stepTimer = stepInterval; // reinicia timer para tocar o som no próximo movimento
+            stepTimer = stepInterval;
         }
 
         Vector3 finalVelocity = moveDir * speed + Vector3.up * verticalVelocity;
@@ -74,5 +78,20 @@ public class PlayerMoviment : MonoBehaviour
     public void TakeShoes()
     {
         animator.SetBool("Tenis", true);
+
+        // CHAMA A TROCA DE MATERIAL AQUI
+        ChangeMaterial();
+    }
+
+    private void ChangeMaterial()
+    {
+        if (objectToChangeMaterial != null && newMaterial != null)
+        {
+            objectToChangeMaterial.material = newMaterial;
+        }
+        else
+        {
+            Debug.LogWarning("PlayerMoviment: objeto ou material não atribuídos no Inspector!");
+        }
     }
 }

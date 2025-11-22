@@ -4,11 +4,11 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using FMODUnity; //  Import do FMOD
+using FMODUnity;
 
 public class LivroBrilhando : MonoBehaviour
 {
-    [Header("Bot�o de Continuar")]
+    [Header("Botão de Continuar")]
     public CanvasGroup botaoContinuarUI;
     public string nomeCenaDestino = "NomeDaCena";
 
@@ -31,7 +31,14 @@ public class LivroBrilhando : MonoBehaviour
 
     [Header("Som")]
     [EventRef]
-    public string eventoInteragirLivro; // Ex: "event:/Interacao/LivroAbrindo"
+    public string eventoInteragirLivro;
+
+    [Header("Tempo de Espera Antes de Sumir")]
+    public float tempoAntesDeSumir = 2f;
+
+    [Header("Fade Out Preto")]
+    public CanvasGroup fadePreto;
+    public float duracaoFadePreto = 1.2f;
 
     private InputAction interagirAction;
     private Material material;
@@ -63,12 +70,16 @@ public class LivroBrilhando : MonoBehaviour
         nomeLivroUI.alpha = 0f;
         caixaDescricaoUI.alpha = 0f;
         botaoContinuarUI.alpha = 0f;
+
+        if (fadePreto != null)
+            fadePreto.alpha = 0f;
     }
 
     void Update()
     {
         if (jaInteragiu) return;
 
+        // Efeito de brilho alternando
         if (!jogadorPerto)
         {
             tempo += Time.deltaTime;
@@ -124,30 +135,45 @@ public class LivroBrilhando : MonoBehaviour
         {
             textoUI?.SetActive(false);
 
-            //  Toca o som de intera��o com o livro
             if (!string.IsNullOrEmpty(eventoInteragirLivro))
-            {
                 RuntimeManager.PlayOneShot(eventoInteragirLivro, transform.position);
-            }
 
-            StartCoroutine(MostrarLivroComFade());
             jaInteragiu = true;
+            StartCoroutine(MostrarLivroComFade());
         }
     }
 
     IEnumerator MostrarLivroComFade()
     {
         uiLivroCompleto.SetActive(true);
+
+        // Fade-in da tela do livro
         yield return StartCoroutine(FadeCanvasGroup(painelCompletoUI, 1f, 0.6f));
         yield return new WaitForSeconds(0.3f);
+
         yield return StartCoroutine(FadeCanvasGroup(imagemLivroUI, 1f, 0.8f));
         yield return new WaitForSeconds(0.4f);
+
         yield return StartCoroutine(FadeCanvasGroup(nomeLivroUI, 1f, 0.8f));
         yield return new WaitForSeconds(0.4f);
+
         yield return StartCoroutine(FadeCanvasGroup(caixaDescricaoUI, 1f, 0.8f));
-        yield return new WaitForSeconds(0.9f);
-        SceneManager.LoadScene(nomeCenaDestino);
+
+        // Tempo configurável pelo Inspector antes de sumir
+        yield return new WaitForSeconds(tempoAntesDeSumir);
+
+        // Fade-in do botão de continuar
         yield return StartCoroutine(FadeCanvasGroup(botaoContinuarUI, 1f, 0.9f));
+
+        // Pequena pausa antes do fade preto
+        yield return new WaitForSeconds(0.4f);
+
+        // Fade out preto cinematic antes da troca de cena
+        if (fadePreto != null)
+            yield return StartCoroutine(FadeCanvasGroup(fadePreto, 1f, duracaoFadePreto));
+
+        // Troca de cena só depois de tudo
+        SceneManager.LoadScene(nomeCenaDestino);
     }
 
     public void TrocarCena()

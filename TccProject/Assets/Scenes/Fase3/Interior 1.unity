@@ -6152,6 +6152,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  objectToChangeMaterial: {fileID: 1691642103}
+  newMaterial: {fileID: 9171952328373019990, guid: 24c3aa126718f2d4399ad778e18ddc9d, type: 3}
   footstepEventPath: event:/ambiente/madeiraa
   stepInterval: 0.4
 --- !u!114 &1018175007
@@ -9417,6 +9419,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.020009728, y: 0.028655319, z: 0.060952555}
   m_Center: {x: -0.0000048685183, y: 0.001269093, z: -0.21754092}
+--- !u!137 &1691642103 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: f9ea07df36984bd4c9094fc572a2fd57, type: 3}
+  m_PrefabInstance: {fileID: 946841758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1709016852
 GameObject:
   m_ObjectHideFlags: 0
