@@ -2050,7 +2050,7 @@ MonoBehaviour:
   acertosParaVencer: 3
   fadeCanvasGroup: {fileID: 264936664}
   duracaoFade: 2
-  nomeCenaVitoria: golpe_MawashiGeri 1
+  nomeCenaVitoria: GedanBarai
   nomeCenaDerrota: Interior 3
   anguloAtaqueForte: 20
   anguloAtaqueMedio: 12
@@ -2067,6 +2067,9 @@ MonoBehaviour:
   eventoAtaque: event:/SocoChute/chuteVento
   eventoDefesa: event:/SocoChute/chuteVento2
   tempoJanelaDefesa: 0.25
+  sincronizarComBarra: 1
+  alvoAtaqueBarra: 0.5
+  toleranciaAtaqueBarra: 0.015
 --- !u!4 &530779279
 Transform:
   m_ObjectHideFlags: 0

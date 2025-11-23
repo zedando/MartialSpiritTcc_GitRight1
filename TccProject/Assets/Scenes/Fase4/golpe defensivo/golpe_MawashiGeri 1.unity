@@ -2629,6 +2629,9 @@ MonoBehaviour:
   spriteDoPersonagemHaruki: {fileID: 21300000, guid: 5962af9c6dc6e1148ac2fba7c5a1a4c0, type: 3}
   FalaDoPersonagemVitoria: Parece que peguei o jeito, vou para o proximo treinamento...
   FalaDoPersonagemDerrota: Parece que ainda preciso treinar mais.
+  usarFalaInicial: 0
+  falaInicial: 
+  tempoVisivelFalaInicial: 2
   teclaAcao: 32
   animator: {fileID: 1018175002}
   parametroMaeGeri: MawashiGeri
@@ -2641,7 +2644,7 @@ MonoBehaviour:
   acertosParaVencer: 3
   fadeCanvasGroup: {fileID: 264936664}
   duracaoFade: 2
-  nomeCenaVitoria: FaseFinal
+  nomeCenaVitoria: JordanUke
   nomeCenaDerrota: golpe_MawashiGeri 1
   anguloAtaqueForte: 20
   anguloAtaqueMedio: 12
@@ -2657,6 +2660,10 @@ MonoBehaviour:
   falhasParaDerrota: 3
   eventoAtaque: event:/SocoChute/chuteVento
   eventoDefesa: event:/SocoChute/chuteVento2
+  tempoJanelaDefesa: 0.25
+  sincronizarComBarra: 1
+  alvoAtaqueBarra: 0.5
+  toleranciaAtaqueBarra: 0.015
 --- !u!4 &530779279
 Transform:
   m_ObjectHideFlags: 0
@@ -6010,6 +6017,8 @@ MonoBehaviour:
   speed: 5
   gravity: -9.81
   cameraTransform: {fileID: 609545340}
+  objectToChangeMaterial: {fileID: 0}
+  newMaterial: {fileID: 0}
   footstepEventPath: event:/ambiente/madeiraa
   stepInterval: 0.4
 --- !u!114 &1018175007

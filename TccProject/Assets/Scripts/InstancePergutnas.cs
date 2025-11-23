@@ -75,7 +75,8 @@ public void cutscene5()
      
     public void Load()
     {
-        SceneManager.LoadScene(3);
+        //SceneManager.LoadScene("Quarto");
+         StartCoroutine(FadeAndLoad("Quarto"));
     }
      public void Loadfase3()
     {
@@ -103,6 +104,16 @@ public void cutscene5()
          SceneManager.LoadScene("Interior 3");
     }
      
-     
+     private IEnumerator FadeAndLoad(string cena)
+{
+    FadeOutController fade = FindObjectOfType<FadeOutController>();
+
+    if (fade != null)
+    {
+        yield return fade.StartCoroutine(fade.FadeOut());
+    }
+
+    SceneManager.LoadScene(cena);
+}
      
 }
