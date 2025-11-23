@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PecaDeMemoria : MonoBehaviour
@@ -30,7 +30,7 @@ public class PecaDeMemoria : MonoBehaviour
         {
             Vector2 posTela = controls.Player.PointerPosition.ReadValue<Vector2>();
 
-            // Para Canvas em Screen Space - Overlay, usamos null como c�mera
+            // Para Canvas em Screen Space - Overlay, usamos null como câmera
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform.parent as RectTransform,
                 posTela,
