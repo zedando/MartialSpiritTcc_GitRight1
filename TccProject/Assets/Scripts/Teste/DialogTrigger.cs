@@ -1,7 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
 
 public class DialogTrigger : MonoBehaviour
 {
@@ -11,12 +13,18 @@ public class DialogTrigger : MonoBehaviour
     public TMP_Text characterNameText;
     public TMP_Text dialogText;
 
-    [Header("Configura��o do di�logo")]
+    [Header("Configuração do diálogo")]
     public Sprite characterSprite;
     public string characterName;
     [TextArea(3, 10)]
     public string[] dialogLines;
     public float typingSpeed = 0.05f;
+
+    [Header("Som de Diálogo (FMOD)")]
+    public EventReference dialogTypingEvent;
+
+    private EventInstance dialogTypingInstance;
+    private bool dialogSoundPlaying = false;
 
     private int currentLine = 0;
     private bool isTyping = false;
@@ -27,6 +35,9 @@ public class DialogTrigger : MonoBehaviour
     private void Start()
     {
         dialogPanel.SetActive(false);
+
+        // Cria instância do som de diálogo
+        dialogTypingInstance = RuntimeManager.CreateInstance(dialogTypingEvent);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,17 +52,10 @@ public class DialogTrigger : MonoBehaviour
     {
         if (dialogPanel.activeSelf)
         {
+            // Teclado (PC): Espaço faz a mesma coisa que o clique/toque
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (isTyping)
-                {
-                    cancelTyping = true;
-                }
-                else if (lineJustFinished)
-                {
-                    lineJustFinished = false;
-                    NextLine();
-                }
+                OnDialogClick();
             }
         }
     }
@@ -61,8 +65,10 @@ public class DialogTrigger : MonoBehaviour
         dialogPanel.SetActive(true);
         characterImage.sprite = characterSprite;
         characterNameText.text = characterName;
+
         currentLine = 0;
         string cleanedLine = CleanText(dialogLines[currentLine]);
+
         typingCoroutine = StartCoroutine(TypeDialog(cleanedLine));
     }
 
@@ -71,6 +77,9 @@ public class DialogTrigger : MonoBehaviour
         isTyping = true;
         cancelTyping = false;
         dialogText.text = "";
+
+        // Iniciar som
+        StartDialogSound();
 
         foreach (char letter in line.ToCharArray())
         {
@@ -84,6 +93,9 @@ public class DialogTrigger : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
+        // Parar som ao terminar
+        StopDialogSound();
+
         isTyping = false;
         cancelTyping = false;
         lineJustFinished = true;
@@ -94,7 +106,10 @@ public class DialogTrigger : MonoBehaviour
         if (currentLine < dialogLines.Length - 1)
         {
             currentLine++;
-            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
             string cleanedLine = CleanText(dialogLines[currentLine]);
             typingCoroutine = StartCoroutine(TypeDialog(cleanedLine));
         }
@@ -106,9 +121,52 @@ public class DialogTrigger : MonoBehaviour
 
     private void EndDialog()
     {
-        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        StopDialogSound();
+        dialogTypingInstance.release();
+
         dialogPanel.SetActive(false);
         Destroy(gameObject);
+    }
+
+    // 👉 FUNÇÃO QUE O BOTÃO / TOQUE VAI CHAMAR
+    public void OnDialogClick()
+    {
+        if (!dialogPanel.activeSelf) return;
+
+        if (isTyping)
+        {
+            // Se ainda está digitando, completa a frase
+            cancelTyping = true;
+        }
+        else if (lineJustFinished)
+        {
+            // Se a linha já acabou, vai pra próxima
+            lineJustFinished = false;
+            NextLine();
+        }
+    }
+
+    // ⚡ SOM
+
+    private void StartDialogSound()
+    {
+        if (!dialogSoundPlaying)
+        {
+            dialogTypingInstance.start();
+            dialogSoundPlaying = true;
+        }
+    }
+
+    private void StopDialogSound()
+    {
+        if (dialogSoundPlaying)
+        {
+            dialogTypingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            dialogSoundPlaying = false;
+        }
     }
 
     private string CleanText(string input)

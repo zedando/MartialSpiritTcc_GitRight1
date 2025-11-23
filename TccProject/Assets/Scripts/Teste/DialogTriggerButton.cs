@@ -12,16 +12,13 @@ public class DialogTriggerButton : MonoBehaviour
     public Image characterImage;
     public TMP_Text characterNameText;
     public TMP_Text dialogText;
-    public GameObject keyEImage;
-    public Button actionButton;
+    public GameObject keyEImage;    // ícone "E" na tela
+    public Button actionButton;     // BOTÃO COMPARTILHADO NO PAINEL
 
     [Header("Configuração do diálogo")]
     public Sprite characterSprite;
     public string characterName;
-
-    [TextArea(3, 10)]
-    public string[] dialogLines;
-
+    [TextArea(3, 10)] public string[] dialogLines;
     public float typingSpeed = 0.05f;
 
     private int currentLine = 0;
@@ -32,25 +29,27 @@ public class DialogTriggerButton : MonoBehaviour
 
     [Header("Som")]
     public string eventoInteragirObjeto;
-    public string SomDialog;
+    public EventReference SomDialog;
 
-    private EventInstance dialogSound; // <-- SOM CONTROLADO
+    private EventInstance dialogSound; // Instância do som atual
 
-    private void Start()
+    void Start()
     {
         dialogPanel.SetActive(false);
         keyEImage.SetActive(false);
-        actionButton.gameObject.SetActive(false);
 
-        actionButton.onClick.AddListener(OnActionButtonClicked);
+        // Não mexo no actionButton aqui,
+        // pois ele é compartilhado com todos pelo mesmo painel.
+        // O OnClick dele será configurado no Inspector para chamar OnDialogClick()
+        // de vários DialogTriggerButton.
     }
 
-    private void Update()
+    void Update()
     {
+        // Mostrar dica "E" quando o player está perto e o diálogo ainda não começou
         if (playerInRange && !dialogActive)
         {
             keyEImage.SetActive(true);
-            actionButton.gameObject.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -60,79 +59,63 @@ public class DialogTriggerButton : MonoBehaviour
         }
         else
         {
-            keyEImage.SetActive(false);
             if (!dialogActive)
-                actionButton.gameObject.SetActive(false);
+                keyEImage.SetActive(false);
         }
 
-        if (dialogActive)
+        // Teclado (PC): espaço faz a mesma coisa que o botão/click
+        if (dialogActive && Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StopDialogSound(); // <-- PARA O SOM AO PULAR
-
-                if (isTyping)
-                {
-                    cancelTyping = true;
-                }
-                else
-                {
-                    NextLine();
-                }
-            }
+            OnDialogClick();
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
             playerInRange = true;
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
 
             if (!dialogActive)
-            {
                 keyEImage.SetActive(false);
-                actionButton.gameObject.SetActive(false);
-            }
         }
     }
 
-    private void OnActionButtonClicked()
+    // 👉 ESSA É A FUNÇÃO QUE O BOTÃO COMPARTILHADO VAI CHAMAR
+    public void OnDialogClick()
     {
-        if (!dialogActive && playerInRange)
-        {
-            StartDialog();
-        }
-        else if (dialogActive)
-        {
-            StopDialogSound(); // <-- PARA O SOM AO PULAR
+        if (!dialogActive) return;
 
-            if (isTyping)
-                cancelTyping = true;
-            else
-                NextLine();
+        StopDialogSound();
+
+        if (isTyping)
+        {
+            // se ainda está escrevendo, completa a frase
+            cancelTyping = true;
+        }
+        else
+        {
+            // se a frase já terminou, vai pra próxima
+            NextLine();
         }
     }
 
-    private void StartDialog()
+    void StartDialog()
     {
         dialogActive = true;
         dialogPanel.SetActive(true);
         keyEImage.SetActive(false);
-        actionButton.gameObject.SetActive(true);
 
         characterImage.sprite = characterSprite;
         characterNameText.text = characterName;
 
         currentLine = 0;
-
-        PlayDialogSound(); // <-- SOM COMEÇA
 
         StartCoroutine(TypeDialog(dialogLines[currentLine]));
     }
@@ -140,7 +123,10 @@ public class DialogTriggerButton : MonoBehaviour
     IEnumerator TypeDialog(string line)
     {
         isTyping = true;
+        cancelTyping = false;
         dialogText.text = "";
+
+        PlayDialogSound(); // SOM COMEÇA QUANDO COMEÇA A DIGITAÇÃO
 
         foreach (char letter in line.ToCharArray())
         {
@@ -154,18 +140,17 @@ public class DialogTriggerButton : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
+        StopDialogSound(); // SOM PARA AO TERMINAR A FRASE
+
         isTyping = false;
         cancelTyping = false;
     }
 
-    private void NextLine()
+    void NextLine()
     {
         if (currentLine < dialogLines.Length - 1)
         {
             currentLine++;
-
-            PlayDialogSound(); // <-- SOM RECOMEÇA PARA A PRÓXIMA FALA
-
             StartCoroutine(TypeDialog(dialogLines[currentLine]));
         }
         else
@@ -174,13 +159,12 @@ public class DialogTriggerButton : MonoBehaviour
         }
     }
 
-    private void EndDialog()
+    void EndDialog()
     {
-        StopDialogSound(); // <-- SOM PARA AO TERMINAR
+        StopDialogSound();
 
         dialogActive = false;
         dialogPanel.SetActive(false);
-        actionButton.gameObject.SetActive(false);
 
         Destroy(gameObject);
     }
@@ -188,13 +172,11 @@ public class DialogTriggerButton : MonoBehaviour
     // -----------------------------
     // CONTROLE DO SOM
     // -----------------------------
-
     private void PlayDialogSound()
     {
-        StopDialogSound();  // Garante que não duplique
+        StopDialogSound(); // evita duplicação
 
         dialogSound = RuntimeManager.CreateInstance(SomDialog);
-        dialogSound.set3DAttributes(RuntimeUtils.To3DAttributes(transform));
         dialogSound.start();
     }
 
@@ -202,7 +184,7 @@ public class DialogTriggerButton : MonoBehaviour
     {
         if (dialogSound.isValid())
         {
-            dialogSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            dialogSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             dialogSound.release();
         }
     }

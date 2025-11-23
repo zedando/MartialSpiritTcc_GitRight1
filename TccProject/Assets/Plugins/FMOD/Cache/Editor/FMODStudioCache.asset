@@ -123,10 +123,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638994514591498222
+  lastModified: 638994889945851960
   FileSizes:
   - Name: Desktop
-    Value: 2368
+    Value: 2638
   Exists: 1
 --- !u!114 &-6255561543317569589
 MonoBehaviour:
@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/dojoSound
+  m_Name: event:/DojoSound
   m_EditorClassIdentifier: 
-  Path: event:/dojoSound
+  Path: event:/DojoSound
   Guid:
     Data1: 324115650
     Data2: 1168882510
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638994514591473128
+  lastModified: 638994889945829361
   FileSizes:
   - Name: Desktop
-    Value: 32316544
+    Value: 32363808
   Exists: 1
 --- !u!114 &-4996218371214749279
 MonoBehaviour:
@@ -256,6 +256,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 200
+--- !u!114 &-3515250341804199991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/musicaa
+  m_EditorClassIdentifier: 
+  Path: event:/musicaa
+  Guid:
+    Data1: 501174084
+    Data2: 1315757840
+    Data3: 1862429373
+    Data4: 2121931279
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 76363
 --- !u!114 &-1720104191217598063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,13 +440,16 @@ MonoBehaviour:
   - {fileID: 8302801916507227487}
   - {fileID: -6255561543317569589}
   - {fileID: 4120090835286500998}
+  - {fileID: 82771926903260774}
+  - {fileID: 367488769314201039}
+  - {fileID: -3515250341804199991}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5957770421296013656}
   StringsBanks:
   - {fileID: -6470456029987895073}
   cacheVersion: 131849
-  cacheTime: 638994514591498222
+  cacheTime: 638994889945851960
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -474,9 +504,9 @@ MonoBehaviour:
   - key: "event:/Japanese Music \uFF5C Koto & Shakuhachi (Haruko Watanabe & Rodrigo
       Rodriguez)"
     index: 25
-  - key: event:/door
+  - key: event:/Door
     index: 26
-  - key: event:/dialog1
+  - key: event:/Dialog1
     index: 27
   - key: event:/click
     index: 28
@@ -484,8 +514,70 @@ MonoBehaviour:
     index: 29
   - key: event:/impacto
     index: 30
-  - key: event:/dojoSound
+  - key: event:/DojoSound
     index: 31
+  - key: event:/musicaSad
+    index: 32
+  - key: event:/Dialog2
+    index: 33
+  - key: event:/Door2
+    index: 34
+  - key: event:/musicaa
+    index: 35
+--- !u!114 &82771926903260774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Dialog2
+  m_EditorClassIdentifier: 
+  Path: event:/Dialog2
+  Guid:
+    Data1: 840790213
+    Data2: 1119478041
+    Data3: -888697447
+    Data4: 305411904
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3998
+--- !u!114 &367488769314201039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Door2
+  m_EditorClassIdentifier: 
+  Path: event:/Door2
+  Guid:
+    Data1: -1632968391
+    Data2: 1309636650
+    Data3: -1072153970
+    Data4: 42613515
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2639
 --- !u!114 &1119480252542168923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,9 +698,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/door
+  m_Name: event:/Door
   m_EditorClassIdentifier: 
-  Path: event:/door
+  Path: event:/Door
   Guid:
     Data1: -819680128
     Data2: 1303063211
@@ -633,9 +725,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MusicMenu
+  m_Name: event:/musicMenu
   m_EditorClassIdentifier: 
-  Path: event:/MusicMenu
+  Path: event:/musicMenu
   Guid:
     Data1: -253249135
     Data2: 1273279963
@@ -741,9 +833,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MusicaSad
+  m_Name: event:/musicaSad
   m_EditorClassIdentifier: 
-  Path: event:/MusicaSad
+  Path: event:/musicaSad
   Guid:
     Data1: -1555248035
     Data2: 1256064017
@@ -957,9 +1049,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/dialog1
+  m_Name: event:/Dialog1
   m_EditorClassIdentifier: 
-  Path: event:/dialog1
+  Path: event:/Dialog1
   Guid:
     Data1: -519070332
     Data2: 1119947295
