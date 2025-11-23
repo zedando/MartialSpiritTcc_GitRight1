@@ -1,17 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManager;
 using System.Collections;
 using TMPro;
+using FMODUnity;
 
 public class TempoGolpeScript : MonoBehaviour
 {
+
+     public GameObject SegundaParteasdad;
     public Slider slider;
-    public float tempoTotal = 2f; // tempo por tecla
+    public float tempoTotal = 2f;
 
     public string proximaFase;
 
-    // Imagens das teclas no Canvas
     public GameObject teclaJ;
     public GameObject teclaE;
     public GameObject teclaQ;
@@ -20,16 +22,23 @@ public class TempoGolpeScript : MonoBehaviour
     public GameObject TerceiraParte;
     public GameObject MapaParte;
     public float Venceu = 0;
-
-
+    public string clickEvent = "event:/ui/click";
+    public string ola;
+    public GameObject SegundaParte1;
 
     private string teclaAtual;
     private bool minigameAtivo = false;
+    
     private float tempoRestante;
     private int teclasCorretas = 0;
     private string[] teclas = { "J", "E", "Q" };
+
     public Animator animator;
     public Animator Senseianimator;
+
+    [Header("FMOD Events")]
+    public string clickEvent = "event:/ui/click"; 
+    public string doorEvent = "event:/ambiente/porta";
 
     public void iniciou()
     {
@@ -45,7 +54,6 @@ public class TempoGolpeScript : MonoBehaviour
         teclasCorretas = 0;
         slider.gameObject.SetActive(true);
 
-        // Esconde todas as imagens no início
         teclaJ.SetActive(false);
         teclaE.SetActive(false);
         teclaQ.SetActive(false);
@@ -58,7 +66,6 @@ public class TempoGolpeScript : MonoBehaviour
         tempoRestante = tempoTotal;
         slider.value = 0;
 
-        // Garante que a nova tecla não seja igual à última
         string novaTecla;
         do
         {
@@ -67,14 +74,13 @@ public class TempoGolpeScript : MonoBehaviour
 
         teclaAtual = novaTecla;
 
-        // Esconde todas as teclas e mostra a sorteada
         teclaJ.SetActive(false);
         teclaE.SetActive(false);
         teclaQ.SetActive(false);
 
         if (teclaAtual == "J") teclaJ.SetActive(true);
-        else if (teclaAtual == "E") teclaE.SetActive(true);
-        else if (teclaAtual == "Q") teclaQ.SetActive(true);
+        if (teclaAtual == "E") teclaE.SetActive(true);
+        if (teclaAtual == "Q") teclaQ.SetActive(true);
     }
 
     void Update()
@@ -84,13 +90,16 @@ public class TempoGolpeScript : MonoBehaviour
         tempoRestante -= Time.deltaTime;
         slider.value = 1 - (tempoRestante / tempoTotal);
 
+        // ===============================
+        //   🔊 QUALQUER TECLA → SOM CLICK
+        // ===============================
         if (Input.anyKeyDown)
         {
-
+            // tocar som de clique sempre que apertar algo
+            RuntimeManager.PlayOneShot(clickSound);
 
             if (Input.GetKeyDown(teclaAtual.ToLower()))
             {
-
                 teclasCorretas++;
                 if (teclasCorretas > 3)
                 {
@@ -101,11 +110,17 @@ public class TempoGolpeScript : MonoBehaviour
                     NovaTecla();
                 }
             }
-
+            else
+            {
+                // tecla errada → som de erro
+                RuntimeManager.PlayOneShot(errorSound);
+            }
         }
 
         if (tempoRestante < 0)
         {
+            // tempo acabou → som de erro
+            RuntimeManager.PlayOneShot(errorSound);
             ReiniciarFase();
         }
     }
@@ -115,7 +130,6 @@ public class TempoGolpeScript : MonoBehaviour
         minigameAtivo = false;
         slider.gameObject.SetActive(false);
 
-        // Esconde todas as teclas
         teclaJ.SetActive(false);
         teclaE.SetActive(false);
         teclaQ.SetActive(false);
@@ -140,23 +154,24 @@ public class TempoGolpeScript : MonoBehaviour
             MapaParte.SetActive(true);
         }
 
-
-
-
         yield return new WaitForSeconds(2f);
 
         animator.SetBool("Oi-zuki", false);
         Senseianimator.SetBool("Oi-zuki", false);
-
-
     }
 
     void ReiniciarFase()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    // ===============================
+    //     ANDROID CLICK → SOM TBM
+    // ===============================
     public void OnclickAndroid()
     {
+        RuntimeManager.PlayOneShot(clickSound);
+
         teclasCorretas++;
         if (teclasCorretas > 3)
         {
@@ -167,6 +182,4 @@ public class TempoGolpeScript : MonoBehaviour
             NovaTecla();
         }
     }
-    
-
 }
