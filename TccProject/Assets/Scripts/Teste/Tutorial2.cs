@@ -132,7 +132,7 @@ public class Tutorial2 : MonoBehaviour
                 {
                     wasdImage.SetActive(true);
                     typingCoroutine = StartCoroutine(TypeText(
-                        "Use as teclas W, A, S e D para caminhar pelo mundo.",
+                        "Use as teclas W, A, S e D para caminhar pelo mundo. Se mova para todas as direções para seguir com o tutorial",
                         0.055f
                     ));
                 }
@@ -140,7 +140,7 @@ public class Tutorial2 : MonoBehaviour
                 {
                     analogImage.SetActive(true);
                     typingCoroutine = StartCoroutine(TypeText(
-                        "Mova o analógico para todos os lados para explorar o mundo.",
+                        "Mova o analógico para todos os lados para explorar o mundo.Se mova para todas as direções para seguir com o tutorial ",
                         0.055f
                     ));
                 }

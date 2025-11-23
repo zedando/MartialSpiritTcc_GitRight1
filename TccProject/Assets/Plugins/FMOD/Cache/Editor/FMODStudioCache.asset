@@ -123,10 +123,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638994488033992350
+  lastModified: 638994514591498222
   FileSizes:
   - Name: Desktop
-    Value: 2320
+    Value: 2368
   Exists: 1
 --- !u!114 &-6255561543317569589
 MonoBehaviour:
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638994488033972323
+  lastModified: 638994514591473128
   FileSizes:
   - Name: Desktop
-    Value: 28318592
+    Value: 32316544
   Exists: 1
 --- !u!114 &-4996218371214749279
 MonoBehaviour:
@@ -412,13 +412,14 @@ MonoBehaviour:
   - {fileID: -4996218371214749279}
   - {fileID: 8302801916507227487}
   - {fileID: -6255561543317569589}
+  - {fileID: 4120090835286500998}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5957770421296013656}
   StringsBanks:
   - {fileID: -6470456029987895073}
   cacheVersion: 131849
-  cacheTime: 638994488033992350
+  cacheTime: 638994514591498222
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -632,9 +633,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/musicMenu
+  m_Name: event:/MusicMenu
   m_EditorClassIdentifier: 
-  Path: event:/musicMenu
+  Path: event:/MusicMenu
   Guid:
     Data1: -253249135
     Data2: 1273279963
@@ -730,6 +731,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10000
+--- !u!114 &4120090835286500998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MusicaSad
+  m_EditorClassIdentifier: 
+  Path: event:/MusicaSad
+  Guid:
+    Data1: -1555248035
+    Data2: 1256064017
+    Data3: -1620292723
+    Data4: 1782906851
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 361280
 --- !u!114 &4982889362925768176
 MonoBehaviour:
   m_ObjectHideFlags: 0
