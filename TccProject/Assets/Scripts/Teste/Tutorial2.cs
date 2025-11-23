@@ -8,11 +8,11 @@ public class Tutorial2 : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI dialogText;
-    public GameObject wasdImage;           
-    public GameObject spacebarImage;       
-    public GameObject analogImage;         
-    public GameObject tapImage;            
-    public Button tapButton;  
+    public GameObject wasdImage;
+    public GameObject spacebarImage;
+    public GameObject analogImage;
+    public GameObject tapImage;
+    public Button tapButton;
     public GameObject dialogbar;
 
     [Header("Player")]
@@ -24,7 +24,9 @@ public class Tutorial2 : MonoBehaviour
     private int step = 0;
     private bool canSkipDialog = false;
     private bool isAndroid;
-    private bool isTyping = false;  
+    private bool isTyping = false;
+
+    private bool tutorialActive = false;   // NOVO: controla se o tutorial já começou
 
     private Coroutine typingCoroutine;
 
@@ -40,6 +42,8 @@ public class Tutorial2 : MonoBehaviour
 
         controls.Player.Move.performed += ctx =>
         {
+            if (!tutorialActive) return;
+
             Vector2 input = ctx.ReadValue<Vector2>();
             if (input.y > 0) movedUp = true;
             if (input.x < 0) movedLeft = true;
@@ -55,12 +59,18 @@ public class Tutorial2 : MonoBehaviour
     {
         HideAllImages();
         tapButton.gameObject.SetActive(isAndroid);
+
+        // NÃO chamamos mais ShowStep aqui.
+        // O tutorial só começa quando o SceneIntroFade chamar BeginTutorial().
         step = 0;
-        ShowStep();
+        dialogbar.SetActive(false);
+        dialogText.text = "";
     }
 
     void Update()
     {
+        if (!tutorialActive) return; // NOVO: só atualiza se o tutorial estiver ativo
+
         Vector3 headPos = playerHead.position + Vector3.up * 3;
         if (wasdImage.activeSelf) wasdImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
         if (spacebarImage.activeSelf) spacebarImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
@@ -80,8 +90,24 @@ public class Tutorial2 : MonoBehaviour
         }
     }
 
+    // Chamado quando o fade terminar
+    public void BeginTutorial()
+    {
+        if (tutorialActive) return;
+
+        tutorialActive = true;
+        step = 0;
+        dialogText.text = "";
+        HideAllImages();
+        tapButton.gameObject.SetActive(isAndroid);
+
+        ShowStep();
+    }
+
     public void OnDialogClick()
     {
+        if (!tutorialActive) return;
+
         if (isAndroid && step == 2)
             SkipOrNext();
     }
@@ -94,41 +120,67 @@ public class Tutorial2 : MonoBehaviour
         switch (step)
         {
             case 0:
-                typingCoroutine = StartCoroutine(TypeText("A jornada começa agora... Vamos aprender os primeiros passos!", 0.055f, autoNextDelay: 3.0f));
+                typingCoroutine = StartCoroutine(TypeText(
+                    "A jornada começa agora... Vamos aprender os primeiros passos!",
+                    0.055f,
+                    autoNextDelay: 3.0f
+                ));
                 break;
+
             case 1:
                 if (!isAndroid)
                 {
                     wasdImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Use as teclas W, A, S e D para caminhar pelo mundo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText(
+                        "Use as teclas W, A, S e D para caminhar pelo mundo.",
+                        0.055f
+                    ));
                 }
                 else
                 {
                     analogImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Mova o analógico para todos os lados para explorar o mundo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText(
+                        "Mova o analógico para todos os lados para explorar o mundo.",
+                        0.055f
+                    ));
                 }
                 break;
+
             case 2:
                 canSkipDialog = true;
                 if (!isAndroid)
                 {
                     spacebarImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Aperte Espaço para avan�ar os diálogos. Assim você segue sua jornada no seu ritmo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText(
+                        "Aperte Espaço para avançar os diálogos. Assim você segue sua jornada no seu ritmo.",
+                        0.055f
+                    ));
                 }
                 else
                 {
                     tapImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText("Toque na caixa de diálogo para avançar os diálogos e seguir sua aventura no seu ritmo.", 0.055f));
+                    typingCoroutine = StartCoroutine(TypeText(
+                        "Toque na caixa de diálogo para avançar os diálogos e seguir sua aventura no seu ritmo.",
+                        0.055f
+                    ));
                 }
                 break;
+
             case 3:
-                typingCoroutine = StartCoroutine(TypeText("Excelente, guerreiro! Você está pronto para enfrentar o que vier. Boa sorte!", 0.055f, autoNextDelay: 4.5f, endTutorial: true));
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Excelente, guerreiro! Você está pronto para enfrentar o que vier. Boa sorte!",
+                    0.055f,
+                    autoNextDelay: 4.5f,
+                    endTutorial: true
+                ));
                 break;
         }
     }
 
     void SkipOrNext()
     {
+        if (!tutorialActive) return;
+
         if (isTyping)
         {
             // Mostra o texto inteiro de imediato
@@ -138,7 +190,7 @@ public class Tutorial2 : MonoBehaviour
         }
         else
         {
-            // Passa para o pr�ximo passo
+            // Passa para o próximo passo
             NextStep();
         }
     }
@@ -157,6 +209,7 @@ public class Tutorial2 : MonoBehaviour
         HideAllImages();
         tapButton.gameObject.SetActive(false);
         dialogbar.SetActive(false);
+        tutorialActive = false;   // NOVO: desliga o tutorial
     }
 
     void HideAllImages()
@@ -169,7 +222,6 @@ public class Tutorial2 : MonoBehaviour
 
     IEnumerator TypeText(string text, float letterDelay, float autoNextDelay = 0f, bool endTutorial = false)
     {
-
         dialogbar.SetActive(true);
 
         dialogText.text = text;
