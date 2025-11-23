@@ -50,6 +50,9 @@ public class MinigameCombo : MonoBehaviour
     [Header("Cena Final")]
     public string nomeCenaFinal;
 
+    [Header("Fade")]
+    public Image fadeImage;
+
     private Queue<Golpe> sequencia;
     private List<GameObject> icones;
     private bool comboAtivo = false;
@@ -62,7 +65,6 @@ public class MinigameCombo : MonoBehaviour
 
     void Start()
     {
-        // Mostra diálogo inicial e inicia o minigame após fechar
         if (dialogoSimples != null)
         {
             dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaInicial);
@@ -79,7 +81,6 @@ public class MinigameCombo : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         dialogoSimples.FecharDialogo();
-        yield return null;
         minigameIniciado = true;
         IniciarRodada();
     }
@@ -97,7 +98,6 @@ public class MinigameCombo : MonoBehaviour
         if (Input.GetKeyDown(teclaJodanUke)) VerificarAcerto(Golpe.JodanUke);
     }
 
-    // ------------------ OnClick para celular ------------------
     public void OnClickOiZuki() => VerificarAcerto(Golpe.OiZuki);
     public void OnClickMaeGeri() => VerificarAcerto(Golpe.MaeGeri);
     public void OnClickMawashiGeri() => VerificarAcerto(Golpe.MawashiGeri);
@@ -106,15 +106,18 @@ public class MinigameCombo : MonoBehaviour
 
     void IniciarRodada()
     {
-        if (containerSequencia == null || prefabIconeGolpe == null) return;
-
         foreach (Transform child in containerSequencia)
             Destroy(child.gameObject);
 
         sequencia = new Queue<Golpe>();
         icones = new List<GameObject>();
 
-        List<Golpe> todosGolpes = new List<Golpe> { Golpe.OiZuki, Golpe.MaeGeri, Golpe.MawashiGeri, Golpe.GedanBarai, Golpe.JodanUke };
+        List<Golpe> todosGolpes = new List<Golpe> 
+        { 
+            Golpe.OiZuki, Golpe.MaeGeri, Golpe.MawashiGeri, 
+            Golpe.GedanBarai, Golpe.JodanUke 
+        };
+
         for (int i = 0; i < todosGolpes.Count; i++)
         {
             Golpe temp = todosGolpes[i];
@@ -168,9 +171,7 @@ public class MinigameCombo : MonoBehaviour
             AtivarAnimacaoGolpe(golpeTentado);
 
             if (golpeTentado == Golpe.GedanBarai || golpeTentado == Golpe.JodanUke)
-            {
                 AtacarSensei();
-            }
 
             sequencia.Dequeue();
             icones.RemoveAt(0);
@@ -210,34 +211,33 @@ public class MinigameCombo : MonoBehaviour
         }
     }
 
-   IEnumerator FinalizarRodada()
-{
-    comboAtivo = false;
-
-    if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, true);
-
-    yield return new WaitForSeconds(2f);
-
-    if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, false);
-
-    if (rodadaAtual == 1)
+    IEnumerator FinalizarRodada()
     {
-        rodadaAtual = 2;
-        IniciarRodada();
-    }
-    else
-    {
-        // Ativa aura só no final da segunda rodada
-        if (animatorHaruki != null) animatorHaruki.SetBool(parametroAura, true);
+        comboAtivo = false;
 
-        // Mostra diálogo final
-        if (dialogoSimples != null)
+        if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, true);
+
+        yield return new WaitForSeconds(2f);
+
+        if (animatorSensei != null) animatorSensei.SetBool(parametroReverencia, false);
+
+        if (rodadaAtual == 1)
         {
-            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
+            rodadaAtual = 2;
+            IniciarRodada();
+        }
+        else
+        {
+            if (animatorHaruki != null) animatorHaruki.SetBool(parametroAura, true);
+
+            if (dialogoSimples != null)
+            {
+                dialogoSimples.MostrarDialogo("Sensei", spriteSensei, falaFinal);
+            }
+
+            StartCoroutine(TransicaoFinal());
         }
     }
-}
-
 
     void AtivarAnimacaoGolpe(Golpe g)
     {
@@ -278,4 +278,110 @@ public class MinigameCombo : MonoBehaviour
             default: return null;
         }
     }
+
+    // ----------------------------- FADE OUT + TROCA DE CENA -----------------------------
+    // ----------------------------- FADE OUT + TROCA DE CENA (ROBUSTO) -----------------------------
+IEnumerator TransicaoFinal()
+{
+    // DEBUG
+    Debug.Log("[MinigameCombo] Iniciando TransicaoFinal()");
+
+    // 1) Espera o diálogo sumir OU timeout (10s) OU jogador apertar qualquer tecla para pular
+    if (dialogoSimples != null)
+    {
+        float timeout = 10f;
+        float timer = 0f;
+
+        // Se o diálogo for desativado ao fechar, esse WaitUntil resolve.
+        while (dialogoSimples.gameObject.activeSelf && timer < timeout)
+        {
+            if (Input.anyKeyDown) // permite pular se o jogador apertar algo
+            {
+                Debug.Log("[MinigameCombo] Pulei espera do diálogo por input do jogador.");
+                break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (dialogoSimples.gameObject.activeSelf)
+            Debug.LogWarning("[MinigameCombo] TransicaoFinal: diálogo ainda ativo após timeout. Continuando de qualquer forma.");
+    }
+    else
+    {
+        // Se não tem DialogoSimples, espera um pequeno delay pra ficar suave
+        yield return new WaitForSeconds(0.25f);
+    }
+
+    // 2) Verifica fadeImage
+    if (fadeImage == null)
+    {
+        Debug.LogWarning("[MinigameCombo] fadeImage não atribuído. Carregando cena sem fade.");
+        // garante que a cena esteja na build settings
+        if (string.IsNullOrEmpty(nomeCenaFinal))
+        {
+            Debug.LogError("[MinigameCombo] nomeCenaFinal vazio! Não há o que carregar.");
+            yield break;
+        }
+        SceneManager.LoadScene(nomeCenaFinal);
+        yield break;
+    }
+
+    // Garante que a imagem esteja ativa e inicial com alpha 0
+    if (!fadeImage.gameObject.activeSelf) fadeImage.gameObject.SetActive(true);
+    Color c = fadeImage.color;
+    c.a = Mathf.Clamp01(c.a); // ok
+    fadeImage.color = new Color(c.r, c.g, c.b, 0f);
+
+    // 3) Faz o fade out
+    yield return StartCoroutine(FadeOut());
+
+    // 4) Carrega cena assincronamente
+    if (string.IsNullOrEmpty(nomeCenaFinal))
+    {
+        Debug.LogError("[MinigameCombo] nomeCenaFinal vazio! Não há o que carregar.");
+        yield break;
+    }
+
+    Debug.Log("[MinigameCombo] Carregando cena: " + nomeCenaFinal);
+    AsyncOperation ao = SceneManager.LoadSceneAsync(nomeCenaFinal);
+    ao.allowSceneActivation = true;
+    // opcional: esperar até o carregamento terminar (normalmente LoadSceneAsync com allowSceneActivation true retorna automaticamente)
+    while (!ao.isDone)
+    {
+        yield return null;
+    }
+}
+
+// Fade out simples porém com garantia de configuração
+IEnumerator FadeOut()
+{
+    float duracao = 1.2f;
+    float t = 0f;
+
+    if (fadeImage == null)
+    {
+        Debug.LogWarning("[MinigameCombo] FadeOut chamado sem fadeImage.");
+        yield break;
+    }
+
+    // assegura imagem ativa
+    if (!fadeImage.gameObject.activeSelf) fadeImage.gameObject.SetActive(true);
+
+    Color c = fadeImage.color;
+    float startA = c.a;
+    float targetA = 1f;
+
+    while (t < duracao)
+    {
+        t += Time.deltaTime;
+        float a = Mathf.Lerp(startA, targetA, t / duracao);
+        fadeImage.color = new Color(c.r, c.g, c.b, a);
+        yield return null;
+    }
+
+    // garante alpha final = 1
+    fadeImage.color = new Color(c.r, c.g, c.b, 1f);
+}
 }

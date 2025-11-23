@@ -94,11 +94,18 @@ public class BarraPotencia : MonoBehaviour
 
     private bool ataqueCancelado = false;
 
-    // NOVO: guarda a coroutine de ataque para podermos parar quando necessário
     private Coroutine atacarCoroutine = null;
 
+    // -----------------------------
+    // ⚡ NOVO — Sincronizar ataque com barra
+    // -----------------------------
+    [Header("Sincronizar ataque com barra")]
+    public bool sincronizarComBarra = true;
+    public float alvoAtaqueBarra = 0.5f;
+    public float toleranciaAtaqueBarra = 0.015f;
+
     // ==========================================================
-    // START (mantém inicializações originais, mas delega fluxo para coroutine)
+    // START
     // ==========================================================
     void Start()
     {
@@ -107,18 +114,16 @@ public class BarraPotencia : MonoBehaviour
         if (fadeCanvasGroup != null)
             fadeCanvasGroup.alpha = 0f;
 
-        // roda rotina que garante o DialogoSimples esteja pronto antes de mostrar fala inicial
         StartCoroutine(IniciarFaseComPossivelFalaInicial());
     }
 
     IEnumerator IniciarFaseComPossivelFalaInicial()
     {
-        // espera 1 frame para garantir que outros Starts (ex: DialogoSimples) já rodaram
         yield return null;
 
         if (usarFalaInicial && dialogoSimples != null && !string.IsNullOrEmpty(falaInicial))
         {
-            executandoGolpe = true; // pausa input/ movimentação durante a fala inicial
+            executandoGolpe = true;
 
             dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, falaInicial);
 
@@ -129,14 +134,12 @@ public class BarraPotencia : MonoBehaviour
             executandoGolpe = false;
         }
 
-        // continua comportamento normal: se estiver em modo defesa, inicia a coroutine de ataques
         if (modoDefesa)
             atacarCoroutine = StartCoroutine(AtacarJogador());
     }
 
     void Update()
     {
-        // pausa o movimento da barra enquanto uma animação/executandoGolpe estiver acontecendo
         if (!executandoGolpe)
             AtualizarMovimentoBarra();
 
@@ -170,7 +173,7 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // -----------------------------
-    // ATAQUE (modo normal)
+    // ATAQUE NORMAL
     // -----------------------------
     void VerificarAcerto()
     {
@@ -179,7 +182,6 @@ public class BarraPotencia : MonoBehaviour
 
         if (distancia <= toleranciaCentro)
         {
-            // PERFEITO
             BalancarAlvo(anguloAtaqueForte, eixoDoGolpe);
             acertosSeguidos++;
             aumentarEstabilidade(0.20f);
@@ -187,52 +189,71 @@ public class BarraPotencia : MonoBehaviour
         }
         else if (distancia <= toleranciaBoa)
         {
-            // BOM (AGORA CONTA)
             BalancarAlvo(anguloAtaqueMedio, eixoDoGolpe);
             acertosSeguidos++;
-            diminuirEstabilidade(0.10f); // penalidade leve
+            diminuirEstabilidade(0.10f);
             StartCoroutine(ExecutarGolpe(0.9f, false));
         }
         else
         {
-            // RUIM
             BalancarAlvo(anguloAtaqueFraco, eixoDoGolpe);
             acertosSeguidos = 0;
             diminuirEstabilidade(0.25f);
             StartCoroutine(ExecutarGolpe(0.6f, true));
         }
-
-        // NOTA: checagem de vitória/derrota foi movida para o fim da animação (ExecutarGolpe)
     }
 
-    // -----------------------------
-    // SISTEMA DE ATAQUES DO SENSEI
-    // -----------------------------
+    // ==========================================================
+    // ⚡ ATAQUE DO SENSEI — AGORA SINCRONIZADO COM A BARRA
+    // ==========================================================
     IEnumerator AtacarJogador()
     {
         while (modoDefesa)
         {
             ataqueCancelado = false;
 
-            // espera até perto do chute
-            yield return new WaitForSeconds(intervaloAtaque - tempoAntesChute);
+            if (sincronizarComBarra)
+            {
+                yield return StartCoroutine(EsperarBarraChegarNoPonto());
+            }
+            else
+            {
+                yield return new WaitForSeconds(intervaloAtaque - tempoAntesChute);
+            }
 
             if (animatorSensei != null)
                 animatorSensei.SetBool(parametroChuteSensei, true);
 
-            // abre a janela exatamente antes do impacto
             yield return new WaitForSeconds(tempoAntesChute - tempoJanelaDefesa);
 
             janelaDeDefesaAtiva = true;
             yield return new WaitForSeconds(tempoJanelaDefesa);
             janelaDeDefesaAtiva = false;
 
-            // IMPACTO — só acerta se não foi cancelado
             if (!ataqueCancelado)
                 BalancarAlvo(anguloAtaqueInimigo, eixoDoInimigo);
 
             if (animatorSensei != null)
                 animatorSensei.SetBool(parametroChuteSensei, false);
+
+            yield return null;
+        }
+    }
+
+    // ==========================================================
+    // ⚡ NOVA COROUTINA — espera a barra chegar no ponto
+    // ==========================================================
+    IEnumerator EsperarBarraChegarNoPonto()
+    {
+        bool chegou = false;
+
+        while (!chegou && modoDefesa)
+        {
+            float valor = barra.value;
+            float dist = Mathf.Abs(valor - alvoAtaqueBarra);
+
+            if (dist <= toleranciaAtaqueBarra)
+                chegou = true;
 
             yield return null;
         }
@@ -246,50 +267,27 @@ public class BarraPotencia : MonoBehaviour
         float valor = barra.value;
         float distancia = Mathf.Abs(valor - zonaPerfeitaCentro);
 
-        StartCoroutine(ExecutarDefesa()); // mostra animação de defesa do jogador
+        StartCoroutine(ExecutarDefesa());
 
-        // fora da janela → erro sempre
+        bool barraCerta = distancia <= toleranciaBoa;
+
         if (!janelaDeDefesaAtiva)
         {
             ErroDefesa();
             return;
         }
 
-        // dentro da janela
-        if (distancia <= toleranciaCentro)
-        {
-            acertosSeguidos++;
-            aumentarEstabilidade(0.20f);
-            ataqueCancelado = true;
-        }
-        else if (distancia <= toleranciaBoa)
-        {
-            acertosSeguidos++; // bom também conta
-            diminuirEstabilidade(0.10f);
-            ataqueCancelado = true;
-        }
-        else
-        {
-            ErroDefesa();
-            return;
-        }
+        ataqueCancelado = true;
+        acertosSeguidos++;
+        aumentarEstabilidade(0.15f);
 
-        // SE ALCANÇOU A VITÓRIA NO MODO DEFESA, GARANTIMOS PARAR A CORROTINA DE ATAQUE
-        if (acertosSeguidos >= acertosParaVencer && modoDefesa)
+        if (acertosSeguidos >= acertosParaVencer)
         {
-            // impede novos ataques e para o loop do sensei
             modoDefesa = false;
-            if (atacarCoroutine != null)
-            {
-                StopCoroutine(atacarCoroutine);
-                atacarCoroutine = null;
-            }
+            if (atacarCoroutine != null) StopCoroutine(atacarCoroutine);
 
-            // mostra diálogo e finaliza
             StartCoroutine(MostrarDialogoEFinalizar("Haruki", spriteDoPersonagemHaruki, FalaDoPersonagemVitoria, nomeCenaVitoria));
         }
-
-        // NOTA: a checagem de derrota por número de falhas continua em ErroDefesa
     }
 
     void ErroDefesa()
@@ -300,9 +298,8 @@ public class BarraPotencia : MonoBehaviour
 
         if (falhasDefesa >= falhasParaDerrota)
         {
-            // derrota imediata por falhas na defesa
-            // parar coroutine de ataque antes de mostrar diálogo
             modoDefesa = false;
+
             if (atacarCoroutine != null)
             {
                 StopCoroutine(atacarCoroutine);
@@ -347,12 +344,10 @@ public class BarraPotencia : MonoBehaviour
 
     void ChecarVitoriaOuDerrota()
     {
-        // Vitória por acertos (aplica para ataque e defesa)
         if (acertosSeguidos >= acertosParaVencer)
         {
-            // mostra diálogo com delay e finaliza para cena de vitória
-            // Se estivermos em modoDefesa já paramos o ataque em VerificarDefesa; isto é uma segunda segurança.
             modoDefesa = false;
+
             if (atacarCoroutine != null)
             {
                 StopCoroutine(atacarCoroutine);
@@ -363,11 +358,11 @@ public class BarraPotencia : MonoBehaviour
             return;
         }
 
-        // Derrota por estabilidade zerada (garante mostrar só 1x)
         if (!jaMostrouDerrota && estabilidadeAtual <= 0f)
         {
             jaMostrouDerrota = true;
             modoDefesa = false;
+
             if (atacarCoroutine != null)
             {
                 StopCoroutine(atacarCoroutine);
@@ -418,13 +413,11 @@ public class BarraPotencia : MonoBehaviour
 
         executandoGolpe = false;
 
-        // CHECA VITÓRIA/DERRROTA somente após animação terminar
         ChecarVitoriaOuDerrota();
     }
 
     IEnumerator ExecutarDefesa()
     {
-        // Faz pause igual ao golpe para garantir que barra não se mova durante animação de defesa
         executandoGolpe = true;
 
         if (!string.IsNullOrEmpty(eventoDefesa))
@@ -436,16 +429,11 @@ public class BarraPotencia : MonoBehaviour
 
         executandoGolpe = false;
 
-        // checar vitória/derrota após animação de defesa
         ChecarVitoriaOuDerrota();
     }
 
-    // -----------------------------
-    // --- NOVAS CORROTINAS (DIÁLOGO)
-    // -----------------------------
     IEnumerator MostrarDialogoComDelay(string nome, Sprite sprite, string fala)
     {
-        // pequeno delay para garantir que a caixa de diálogo esteja pronta/animada
         yield return new WaitForSeconds(0.05f);
 
         if (dialogoSimples != null)
@@ -456,13 +444,8 @@ public class BarraPotencia : MonoBehaviour
 
     IEnumerator MostrarDialogoEFinalizar(string nome, Sprite sprite, string fala, string cena)
     {
-        // mostra o diálogo (com pequeno delay)
         yield return StartCoroutine(MostrarDialogoComDelay(nome, sprite, fala));
-
-        // espera um curto tempo para garantir leitura
         yield return new WaitForSeconds(0.05f);
-
-        // inicia rotina de finalizar (fade + load)
         StartCoroutine(FinalizarDepoisDialogo(cena));
     }
 }
