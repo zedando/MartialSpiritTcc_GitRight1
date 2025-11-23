@@ -47,7 +47,7 @@ public class SelectDialog : MonoBehaviour
 
         
     }
-    void TaskOnClick2()
+     public void TaskOnClick2()
     {
         Destroy(DestroyOld);
         DestroyCaixa.SetActive(false);
