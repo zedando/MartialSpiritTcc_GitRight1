@@ -5,7 +5,7 @@
 			<value>passosTerra</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>0</value>
 		</property>
 		<relationship name="folder">
 			<destination>{c6f37409-91c8-47b3-b8b1-9391716d5a8e}</destination>
@@ -122,7 +122,6 @@
 	<object class="MixerBusEffectChain" id="{37bb89cb-aea7-4a47-a7a5-6b36b81e7f68}">
 		<relationship name="effects">
 			<destination>{0b8d9097-d199-41d6-bc47-cea4a43e5f10}</destination>
-			<destination>{692da5de-14e0-49c4-87f4-65d38bd66a9b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{ba8aa72a-bd12-4112-89c0-02d2bc46e415}" />
@@ -134,6 +133,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{7e025139-3ea3-407d-9155-ec50d2099f34}" />
 	<object class="MixerBusFader" id="{0b8d9097-d199-41d6-bc47-cea4a43e5f10}" />
-	<object class="SpatialiserEffect" id="{692da5de-14e0-49c4-87f4-65d38bd66a9b}" />
 	<object class="MixerBusFader" id="{fe9048f8-7971-44cf-8b46-fca250d7102e}" />
 </objects>

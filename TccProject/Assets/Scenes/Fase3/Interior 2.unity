@@ -215,6 +215,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3139571}
+--- !u!65 &3139575
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139565}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9258012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,7 +1294,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1139548510}
         m_TargetAssemblyTypeName: InstancePergutnas, Assembly-CSharp
-        m_MethodName: MapaFase3
+        m_MethodName: cutscen33
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3262,7 +3275,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1139548510}
         m_TargetAssemblyTypeName: InstancePergutnas, Assembly-CSharp
-        m_MethodName: MapaFase3
+        m_MethodName: cutscen33
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6061,10 +6074,10 @@ MonoBehaviour:
   TerceiraParte: {fileID: 135772976}
   MapaParte: {fileID: 671900056}
   Venceu: 0
-  animator: {fileID: 1018175002}
-  Senseianimator: {fileID: 3139571}
   clickSound: event:/click
   errorSound: event:/Erro
+  animator: {fileID: 1018175002}
+  Senseianimator: {fileID: 3139571}
 --- !u!114 &1018175009
 MonoBehaviour:
   m_ObjectHideFlags: 0

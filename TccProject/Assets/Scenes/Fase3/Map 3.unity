@@ -6298,7 +6298,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -8064,6 +8064,8 @@ MonoBehaviour:
   speed: 3
   gravity: -9.81
   cameraTransform: {fileID: 1044365712}
+  objectToChangeMaterial: {fileID: 0}
+  newMaterial: {fileID: 0}
   footstepEventPath: event:/ambiente/passosTerra
   stepInterval: 0.4
 --- !u!114 &1338901696

@@ -57,6 +57,10 @@ public class InstancePergutnas : MonoBehaviour
     {
         StartCoroutine(MostrarAviso());
     }
+    public void Fase4Comecou()
+    {
+        SceneManager.LoadScene("Interior 3");
+    }
 
     private IEnumerator MostrarAviso()
     {
@@ -66,7 +70,8 @@ public class InstancePergutnas : MonoBehaviour
     }
  public void cutscen33()
     {
-SceneManager.LoadScene("ct-fase3");    }
+SceneManager.LoadScene("ct-fase3");   
+ }
 
 public void cutscene5() 
     {
@@ -78,10 +83,18 @@ public void cutscene5()
         //SceneManager.LoadScene("Quarto");
          StartCoroutine(FadeAndLoad("Quarto"));
     }
-     public void Loadfase3()
+     public void cutsnecefase3()
     {
        SceneManager.LoadScene("ct-fase3");
     }
+     public void INTERIOR1()
+    {
+       SceneManager.LoadScene("Interior 1");
+    }
+
+
+
+
 
     public void DojoMiniGame()
     {
@@ -101,7 +114,7 @@ public void cutscene5()
     }
     public void Fase5() 
     {
-         SceneManager.LoadScene("Interior 3");
+         StartCoroutine(FadeAndLoad("Interior 3"));
     }
      
      private IEnumerator FadeAndLoad(string cena)
