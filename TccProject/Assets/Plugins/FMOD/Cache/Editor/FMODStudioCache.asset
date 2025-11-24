@@ -216,6 +216,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 230
+--- !u!114 &-5168104590456697744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Foto
+  m_EditorClassIdentifier: 
+  Path: event:/Foto
+  Guid:
+    Data1: 1860669791
+    Data2: 1201192611
+    Data3: 93812909
+    Data4: -1593581933
+  Banks:
+  - {fileID: 5587919906496919550}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
 --- !u!114 &-5092515013288087776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,13 +539,14 @@ MonoBehaviour:
   - {fileID: -5068891927370462896}
   - {fileID: -5391794688135843669}
   - {fileID: -3106407049569211916}
+  - {fileID: -5168104590456697744}
   EditorParameters: []
   MasterBanks:
   - {fileID: 5587919906496919550}
   StringsBanks:
   - {fileID: 4343205601810957473}
   cacheVersion: 131849
-  cacheTime: 638995299348820632
+  cacheTime: 638995403343437885
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -595,6 +623,8 @@ MonoBehaviour:
     index: 35
   - key: event:/ambiente/pessoasFundoambi
     index: 36
+  - key: event:/Foto
+    index: 37
 --- !u!114 &51040089917111655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,10 +912,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638995299348820632
+  lastModified: 638995403343437885
   FileSizes:
   - Name: Desktop
-    Value: 2672
+    Value: 2708
   Exists: 1
 --- !u!114 &4371205333129329719
 MonoBehaviour:
@@ -983,10 +1013,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638995299348128001
+  lastModified: 638995403343405423
   FileSizes:
   - Name: Desktop
-    Value: 32367552
+    Value: 32373856
   Exists: 1
 --- !u!114 &5815557196183896709
 MonoBehaviour:
