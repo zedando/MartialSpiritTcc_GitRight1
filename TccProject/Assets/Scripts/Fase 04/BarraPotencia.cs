@@ -26,7 +26,6 @@ public class BarraPotencia : MonoBehaviour
     [Header("Falas Iniciais (opcional)")]
     public bool usarFalasIniciais = false;
     [TextArea] public string[] falasIniciais;
-    public float tempoCadaFala = 2f;
 
     [Header("Tecla de Acão (PC)")]
     public KeyCode teclaAcao = KeyCode.Space;
@@ -114,6 +113,10 @@ public class BarraPotencia : MonoBehaviour
     public bool iniciarComDelay = false;
     public float tempoDelayInicio = 11f;
 
+    // Controle do diálogo inicial
+    private bool emDialogoInicial = false;
+    private int indiceFalaInicial = 0;
+
     // ==========================================================
     // START
     // ==========================================================
@@ -139,14 +142,14 @@ public class BarraPotencia : MonoBehaviour
         somDialogoAtivo = true;
     }
 
-   private void PararSomDialogo()
-{
-    if (!somDialogoAtivo) return;
+    private void PararSomDialogo()
+    {
+        if (!somDialogoAtivo) return;
 
-    dialogInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    dialogInstance.release();
-    somDialogoAtivo = false;
-}
+        dialogInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        dialogInstance.release();
+        somDialogoAtivo = false;
+    }
 
     private void OnDestroy()
     {
@@ -154,49 +157,91 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // ==========================================================
-    // FALA INICIAL (AGORA MÚLTIPLA)
+    // FALAS INICIAIS - CONTROLADAS POR ESPAÇO
     // ==========================================================
-IEnumerator IniciarFaseComPossivelFalaInicial()
-{
-    // --- SE EU MARCAR NO INSPECTOR, ESPERA 11s (OU O VALOR QUE EU PUSER) ---
-    if (iniciarComDelay)
-        yield return new WaitForSeconds(tempoDelayInicio);
-
-    yield return null;
-
-    // --- FALAS INICIAIS MÚLTIPLAS ---
-    if (usarFalasIniciais && dialogoSimples != null && falasIniciais != null && falasIniciais.Length > 0)
+    IEnumerator IniciarFaseComPossivelFalaInicial()
     {
-        executandoGolpe = true;
+        if (iniciarComDelay)
+            yield return new WaitForSeconds(tempoDelayInicio);
 
-        foreach (string fala in falasIniciais)
+        yield return null;
+
+        if (usarFalasIniciais && dialogoSimples != null && falasIniciais != null && falasIniciais.Length > 0)
         {
-            if (string.IsNullOrWhiteSpace(fala)) continue;
+            executandoGolpe = true;
+            emDialogoInicial = true;
+            indiceFalaInicial = 0;
 
-            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, fala);
-            IniciarSomDialogo();
-
-            yield return new WaitForSeconds(tempoCadaFala);
-
-            PararSomDialogo();
-            dialogoSimples.FecharDialogo();
-
-            yield return new WaitForSeconds(0.1f);
+            MostrarFalaInicialAtual();
         }
-
-        executandoGolpe = false;
+        else
+        {
+            // Se não tiver falas iniciais, já começa o modo defesa se for o caso
+            if (modoDefesa)
+                atacarCoroutine = StartCoroutine(AtacarJogador());
+        }
     }
 
-    // --- MODO DEFESA INICIA APÓS DIÁLOGO ---
-    if (modoDefesa)
-        atacarCoroutine = StartCoroutine(AtacarJogador());
-}
+    private void MostrarFalaInicialAtual()
+    {
+        if (!emDialogoInicial) return;
+
+        if (indiceFalaInicial >= 0 && indiceFalaInicial < falasIniciais.Length)
+        {
+            string fala = falasIniciais[indiceFalaInicial];
+            if (string.IsNullOrWhiteSpace(fala)) return;
+
+            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, fala);
+            PararSomDialogo();   // garante que não acumule
+            IniciarSomDialogo();
+        }
+    }
+
+    private void AvancarFalaInicial()
+    {
+        // Para som da fala atual
+        PararSomDialogo();
+
+        indiceFalaInicial++;
+
+        // Se acabou as falas
+        if (indiceFalaInicial >= falasIniciais.Length)
+        {
+            emDialogoInicial = false;
+            executandoGolpe = false;
+
+            if (dialogoSimples != null)
+                dialogoSimples.FecharDialogo();
+
+            // Agora libera o minigame / defesa
+            if (modoDefesa)
+                atacarCoroutine = StartCoroutine(AtacarJogador());
+
+            return;
+        }
+
+        // Senão, mostra próxima fala
+        MostrarFalaInicialAtual();
+    }
 
     // ==========================================================
     // UPDATE
     // ==========================================================
     void Update()
     {
+        // Enquanto estiver no diálogo inicial:
+        // - Não movimenta barra nem golpe
+        // - Usa espaço para avançar falas
+        if (emDialogoInicial)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AvancarFalaInicial();
+            }
+            return;
+        }
+
+        // A partir daqui, é o minigame normal
         if (!executandoGolpe)
             AtualizarMovimentoBarra();
 
@@ -429,10 +474,9 @@ IEnumerator IniciarFaseComPossivelFalaInicial()
 
     IEnumerator FinalizarDepoisDialogo(string cena)
     {
-        // tempo pro diálogo ficar na tela
+        // tempo pro diálogo de vitória/derrota
         yield return new WaitForSeconds(5f);
 
-        // para som de diálogo antes de fade/cena
         PararSomDialogo();
 
         if (fadeCanvasGroup != null)

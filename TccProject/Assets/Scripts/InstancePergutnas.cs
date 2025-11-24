@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using FMODUnity;
+using FMOD.Studio;
 
 
 public class InstancePergutnas : MonoBehaviour
@@ -82,8 +84,10 @@ public class InstancePergutnas : MonoBehaviour
         AvisoNãoAbrir.SetActive(false);
     }
  public void cutscen33()
-    {
-SceneManager.LoadScene("ct-fase3");   
+ {
+        //SceneManager.LoadScene("ct-fase3");   
+         StartCoroutine(FadeAndLoad("ct-fase3"));
+         RuntimeManager.PlayOneShot("event:/Door2", transform.position);
  }
 
 public void cutscene5() 
@@ -129,6 +133,8 @@ public void cutscene5()
     public void Fase5() 
     {
          StartCoroutine(FadeAndLoad("Interior 3"));
+         RuntimeManager.PlayOneShot("event:/Bocejo", transform.position);
+
     }
      
      private IEnumerator FadeAndLoad(string cena)

@@ -1597,6 +1597,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogUi (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Path
+      value: event:/Dialog2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: intervalBetweenChars
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data1
+      value: 840790213
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data2
+      value: 1119478041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data3
+      value: -888697447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data4
+      value: 305411904
+      objectReference: {fileID: 0}
     - target: {fileID: 6105880992199006868, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6610,7 +6634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0036621094, y: -0.0017700195}
+  m_AnchoredPosition: {x: -0.0036621094, y: -0.0017089844}
   m_SizeDelta: {x: 405.97998, y: 228.29004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &877061366
@@ -6763,7 +6787,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -111.232346, y: 30.99886}
+  m_AnchoredPosition: {x: -111.23242, y: 30.998901}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &907888245
@@ -7453,6 +7477,8 @@ GameObject:
   - component: {fileID: 968124680}
   - component: {fileID: 968124679}
   - component: {fileID: 968124682}
+  - component: {fileID: 968124683}
+  - component: {fileID: 968124684}
   m_Layer: 0
   m_Name: SomFmod
   m_TagString: Untagged
@@ -7538,6 +7564,68 @@ MonoBehaviour:
   masterVCAPath: vca:/MasterVCA
   musicVCAPath: vca:/MusicVCA
   sfxVCAPath: vca:/SFXVCA
+--- !u!114 &968124683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968124678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 276572779
+      Data2: 1091812124
+      Data3: -472604522
+      Data4: 1291903106
+    Path: event:/ambiente/Neighborhood_Night_ODC-0012-037
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &968124684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968124678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1161815985
+      Data2: 1191865497
+      Data3: 1310478257
+      Data4: 255409851
+    Path: event:/ambiente/ambientePassaro
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &978262815
 GameObject:
   m_ObjectHideFlags: 0
@@ -15645,6 +15733,26 @@ PrefabInstance:
     - target: {fileID: 1092257897550096285, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Path
+      value: event:/Dialog2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data1
+      value: 840790213
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data2
+      value: 1119478041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data3
+      value: -888697447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5540429523918387079, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
+      propertyPath: typingSound.Guid.Data4
+      value: 305411904
       objectReference: {fileID: 0}
     - target: {fileID: 6330354137605897727, guid: 2c64364e84a9b0847810ad524845009a, type: 3}
       propertyPath: m_Pivot.x

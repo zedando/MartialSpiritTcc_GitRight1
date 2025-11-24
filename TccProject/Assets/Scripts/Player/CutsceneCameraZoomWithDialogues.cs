@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using FMODUnity;
+using FMOD.Studio;
 
 public class CutsceneCameraZoomWithDialogues : MonoBehaviour
 {
@@ -58,6 +60,7 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public float imageOnScreenBeforeVideo = 3f;
 
     private bool videoFinished = false;
+
 
     void Awake()
     {
