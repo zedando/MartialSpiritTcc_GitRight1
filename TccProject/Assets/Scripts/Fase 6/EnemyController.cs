@@ -36,7 +36,12 @@ public class EnemyController : MonoBehaviour
     public bool lutaIniciada = false;
 
     [Header("Cena ao morrer")]
-    public string cenaAoMorrer = "CenaVitoria"; // Coloque aqui no Inspector
+    public string cenaAoMorrer = "CenaVitoria";
+
+    [Header("Dialogo e Fade")]
+    public DialogoSimples dialogoSimples;
+    public Sprite spriteJuiz;
+    public Image fadeImage;
 
     private bool atacando = false;
     private bool morto = false;
@@ -130,7 +135,7 @@ public class EnemyController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             vidaAtual = 0;
-            StartCoroutine(Morrer());  // 👈 Usa coroutine para esperar animação
+            StartCoroutine(Morrer());  // Coroutine para animação + mensagem + fade
         }
 
         if (efeitoImpacto != null)
@@ -153,8 +158,34 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log("Inimigo derrotado!");
 
-        // Espera animação de morte (ajuste conforme sua animação)
+        // Espera animação de morte
         yield return new WaitForSeconds(1.2f);
+
+        // Mensagem do juiz
+        if (dialogoSimples != null)
+        {
+            dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Kenji foi derrotado por pontos!");
+            yield return new WaitForSeconds(6f);
+            dialogoSimples.FecharDialogo();
+        }
+
+        // Fade out
+        if (fadeImage != null)
+        {
+            if (!fadeImage.gameObject.activeSelf)
+                fadeImage.gameObject.SetActive(true);
+
+            Color c = fadeImage.color;
+            float t = 0f;
+            float duracao = 1.2f;
+
+            while (t < duracao)
+            {
+                t += Time.deltaTime;
+                fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
+                yield return null;
+            }
+        }
 
         // Troca de cena
         SceneManager.LoadScene(cenaAoMorrer);
