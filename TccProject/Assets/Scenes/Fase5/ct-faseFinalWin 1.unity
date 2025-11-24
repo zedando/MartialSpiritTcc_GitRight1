@@ -254,7 +254,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798555902}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 3899a3f7cf239864380332405d55fb07, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: fabad5aa55b2c764e8881449ee877e67, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -876,6 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2931b1f646851e94797c36c158e2cb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  videoMode: 0
   imageTransform: {fileID: 2113903824}
   enableZoom: 0
   targetScale: 5
@@ -891,13 +892,12 @@ MonoBehaviour:
   fadeDuration: 3.12
   useFade: 1
   fadeOutDelay: 3
-  nextSceneName: ProximaCena
+  nextSceneName: Fase6
   enableRedFlash: 0
   redOverlay: {fileID: 1842878101}
   redFlashTime: 6.4
   redFlashDuration: 3.59
   redIntensity: 0.201
-  playVideoInstead: 1
   videoPlayer: {fileID: 798555903}
   videoRawImage: {fileID: 1360384777}
   imageOnScreenBeforeVideo: 3
