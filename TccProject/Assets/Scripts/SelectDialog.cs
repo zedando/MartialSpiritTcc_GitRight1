@@ -14,7 +14,7 @@ public class SelectDialog : MonoBehaviour
     public GameObject Respost3;
     public GameObject DestroyOld;
     public GameObject DestroyCaixa;
-     public GameObject DestroyOld1;
+     
     void Start()
     {
         FirstButton.onClick.AddListener(TaskOnClick);
@@ -31,7 +31,7 @@ public class SelectDialog : MonoBehaviour
     void TaskOnClick()
     {
         Destroy(DestroyOld);
-        Destroy(DestroyOld1);
+       
         DestroyCaixa.SetActive(false);
         Respost1.SetActive(true);
         Debug.Log("You have clicked the button!");
@@ -43,7 +43,7 @@ public class SelectDialog : MonoBehaviour
     void TaskOnClick1()
     {
         Destroy(DestroyOld);
-        Destroy(DestroyOld1);
+       
         DestroyCaixa.SetActive(false);
         Respost2.SetActive(true);
         Debug.Log("You have clicked the button!");
@@ -53,7 +53,7 @@ public class SelectDialog : MonoBehaviour
      public void TaskOnClick2()
     {
         Destroy(DestroyOld);
-        Destroy(DestroyOld1);
+        
         DestroyCaixa.SetActive(false);
         Respost3.SetActive(true);
         Debug.Log("You have clicked the button!");

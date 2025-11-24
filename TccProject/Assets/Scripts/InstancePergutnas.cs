@@ -41,6 +41,10 @@ public class InstancePergutnas : MonoBehaviour
         Debug.Log("ola");
         SceneManager.LoadScene(13);
     }
+    public void dojoparafazefinal()
+    {
+        SceneManager.LoadScene("FaseFinal");
+    }
 
     private IEnumerator AnimaçãoSenseiChute()
     {
@@ -61,6 +65,15 @@ public class InstancePergutnas : MonoBehaviour
     {
         SceneManager.LoadScene("Interior 3");
     }
+    public void fase5Briga()
+    {
+        SceneManager.LoadScene("FightMiniGame");
+    }
+    public void fase5Fuga()
+    {
+        SceneManager.LoadScene("MiniGameFuga");
+    }
+
 
     private IEnumerator MostrarAviso()
     {

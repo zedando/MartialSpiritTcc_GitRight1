@@ -17,7 +17,7 @@ public class TrocaDeCenaProximidade : MonoBehaviour
     public InputActionAsset inputAsset;
 
     [Header("Som")]
-    [EventRef]
+   
     public string eventoTrocaCena; // Caminho do evento no FMOD (ex: "event:/UI/TrocaCena")
 
     private InputAction interagirAction;
@@ -97,7 +97,7 @@ public class TrocaDeCenaProximidade : MonoBehaviour
         SceneManager.LoadScene(nomeCenaDestino);
     }
 
-    // Caso queira chamar a transição por outro script
+    // Caso queira chamar a transiï¿½ï¿½o por outro script
     public void Scane()
     {
         IniciarTransicao();

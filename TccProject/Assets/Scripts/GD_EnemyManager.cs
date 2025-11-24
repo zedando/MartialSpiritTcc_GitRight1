@@ -1,4 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
+using echo17.EndlessBook;
+using System.Collections;
 
 public class GD_EnemyManager : MonoBehaviour
 {
@@ -27,6 +32,8 @@ public class GD_EnemyManager : MonoBehaviour
         {
             Debug.Log("Todos os inimigos morreram!");
             // Aqui você pode chamar algo: abrir porta, liberar item, trocar cena etc.
+            SceneManager.LoadScene("DojoReflexao_pretorneio");
+            
         }
     }
 }

@@ -1,7 +1,10 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using echo17.EndlessBook;
+using System.Collections;
 public class GD_PlayerInteract : MonoBehaviour
 {
     [Header("Interação")]
@@ -241,6 +244,7 @@ public class GD_PlayerInteract : MonoBehaviour
         {
             Debug.Log("Player morreu!");
             // aqui pode reiniciar cena ou game over
+            SceneManager.LoadScene("FightMiniGame");
         }
     }
 

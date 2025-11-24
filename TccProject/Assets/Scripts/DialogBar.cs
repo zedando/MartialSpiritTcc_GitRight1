@@ -45,6 +45,7 @@ public class DialogBar : MonoBehaviour
             yield return null;
         }
         rectTransform.anchoredPosition = hiddenPosition;
+        
     }
     
     // Update is called once per frame

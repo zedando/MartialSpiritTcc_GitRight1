@@ -38,7 +38,7 @@ public class DetectCollisions : MonoBehaviour
                 timerIsRunning = false;
                 UpdateTimerUI();
                 Debug.Log("Tempo acabou!");
-                SceneManager.LoadScene(cenaDestinoganhou);
+                SceneManager.LoadScene("DojoReflexao_pretorneio");
             }
         }
     }
