@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using FMODUnity;
+using FMOD.Studio;
 
 public class BarraPotencia : MonoBehaviour
 {
@@ -17,10 +18,15 @@ public class BarraPotencia : MonoBehaviour
     public string FalaDoPersonagemVitoria;
     public string FalaDoPersonagemDerrota;
 
-    [Header("Fala Inicial (opcional)")]
-    public bool usarFalaInicial = false;
-    [TextArea] public string falaInicial;
-    public float tempoVisivelFalaInicial = 2f;
+    [Header("Som de Diálogo (FMOD)")]
+    public EventReference somDialogo;
+    private EventInstance dialogInstance;
+    private bool somDialogoAtivo = false;
+
+    [Header("Falas Iniciais (opcional)")]
+    public bool usarFalasIniciais = false;
+    [TextArea] public string[] falasIniciais;
+    public float tempoCadaFala = 2f;
 
     [Header("Tecla de Acão (PC)")]
     public KeyCode teclaAcao = KeyCode.Space;
@@ -87,7 +93,7 @@ public class BarraPotencia : MonoBehaviour
     [EventRef] public string eventoDefesa = "event:/SocoChute/chuteVento2";
 
     // -----------------------------
-    // JANELA DE DEFESA (FUNCIONANDO)
+    // JANELA DE DEFESA
     // -----------------------------
     private bool janelaDeDefesaAtiva = false;
     public float tempoJanelaDefesa = 0.25f;
@@ -97,12 +103,16 @@ public class BarraPotencia : MonoBehaviour
     private Coroutine atacarCoroutine = null;
 
     // -----------------------------
-    // ⚡ NOVO — Sincronizar ataque com barra
+    // Sincronizar ataque com barra
     // -----------------------------
     [Header("Sincronizar ataque com barra")]
     public bool sincronizarComBarra = true;
     public float alvoAtaqueBarra = 0.5f;
     public float toleranciaAtaqueBarra = 0.015f;
+
+    [Header("Delay opcional para iniciar diálogo")]
+    public bool iniciarComDelay = false;
+    public float tempoDelayInicio = 11f;
 
     // ==========================================================
     // START
@@ -117,27 +127,74 @@ public class BarraPotencia : MonoBehaviour
         StartCoroutine(IniciarFaseComPossivelFalaInicial());
     }
 
-    IEnumerator IniciarFaseComPossivelFalaInicial()
+    // ==========================================================
+    // SOM DE DIÁLOGO
+    // ==========================================================
+    private void IniciarSomDialogo()
     {
-        yield return null;
+        if (somDialogoAtivo || somDialogo.IsNull) return;
 
-        if (usarFalaInicial && dialogoSimples != null && !string.IsNullOrEmpty(falaInicial))
-        {
-            executandoGolpe = true;
-
-            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, falaInicial);
-
-            yield return new WaitForSeconds(tempoVisivelFalaInicial);
-
-            dialogoSimples.FecharDialogo();
-
-            executandoGolpe = false;
-        }
-
-        if (modoDefesa)
-            atacarCoroutine = StartCoroutine(AtacarJogador());
+        dialogInstance = RuntimeManager.CreateInstance(somDialogo);
+        dialogInstance.start();
+        somDialogoAtivo = true;
     }
 
+   private void PararSomDialogo()
+{
+    if (!somDialogoAtivo) return;
+
+    dialogInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    dialogInstance.release();
+    somDialogoAtivo = false;
+}
+
+    private void OnDestroy()
+    {
+        PararSomDialogo();
+    }
+
+    // ==========================================================
+    // FALA INICIAL (AGORA MÚLTIPLA)
+    // ==========================================================
+IEnumerator IniciarFaseComPossivelFalaInicial()
+{
+    // --- SE EU MARCAR NO INSPECTOR, ESPERA 11s (OU O VALOR QUE EU PUSER) ---
+    if (iniciarComDelay)
+        yield return new WaitForSeconds(tempoDelayInicio);
+
+    yield return null;
+
+    // --- FALAS INICIAIS MÚLTIPLAS ---
+    if (usarFalasIniciais && dialogoSimples != null && falasIniciais != null && falasIniciais.Length > 0)
+    {
+        executandoGolpe = true;
+
+        foreach (string fala in falasIniciais)
+        {
+            if (string.IsNullOrWhiteSpace(fala)) continue;
+
+            dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, fala);
+            IniciarSomDialogo();
+
+            yield return new WaitForSeconds(tempoCadaFala);
+
+            PararSomDialogo();
+            dialogoSimples.FecharDialogo();
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        executandoGolpe = false;
+    }
+
+    // --- MODO DEFESA INICIA APÓS DIÁLOGO ---
+    if (modoDefesa)
+        atacarCoroutine = StartCoroutine(AtacarJogador());
+}
+
+    // ==========================================================
+    // UPDATE
+    // ==========================================================
     void Update()
     {
         if (!executandoGolpe)
@@ -204,7 +261,7 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // ==========================================================
-    // ⚡ ATAQUE DO SENSEI — AGORA SINCRONIZADO COM A BARRA
+    // ATAQUE DO SENSEI — SINCRONIZADO COM A BARRA
     // ==========================================================
     IEnumerator AtacarJogador()
     {
@@ -240,9 +297,6 @@ public class BarraPotencia : MonoBehaviour
         }
     }
 
-    // ==========================================================
-    // ⚡ NOVA COROUTINA — espera a barra chegar no ponto
-    // ==========================================================
     IEnumerator EsperarBarraChegarNoPonto()
     {
         bool chegou = false;
@@ -375,7 +429,11 @@ public class BarraPotencia : MonoBehaviour
 
     IEnumerator FinalizarDepoisDialogo(string cena)
     {
+        // tempo pro diálogo ficar na tela
         yield return new WaitForSeconds(5f);
+
+        // para som de diálogo antes de fade/cena
+        PararSomDialogo();
 
         if (fadeCanvasGroup != null)
         {
@@ -439,6 +497,7 @@ public class BarraPotencia : MonoBehaviour
         if (dialogoSimples != null)
         {
             dialogoSimples.MostrarDialogo(nome, sprite, fala);
+            IniciarSomDialogo();
         }
     }
 

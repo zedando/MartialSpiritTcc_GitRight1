@@ -119,7 +119,8 @@ public void cutscene5()
     }
     public void quarto()
     {
-        SceneManager.LoadScene(7);
+        //SceneManager.LoadScene("Quarto 1");
+        StartCoroutine(FadeAndLoad("Quarto 1"));
     }
     public void Fase4() 
     {
