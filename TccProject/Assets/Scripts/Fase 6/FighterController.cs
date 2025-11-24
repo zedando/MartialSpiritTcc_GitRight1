@@ -92,7 +92,7 @@ public class FighterController : MonoBehaviour
     {
         if (dialogoSimples != null)
         {
-            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Voc� treinou para este momento. Agora, n�o � sobre vencer ou perder � � sobre mostrar quem voc� se tornou.");
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Você treinou para este momento. Agora, não é sobre vencer ou perder, mas sim sobre mostrar quem você se tornou.");
             yield return new WaitForSeconds(4f);
             dialogoSimples.FecharDialogo();
 
