@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class TempoGolpeScript : MonoBehaviour
 {
-
-    //public GameObject SegundaParteasdad;
     public Slider slider;
     public float tempoTotal = 2f;
 
@@ -23,14 +21,13 @@ public class TempoGolpeScript : MonoBehaviour
     public GameObject MapaParte;
     public float Venceu = 0;
 
-    public float aaaaav;
-    //public string clickEvent = "event:/ui/click";
-    public string ola;
-    //public GameObject SegundaParte1;
+    [Header("FMOD Events")]
+    public string clickSound = "event:/ui/click";
+    public string errorSound = "event:/ui/error";
 
     private string teclaAtual;
     private bool minigameAtivo = false;
-    
+
     private float tempoRestante;
     private int teclasCorretas = 0;
     private string[] teclas = { "J", "E", "Q" };
@@ -38,9 +35,7 @@ public class TempoGolpeScript : MonoBehaviour
     public Animator animator;
     public Animator Senseianimator;
 
-    //[Header("FMOD Events")]
-    //public string clickEvent = "event:/ui/click"; 
-    //public string doorEvent = "event:/ambiente/porta";
+    private bool androidClick = false; // ← impede som duplo
 
     public void iniciou()
     {
@@ -92,13 +87,10 @@ public class TempoGolpeScript : MonoBehaviour
         tempoRestante -= Time.deltaTime;
         slider.value = 1 - (tempoRestante / tempoTotal);
 
-        // ===============================
-        //   🔊 QUALQUER TECLA → SOM CLICK
-        // ===============================
-        if (Input.anyKeyDown)
+        // PC → tecla pressionada
+        if (Input.anyKeyDown && !androidClick)
         {
-            // tocar som de clique sempre que apertar algo
-            //RuntimeManager.PlayOneShot(clickSound);
+            RuntimeManager.PlayOneShot(clickSound);
 
             if (Input.GetKeyDown(teclaAtual.ToLower()))
             {
@@ -114,15 +106,16 @@ public class TempoGolpeScript : MonoBehaviour
             }
             else
             {
-                // tecla errada → som de erro
-                //RuntimeManager.PlayOneShot(errorSound);
+                RuntimeManager.PlayOneShot(errorSound);
             }
         }
 
+        // Reseta flag do Android
+        androidClick = false;
+
         if (tempoRestante < 0)
         {
-            // tempo acabou → som de erro
-            //RuntimeManager.PlayOneShot(errorSound);
+            RuntimeManager.PlayOneShot(errorSound);
             ReiniciarFase();
         }
     }
@@ -167,14 +160,14 @@ public class TempoGolpeScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // ===============================
-    //     ANDROID CLICK → SOM TBM
-    // ===============================
+    // ANDROID CLICK
     public void OnclickAndroid()
     {
-        //RuntimeManager.PlayOneShot(clickSound);
+        androidClick = true; // ← evita som duplicado
+        RuntimeManager.PlayOneShot(clickSound);
 
         teclasCorretas++;
+
         if (teclasCorretas > 3)
         {
             StartCoroutine(PassarDeFase());

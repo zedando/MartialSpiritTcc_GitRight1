@@ -123,10 +123,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638995270285789923
+  lastModified: 638995281098978515
   FileSizes:
   - Name: Desktop
-    Value: 2638
+    Value: 2672
   Exists: 1
 --- !u!114 &-6255561543317569589
 MonoBehaviour:
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638995270285764818
+  lastModified: 638995281098958858
   FileSizes:
   - Name: Desktop
-    Value: 32363808
+    Value: 32367552
   Exists: 1
 --- !u!114 &-4996218371214749279
 MonoBehaviour:
@@ -250,7 +250,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -5957770421296013656}
   IsStream: 1
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -283,6 +283,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 76363
+--- !u!114 &-1824283546575462841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Erro
+  m_EditorClassIdentifier: 
+  Path: event:/Erro
+  Guid:
+    Data1: 130055185
+    Data2: 1318846188
+    Data3: -1155658098
+    Data4: 1830885000
+  Banks:
+  - {fileID: -5957770421296013656}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-1720104191217598063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +331,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -5957770421296013656}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -443,13 +470,14 @@ MonoBehaviour:
   - {fileID: 82771926903260774}
   - {fileID: 367488769314201039}
   - {fileID: -3515250341804199991}
+  - {fileID: -1824283546575462841}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5957770421296013656}
   StringsBanks:
   - {fileID: -6470456029987895073}
   cacheVersion: 131849
-  cacheTime: 638995270285789923
+  cacheTime: 638995281098978515
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -524,6 +552,8 @@ MonoBehaviour:
     index: 34
   - key: event:/musicaa
     index: 35
+  - key: event:/Erro
+    index: 36
 --- !u!114 &82771926903260774
 MonoBehaviour:
   m_ObjectHideFlags: 0

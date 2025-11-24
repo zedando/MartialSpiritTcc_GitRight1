@@ -3649,7 +3649,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 5.200012, y: -20}
+  m_AnchoredPosition: {x: 5.2000732, y: -20}
   m_SizeDelta: {x: 103.600006, y: 150.42}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &720553561
@@ -6061,10 +6061,10 @@ MonoBehaviour:
   TerceiraParte: {fileID: 135772976}
   MapaParte: {fileID: 671900056}
   Venceu: 0
-  aaaaav: -0.86
-  ola: 
   animator: {fileID: 1018175002}
   Senseianimator: {fileID: 3139571}
+  clickSound: event:/click
+  errorSound: event:/Erro
 --- !u!114 &1018175009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8299,7 +8299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickEvent: event:/click
-  doorEvent: event:/ambiente/porta
+  doorEvent: event:/Erro
 --- !u!114 &1598398305
 MonoBehaviour:
   m_ObjectHideFlags: 0
