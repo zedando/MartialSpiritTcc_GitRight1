@@ -10,7 +10,7 @@ public class GuitarHero : MonoBehaviour
     public RectTransform containerSequencia;
     public GameObject prefabIconeGolpe;
     public Transform ponteiroCentral;
-    public Transform playerTransform;   
+    public Transform playerTransform;
     public float velocidadeRodada1 = 200f;
     public float velocidadeRodada2 = 400f;
     public float espacoEntreGolpes = 120f;
@@ -127,7 +127,7 @@ public class GuitarHero : MonoBehaviour
             Golpe.OiZuki, Golpe.MaeGeri, Golpe.MawashiGeri, Golpe.GedanBarai, Golpe.JodanUke
         };
 
-        // Embaralha golpes
+        // embaralhar
         for (int i = 0; i < golpes.Count; i++)
         {
             var tmp = golpes[i];
@@ -194,27 +194,17 @@ public class GuitarHero : MonoBehaviour
         else
         {
             StartCoroutine(Feedback(iconeAtual, Color.red));
-            StartCoroutine(ResetarSomenteHUD());
+            StartCoroutine(ReiniciarRodadaCompleta());
         }
     }
 
-    IEnumerator ResetarSomenteHUD()
+    IEnumerator ReiniciarRodadaCompleta()
     {
         bloqueado = true;
-        yield return new WaitForSeconds(0.25f);
 
-        indexProximoIcone = 0;
+        yield return new WaitForSeconds(0.35f);
 
-        foreach (GameObject icone in icones)
-        {
-            if (icone != null)
-            {
-                RectTransform rt = icone.GetComponent<RectTransform>();
-                rt.anchoredPosition -= new Vector2(0, 1200f);
-                icone.SetActive(true);
-                icone.GetComponent<Image>().color = Color.white;
-            }
-        }
+        IniciarRodada();
 
         bloqueado = false;
     }
@@ -236,39 +226,33 @@ public class GuitarHero : MonoBehaviour
     }
 
     IEnumerator FinalizarRodada()
-{
-    comboAtivo = false;
-
-    if (rodadaAtual == 1)
     {
-        rodadaAtual = 2;
-        IniciarRodada();
-        yield break;
+        comboAtivo = false;
+
+        if (rodadaAtual == 1)
+        {
+            rodadaAtual = 2;
+            IniciarRodada();
+            yield break;
+        }
+
+        StopAmbientDialogueIfNeeded();
+
+        if (animatorHaruki != null)
+        {
+            animatorHaruki.SetBool(parametroAura, true);
+            animatorHaruki.SetTrigger(triggerGolpeEspecial);
+            yield return new WaitForSeconds(9f);
+        }
+
+        if (dialogoSimples != null)
+        {
+            dialogoSimples.MostrarDialogo(nomeInstrutor, fotoInstrutor, falaFinal);
+            yield return new WaitForSeconds(4f);
+        }
+
+        yield return StartCoroutine(TransicaoFinal());
     }
-
-    StopAmbientDialogueIfNeeded();
-
-    // Ativa animação do golpe especial
-    if (animatorHaruki != null)
-    {
-        animatorHaruki.SetBool(parametroAura, true);
-        animatorHaruki.SetTrigger(triggerGolpeEspecial);
-
-        // Espera um tempo fixo para a animação terminar
-        // Substitua 2f pelo tempo real da sua animação
-        yield return new WaitForSeconds(9f);
-    }
-
-    // Mostrar diálogo final
-    if (dialogoSimples != null)
-    {
-        dialogoSimples.MostrarDialogo(nomeInstrutor, fotoInstrutor, falaFinal);
-        yield return new WaitForSeconds(4f);
-    }
-
-    // Fade e troca de cena
-    yield return StartCoroutine(TransicaoFinal());
-}
 
     IEnumerator TransicaoFinal()
     {
@@ -289,7 +273,6 @@ public class GuitarHero : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.4f);
-
         SceneManager.LoadScene(nomeCenaFinal);
     }
 
