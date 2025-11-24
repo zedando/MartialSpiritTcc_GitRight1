@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;   // FMOD
 
 public class PecaDeMemoria : MonoBehaviour
 {
+    [Header("Alvo da Peça")]
     public RectTransform alvoCorreto;
     public float tolerancia = 40f;
+
+    [Header("Som (FMOD)")]
+    [Tooltip("Evento de som de papel colando (ex: event:/UI/PapelColando)")]
+    public EventReference somPapelColando;
 
     private RectTransform rectTransform;
     private Canvas canvas;
@@ -61,10 +67,15 @@ public class PecaDeMemoria : MonoBehaviour
 
         if (distancia < tolerancia)
         {
+            // Snap na posição certa
             rectTransform.anchoredPosition = alvoCorreto.anchoredPosition;
             segurando = false;
             enabled = false;
 
+            // 🔊 TOCA O SOM DE PAPEL COLANDO
+            RuntimeManager.PlayOneShot(somPapelColando, transform.position);
+
+            // Notifica o minigame que a peça foi colocada
             MinigameMemoria.Instance.PecaCorreta();
         }
     }
