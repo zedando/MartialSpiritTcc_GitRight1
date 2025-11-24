@@ -48,6 +48,9 @@ public class FighterController : MonoBehaviour
     public Sprite spriteSensei;
     public Sprite spriteJuiz;
 
+    [Header("Fade")]
+    public Image fadeImage;
+
     private float vidaAtual;
     private float estaminaAtual;
     private bool golpeExecutando = false;
@@ -68,7 +71,7 @@ public class FighterController : MonoBehaviour
         if (!lutaIniciada) return;
         if (golpeExecutando) return;
 
-        // Ataques s� se tiver estamina suficiente
+        // Ataques só se tiver estamina suficiente
         if (estaminaAtual >= 20f)
         {
             if (Input.GetKeyDown(teclaOiZuki)) StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
@@ -79,7 +82,7 @@ public class FighterController : MonoBehaviour
         if (Input.GetKeyDown(teclaGedanBarai) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroGedanBarai));
         if (Input.GetKeyDown(teclaJodanUke) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroJodanUke));
 
-        // Recupera estamina quando n�o atacando
+        // Recupera estamina quando não atacando
         if (!golpeExecutando && !defendendo)
         {
             estaminaAtual += 15f * Time.deltaTime;
@@ -92,18 +95,18 @@ public class FighterController : MonoBehaviour
     {
         if (dialogoSimples != null)
         {
-            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Você treinou para este momento. Agora, não é sobre vencer ou perder, mas sim sobre mostrar quem você se tornou.");
-            yield return new WaitForSeconds(4f);
+            dialogoSimples.MostrarDialogo("Sensei", spriteSensei, "Você treinou para este momento. Agora, não é sobre vencer ou perder – é sobre mostrar quem você se tornou.");
+            yield return new WaitForSeconds(6f);
             dialogoSimples.FecharDialogo();
 
             yield return new WaitForSeconds(0.5f);
             dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "Comece!");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             dialogoSimples.FecharDialogo();
         }
 
         lutaIniciada = true;
-        inimigo.lutaIniciada = true;
+        if (inimigo != null) inimigo.lutaIniciada = true;
     }
 
     IEnumerator ExecutarGolpe(string parametro, float dano)
@@ -173,7 +176,7 @@ public class FighterController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             Debug.Log("Player derrotado!");
-            SceneManager.LoadScene("ct-derrota");
+            StartCoroutine(DerrotaPlayer());
         }
     }
 
@@ -200,8 +203,42 @@ public class FighterController : MonoBehaviour
         if (barraEstamina != null) barraEstamina.value = estaminaAtual / estaminaMax;
     }
 
+    IEnumerator DerrotaPlayer()
+    {
+        lutaIniciada = false;
+
+        // Mensagem do juiz
+        if (dialogoSimples != null)
+        {
+            dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Haruki foi derrotado por pontos!");
+            yield return new WaitForSeconds(5f);
+            dialogoSimples.FecharDialogo();
+        }
+
+        // Fade out
+        if (fadeImage != null)
+        {
+            if (!fadeImage.gameObject.activeSelf)
+                fadeImage.gameObject.SetActive(true);
+
+            Color c = fadeImage.color;
+            float t = 0f;
+            float duracao = 1.2f;
+
+            while (t < duracao)
+            {
+                t += Time.deltaTime;
+                fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
+                yield return null;
+            }
+        }
+
+        // Troca de cena
+        SceneManager.LoadScene("ct-derrota");
+    }
+
     // -----------------------------
-    // M�todos OnClick para Mobile
+    // Métodos OnClick para Mobile
     // -----------------------------
     public void BtnOiZuki() => StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
     public void BtnMaeGeri() => StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));
