@@ -115,7 +115,8 @@ public void cutscene5()
 
     public void DojoMiniGame()
     {
-        SceneManager.LoadScene(5);
+        //SceneManager.LoadScene(5);
+        StartCoroutine(FadeAndLoad("Interior 2"));
     }
     public void MapaFase3()
     {

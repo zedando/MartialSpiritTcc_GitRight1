@@ -7730,6 +7730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1068018985}
   - component: {fileID: 1068018984}
+  - component: {fileID: 1068018986}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -7814,6 +7815,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1068018986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068018983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1086968925 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6814902720307124293, guid: 6c45527aee6e5884592a03e01daa4cd4, type: 3}
@@ -11579,11 +11594,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 501174084
-      Data2: 1315757840
-      Data3: 1862429373
-      Data4: 2121931279
-    Path: event:/musicaa
+      Data1: 1687624588
+      Data2: 1226353525
+      Data3: 1090433930
+      Data4: 805712159
+    Path: event:/musicaBriga
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
