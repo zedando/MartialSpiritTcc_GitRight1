@@ -204,38 +204,44 @@ public class FighterController : MonoBehaviour
     }
 
     IEnumerator DerrotaPlayer()
+{
+    lutaIniciada = false;
+
+    if (inimigo != null)
+        inimigo.lutaIniciada = false;
+
+    // Mensagem do juiz
+    if (dialogoSimples != null)
     {
-        lutaIniciada = false;
-
-        // Mensagem do juiz
-        if (dialogoSimples != null)
-        {
-            dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Haruki foi derrotado por pontos!");
-            yield return new WaitForSeconds(5f);
-            dialogoSimples.FecharDialogo();
-        }
-
-        // Fade out
-        if (fadeImage != null)
-        {
-            if (!fadeImage.gameObject.activeSelf)
-                fadeImage.gameObject.SetActive(true);
-
-            Color c = fadeImage.color;
-            float t = 0f;
-            float duracao = 1.2f;
-
-            while (t < duracao)
-            {
-                t += Time.deltaTime;
-                fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
-                yield return null;
-            }
-        }
-
-        // Troca de cena
-        SceneManager.LoadScene("ct-derrota");
+        dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Haruki foi derrotado por pontos!");
+        yield return new WaitForSeconds(5f);
+        dialogoSimples.FecharDialogo();
     }
+
+    // Fade out
+    if (fadeImage != null)
+    {
+        if (!fadeImage.gameObject.activeSelf)
+            fadeImage.gameObject.SetActive(true);
+
+        Color c = fadeImage.color;
+        float t = 0f;
+        float duracao = 1.2f;
+
+        while (t < duracao)
+        {
+            t += Time.deltaTime;
+            fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
+            yield return null;
+        }
+    }
+
+    // Troca de cena
+    SceneManager.LoadScene("ct-derrota");
+}
+
+
+    
 
     // -----------------------------
     // Métodos OnClick para Mobile
