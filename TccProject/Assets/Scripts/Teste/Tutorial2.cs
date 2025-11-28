@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 public class Tutorial2 : MonoBehaviour
 {
@@ -15,18 +16,33 @@ public class Tutorial2 : MonoBehaviour
     public Button tapButton;
     public GameObject dialogbar;
 
+    [Header("UI – Teclas M / Q / E")]
+    public GameObject mapKeyImage;        // sprite da tecla M
+    public GameObject missionKeyImage;    // sprite da tecla Q
+    public GameObject interactKeyImage;   // sprite da tecla E
+
     [Header("Player")]
     public Transform playerHead;
 
+    [Header("Mini mapa / Missões / Interação")]
+    public GameObject minimapPanel;
+    public GameObject missionsPanel;
+    public UnityEvent onInteract;
+
     private PlayerInput controls;
+
     private bool movedUp, movedLeft, movedDown, movedRight;
     private bool pressedSpace = false;
+
+    private bool pressedM = false;
+    private bool pressedQ = false;
+    private bool pressedE = false;
+
     private int step = 0;
     private bool canSkipDialog = false;
     private bool isAndroid;
     private bool isTyping = false;
-
-    private bool tutorialActive = false;   // NOVO: controla se o tutorial já começou
+    private bool tutorialActive = false;
 
     private Coroutine typingCoroutine;
 
@@ -60,8 +76,6 @@ public class Tutorial2 : MonoBehaviour
         HideAllImages();
         tapButton.gameObject.SetActive(isAndroid);
 
-        // NÃO chamamos mais ShowStep aqui.
-        // O tutorial só começa quando o SceneIntroFade chamar BeginTutorial().
         step = 0;
         dialogbar.SetActive(false);
         dialogText.text = "";
@@ -69,13 +83,48 @@ public class Tutorial2 : MonoBehaviour
 
     void Update()
     {
-        if (!tutorialActive) return; // NOVO: só atualiza se o tutorial estiver ativo
+        // -------- COMANDOS GERAIS (M / Q / E) --------
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (minimapPanel != null)
+                minimapPanel.SetActive(!minimapPanel.activeSelf);
 
+            pressedM = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (missionsPanel != null)
+                missionsPanel.SetActive(!missionsPanel.activeSelf);
+
+            pressedQ = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            onInteract?.Invoke();
+            pressedE = true;
+        }
+
+        // -------- LÓGICA DO TUTORIAL --------
+        if (!tutorialActive) return;
+
+        // posiciona os ícones acima da cabeça
         Vector3 headPos = playerHead.position + Vector3.up * 3;
-        if (wasdImage.activeSelf) wasdImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
-        if (spacebarImage.activeSelf) spacebarImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
-        if (analogImage.activeSelf) analogImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
-        if (tapImage.activeSelf) tapImage.transform.position = Camera.main.WorldToScreenPoint(headPos);
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            Vector3 screenPos = cam.WorldToScreenPoint(headPos);
+
+            if (wasdImage.activeSelf) wasdImage.transform.position = screenPos;
+            if (spacebarImage.activeSelf) spacebarImage.transform.position = screenPos;
+            if (analogImage.activeSelf) analogImage.transform.position = screenPos;
+            if (tapImage.activeSelf) tapImage.transform.position = screenPos;
+
+            if (mapKeyImage != null && mapKeyImage.activeSelf) mapKeyImage.transform.position = screenPos;
+            if (missionKeyImage != null && missionKeyImage.activeSelf) missionKeyImage.transform.position = screenPos;
+            if (interactKeyImage != null && interactKeyImage.activeSelf) interactKeyImage.transform.position = screenPos;
+        }
 
         switch (step)
         {
@@ -83,14 +132,30 @@ public class Tutorial2 : MonoBehaviour
                 if (movedUp && movedLeft && movedDown && movedRight)
                     SkipOrNext();
                 break;
+
             case 2:
                 if (!isAndroid && Input.GetKeyDown(KeyCode.Space))
+                    SkipOrNext();
+                break;
+
+            case 3:
+                if (pressedM)
+                    SkipOrNext();
+                break;
+
+            case 4:
+                if (pressedQ)
+                    SkipOrNext();
+                break;
+
+            case 5:
+                if (pressedE)
                     SkipOrNext();
                 break;
         }
     }
 
-    // Chamado quando o fade terminar
+    // Chamado pelo fade depois da intro
     public void BeginTutorial()
     {
         if (tutorialActive) return;
@@ -101,6 +166,11 @@ public class Tutorial2 : MonoBehaviour
         HideAllImages();
         tapButton.gameObject.SetActive(isAndroid);
 
+        // reseta os estados para não pular passos se já tiver apertado antes
+        movedUp = movedLeft = movedDown = movedRight = false;
+        pressedSpace = false;
+        pressedM = pressedQ = pressedE = false;
+
         ShowStep();
     }
 
@@ -108,7 +178,7 @@ public class Tutorial2 : MonoBehaviour
     {
         if (!tutorialActive) return;
 
-        if (isAndroid && step == 2)
+        if (isAndroid && step >= 2)
             SkipOrNext();
     }
 
@@ -123,54 +193,69 @@ public class Tutorial2 : MonoBehaviour
                 typingCoroutine = StartCoroutine(TypeText(
                     "A jornada começa agora... Vamos aprender os primeiros passos!",
                     0.055f,
-                    autoNextDelay: 3.0f
+                    autoNextDelay: 3f
                 ));
                 break;
 
             case 1:
                 if (!isAndroid)
-                {
                     wasdImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText(
-                        "Use as teclas W, A, S e D para caminhar pelo mundo. Se mova para todas as direções para seguir com o tutorial",
-                        0.055f
-                    ));
-                }
                 else
-                {
                     analogImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText(
-                        "Mova o analógico para todos os lados para explorar o mundo.Se mova para todas as direções para seguir com o tutorial ",
-                        0.055f
-                    ));
-                }
+
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Use as teclas W, A, S e D para caminhar pelo mundo. Caminhe para todas as direções para avançar.",
+                    0.055f
+                ));
                 break;
 
             case 2:
-                canSkipDialog = true;
                 if (!isAndroid)
-                {
                     spacebarImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText(
-                        "Aperte Espaço para avançar os diálogos. Assim você segue sua jornada no seu ritmo.",
-                        0.055f
-                    ));
-                }
                 else
-                {
                     tapImage.SetActive(true);
-                    typingCoroutine = StartCoroutine(TypeText(
-                        "Toque na caixa de diálogo para avançar os diálogos e seguir sua aventura no seu ritmo.",
-                        0.055f
-                    ));
-                }
+
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Aperte ESPAÇO (ou toque no diálogo) para avançar as falas. Tente agora.",
+                    0.055f
+                ));
                 break;
 
             case 3:
+                if (mapKeyImage != null)
+                    mapKeyImage.SetActive(true);
+
                 typingCoroutine = StartCoroutine(TypeText(
-                    "Excelente, guerreiro! Você está pronto para enfrentar o que vier. Boa sorte!",
+                    "Agora, um comando importante: aperte M para abrir o mini mapa e se orientar pela vila.",
+                    0.055f
+                ));
+                break;
+
+            case 4:
+                if (missionKeyImage != null)
+                    missionKeyImage.SetActive(true);
+
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Ótimo! Agora aperte Q para abrir o painel de missões e ver o resumo dos seus objetivos.",
+                    0.055f
+                ));
+                break;
+
+            case 5:
+                if (interactKeyImage != null)
+                    interactKeyImage.SetActive(true);
+
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Por fim, aperte E para interagir com personagens e objetos importantes pelo caminho. Tente agora.",
+                    0.055f
+                ));
+                break;
+
+            case 6:
+                typingCoroutine = StartCoroutine(TypeText(
+                    "Excelente, guerreiro. Agora você domina os controles essenciais. Boa jornada!",
                     0.055f,
-                    autoNextDelay: 4.5f,
+                    autoNextDelay: 4f,
                     endTutorial: true
                 ));
                 break;
@@ -183,14 +268,12 @@ public class Tutorial2 : MonoBehaviour
 
         if (isTyping)
         {
-            // Mostra o texto inteiro de imediato
             StopCoroutine(typingCoroutine);
             dialogText.maxVisibleCharacters = int.MaxValue;
             isTyping = false;
         }
         else
         {
-            // Passa para o próximo passo
             NextStep();
         }
     }
@@ -209,7 +292,7 @@ public class Tutorial2 : MonoBehaviour
         HideAllImages();
         tapButton.gameObject.SetActive(false);
         dialogbar.SetActive(false);
-        tutorialActive = false;   // NOVO: desliga o tutorial
+        tutorialActive = false;
     }
 
     void HideAllImages()
@@ -218,6 +301,10 @@ public class Tutorial2 : MonoBehaviour
         spacebarImage.SetActive(false);
         analogImage.SetActive(false);
         tapImage.SetActive(false);
+
+        if (mapKeyImage != null) mapKeyImage.SetActive(false);
+        if (missionKeyImage != null) missionKeyImage.SetActive(false);
+        if (interactKeyImage != null) interactKeyImage.SetActive(false);
     }
 
     IEnumerator TypeText(string text, float letterDelay, float autoNextDelay = 0f, bool endTutorial = false)
