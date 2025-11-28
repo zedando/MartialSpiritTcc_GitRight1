@@ -1034,6 +1034,9 @@ MonoBehaviour:
   parametroIdle: Idle
   danoAtaque: 12
   efeitoImpactoPrefab: {fileID: 383978865946293588, guid: 786d5c9ad73aa3941a175afb5eb025d8, type: 3}
+  somGolpeEvent: event:/SocoChute/chuteVento2
+  somMorteEvent: event:/SocoChute/somDano
+  volumeSomInimigo: 3
   lutaIniciada: 0
   cenaAoMorrer: ct-faseFinalWin 1
   dialogoSimples: {fileID: 530779280}
@@ -4049,6 +4052,12 @@ MonoBehaviour:
   efeitoGolpePrefab: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
   efeitoImpactoPrefab: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
   efeitoTrilhaGolpe: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
+  somOiZuki: event:/SocoChute/chuteVento
+  somMaeGeri: event:/SocoChute/chuteVento
+  somMawashiGeri: event:/SocoChute/chuteVento
+  somDefesa: event:/SocoChute/chuteVento
+  somGolpeGeral: event:/SocoChute/chuteVento
+  volumeGolpes: 3
   dialogoSimples: {fileID: 530779280}
   spriteSensei: {fileID: 21300000, guid: 2bfee89965b6b8d4b958abc63230f77d, type: 3}
   spriteJuiz: {fileID: 21300000, guid: 69099dc2e5a3e56498ed6dc606f64e40, type: 3}
@@ -4260,6 +4269,7 @@ GameObject:
   - component: {fileID: 910804417}
   - component: {fileID: 910804416}
   - component: {fileID: 910804419}
+  - component: {fileID: 910804420}
   m_Layer: 0
   m_Name: ControllerSomPause
   m_TagString: Untagged
@@ -4342,6 +4352,37 @@ MonoBehaviour:
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &910804420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910804415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -94347660
+      Data2: 1127466267
+      Data3: -1822980178
+      Data4: -908981199
+    Path: event:/Comemoracao
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
@@ -5371,6 +5412,12 @@ MonoBehaviour:
   efeitoGolpePrefab: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
   efeitoImpactoPrefab: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
   efeitoTrilhaGolpe: {fileID: 383978865946293588, guid: f4f31f5491f6f3140a258aea081a243a, type: 3}
+  somOiZuki: 
+  somMaeGeri: 
+  somMawashiGeri: 
+  somDefesa: 
+  somGolpeGeral: 
+  volumeGolpes: 1.5
   dialogoSimples: {fileID: 0}
   spriteSensei: {fileID: 0}
   spriteJuiz: {fileID: 0}

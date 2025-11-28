@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using FMODUnity;
+using FMOD.Studio; // para EventInstance e volume
 
 public class EnemyController : MonoBehaviour
 {
@@ -33,6 +35,13 @@ public class EnemyController : MonoBehaviour
     [Header("Ataque")]
     public float danoAtaque = 10f;
     public GameObject efeitoImpactoPrefab;
+
+    [Header("Sons FMOD")]
+    [EventRef] public string somGolpeEvent;  // som do golpe
+    [EventRef] public string somMorteEvent;  // som ao morrer
+
+    [Range(0f, 3f)]
+    public float volumeSomInimigo = 1.5f;
 
     [Header("Controle Luta")]
     public bool lutaIniciada = false;
@@ -109,6 +118,23 @@ public class EnemyController : MonoBehaviour
         AtualizarBarras();
     }
 
+    // --------- Função genérica pra tocar som FMOD com volume ---------
+    void TocarSomFMOD(string eventPath)
+    {
+        if (string.IsNullOrEmpty(eventPath)) return;
+
+        EventInstance evento = RuntimeManager.CreateInstance(eventPath);
+
+        // posição 3D do inimigo (usa RuntimeUtils por compatibilidade)
+        evento.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+
+        // aplica multiplicador de volume
+        evento.setVolume(volumeSomInimigo);
+
+        evento.start();
+        evento.release();
+    }
+
     IEnumerator ExecutarAtaque()
     {
         if (estaminaAtual < 20f) yield break;
@@ -121,6 +147,13 @@ public class EnemyController : MonoBehaviour
             animator.SetBool(parametroAtaque, true);
         }
 
+        // SOM DO GOLPE (FMOD)
+        if (!string.IsNullOrEmpty(somGolpeEvent))
+        {
+            TocarSomFMOD(somGolpeEvent);
+        }
+
+        // timing do golpe
         yield return new WaitForSeconds(0.5f);
 
         if (playerController != null)
@@ -144,6 +177,13 @@ public class EnemyController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             vidaAtual = 0;
+
+            // SOM DE MORTE QUANDO CHEGA A ZERO
+            if (!morto && !string.IsNullOrEmpty(somMorteEvent))
+            {
+                TocarSomFMOD(somMorteEvent);
+            }
+
             StartCoroutine(Morrer());  
         }
 

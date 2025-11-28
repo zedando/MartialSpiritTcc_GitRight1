@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using FMODUnity;     // FMOD
+using FMOD.Studio;  // Para mexer em volume das instâncias
 
 public class FighterController : MonoBehaviour
 {
@@ -35,7 +37,7 @@ public class FighterController : MonoBehaviour
     public KeyCode teclaGedanBarai = KeyCode.L;
     public KeyCode teclaJodanUke = KeyCode.S;
 
-    [Header("Referencia do Inimigo")]
+    [Header("Referência do Inimigo")]
     public EnemyController inimigo;
 
     [Header("Efeitos")]
@@ -43,7 +45,17 @@ public class FighterController : MonoBehaviour
     public GameObject efeitoImpactoPrefab;
     public GameObject efeitoTrilhaGolpe;
 
-    [Header("Dialogo")]
+    [Header("Sons FMOD")]
+    [EventRef] public string somOiZuki;
+    [EventRef] public string somMaeGeri;
+    [EventRef] public string somMawashiGeri;
+    [EventRef] public string somDefesa;
+    [EventRef] public string somGolpeGeral; // usado se o específico estiver vazio
+
+    [Range(0f, 3f)]
+    public float volumeGolpes = 1.5f; // multiplicador de volume dos golpes/defesas
+
+    [Header("Diálogo")]
     public DialogoSimples dialogoSimples;
     public Sprite spriteSensei;
     public Sprite spriteJuiz;
@@ -74,13 +86,21 @@ public class FighterController : MonoBehaviour
         // Ataques só se tiver estamina suficiente
         if (estaminaAtual >= 20f)
         {
-            if (Input.GetKeyDown(teclaOiZuki)) StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
-            if (Input.GetKeyDown(teclaMaeGeri)) StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));
-            if (Input.GetKeyDown(teclaMawashiGeri)) StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri));
+            if (Input.GetKeyDown(teclaOiZuki))
+                StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki, somOiZuki));
+
+            if (Input.GetKeyDown(teclaMaeGeri))
+                StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri, somMaeGeri));
+
+            if (Input.GetKeyDown(teclaMawashiGeri))
+                StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri, somMawashiGeri));
         }
 
-        if (Input.GetKeyDown(teclaGedanBarai) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroGedanBarai));
-        if (Input.GetKeyDown(teclaJodanUke) && estaminaAtual >= 10f) StartCoroutine(ExecutarDefesa(parametroJodanUke));
+        if (Input.GetKeyDown(teclaGedanBarai) && estaminaAtual >= 10f)
+            StartCoroutine(ExecutarDefesa(parametroGedanBarai, somDefesa));
+
+        if (Input.GetKeyDown(teclaJodanUke) && estaminaAtual >= 10f)
+            StartCoroutine(ExecutarDefesa(parametroJodanUke, somDefesa));
 
         // Recupera estamina quando não atacando
         if (!golpeExecutando && !defendendo)
@@ -109,11 +129,37 @@ public class FighterController : MonoBehaviour
         if (inimigo != null) inimigo.lutaIniciada = true;
     }
 
-    IEnumerator ExecutarGolpe(string parametro, float dano)
+    // ---------- SOM FMOD COM CONTROLE DE VOLUME ----------
+void TocarSomFMOD(string eventPath)
+{
+    if (string.IsNullOrEmpty(eventPath)) return;
+
+    EventInstance evento = RuntimeManager.CreateInstance(eventPath);
+
+    // posição 3D do player (versão compatível)
+    evento.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+
+    // aplica multiplicador de volume
+    evento.setVolume(volumeGolpes);
+
+    evento.start();
+    evento.release();
+}
+
+    // ---------- GOLPES ----------
+    IEnumerator ExecutarGolpe(string parametro, float dano, string somGolpe)
     {
         golpeExecutando = true;
         estaminaAtual -= 20f;
         AtualizarBarras();
+
+        // Escolhe som (se o específico estiver vazio, usa o geral)
+        string eventoFinal = somGolpe;
+        if (string.IsNullOrEmpty(eventoFinal))
+            eventoFinal = somGolpeGeral;
+
+        if (!string.IsNullOrEmpty(eventoFinal))
+            TocarSomFMOD(eventoFinal);
 
         if (efeitoGolpePrefab != null)
             Instantiate(efeitoGolpePrefab, transform.position + Vector3.right * 1f, Quaternion.identity);
@@ -138,12 +184,16 @@ public class FighterController : MonoBehaviour
         golpeExecutando = false;
     }
 
-    IEnumerator ExecutarDefesa(string parametro)
+    // ---------- DEFESA ----------
+    IEnumerator ExecutarDefesa(string parametro, string somDef)
     {
         defendendo = true;
         invulneravel = true;
         estaminaAtual -= 10f;
         AtualizarBarras();
+
+        if (!string.IsNullOrEmpty(somDef))
+            TocarSomFMOD(somDef);
 
         animator.SetBool(parametroDefesa, true);
         animator.SetBool(parametro, true);
@@ -160,6 +210,7 @@ public class FighterController : MonoBehaviour
         invulneravel = false;
     }
 
+    // ---------- DANO NO PLAYER ----------
     public void ReceberDano(float dano, GameObject efeitoImpacto = null)
     {
         if (invulneravel) return;
@@ -204,51 +255,45 @@ public class FighterController : MonoBehaviour
     }
 
     IEnumerator DerrotaPlayer()
-{
-    lutaIniciada = false;
-
-    if (inimigo != null)
-        inimigo.lutaIniciada = false;
-
-    // Mensagem do juiz
-    if (dialogoSimples != null)
     {
-        dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Haruki foi derrotado por pontos!");
-        yield return new WaitForSeconds(5f);
-        dialogoSimples.FecharDialogo();
-    }
+        lutaIniciada = false;
 
-    // Fade out
-    if (fadeImage != null)
-    {
-        if (!fadeImage.gameObject.activeSelf)
-            fadeImage.gameObject.SetActive(true);
+        if (inimigo != null)
+            inimigo.lutaIniciada = false;
 
-        Color c = fadeImage.color;
-        float t = 0f;
-        float duracao = 1.2f;
-
-        while (t < duracao)
+        if (dialogoSimples != null)
         {
-            t += Time.deltaTime;
-            fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
-            yield return null;
+            dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Haruki foi derrotado por pontos!");
+            yield return new WaitForSeconds(5f);
+            dialogoSimples.FecharDialogo();
         }
+
+        if (fadeImage != null)
+        {
+            if (!fadeImage.gameObject.activeSelf)
+                fadeImage.gameObject.SetActive(true);
+
+            Color c = fadeImage.color;
+            float t = 0f;
+            float duracao = 1.2f;
+
+            while (t < duracao)
+            {
+                t += Time.deltaTime;
+                fadeImage.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0, 1, t / duracao));
+                yield return null;
+            }
+        }
+
+        SceneManager.LoadScene("ct-derrota");
     }
-
-    // Troca de cena
-    SceneManager.LoadScene("ct-derrota");
-}
-
-
-    
 
     // -----------------------------
     // Métodos OnClick para Mobile
     // -----------------------------
-    public void BtnOiZuki() => StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki));
-    public void BtnMaeGeri() => StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri));
-    public void BtnMawashiGeri() => StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri));
-    public void BtnGedanBarai() => StartCoroutine(ExecutarDefesa(parametroGedanBarai));
-    public void BtnJodanUke() => StartCoroutine(ExecutarDefesa(parametroJodanUke));
+    public void BtnOiZuki() => StartCoroutine(ExecutarGolpe(parametroOiZuki, danoOiZuki, somOiZuki));
+    public void BtnMaeGeri() => StartCoroutine(ExecutarGolpe(parametroMaeGeri, danoMaeGeri, somMaeGeri));
+    public void BtnMawashiGeri() => StartCoroutine(ExecutarGolpe(parametroMawashiGeri, danoMawashiGeri, somMawashiGeri));
+    public void BtnGedanBarai() => StartCoroutine(ExecutarDefesa(parametroGedanBarai, somDefesa));
+    public void BtnJodanUke() => StartCoroutine(ExecutarDefesa(parametroJodanUke, somDefesa));
 }

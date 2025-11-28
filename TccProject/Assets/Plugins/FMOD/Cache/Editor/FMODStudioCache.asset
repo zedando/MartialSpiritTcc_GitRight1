@@ -80,7 +80,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 201017
+  Length: 544704
 --- !u!114 &-7390870757953992566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 213546
+  Length: 163413
 --- !u!114 &-4016358748094880658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,13 +572,15 @@ MonoBehaviour:
   - {fileID: 4755721579523369752}
   - {fileID: 1789916801023493108}
   - {fileID: 3718715478083442903}
+  - {fileID: 8823994919708638284}
+  - {fileID: 189955650429163368}
   EditorParameters: []
   MasterBanks:
   - {fileID: 5587919906496919550}
   StringsBanks:
   - {fileID: 4343205601810957473}
   cacheVersion: 131849
-  cacheTime: 638995764905310896
+  cacheTime: 638999097768456000
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -608,7 +610,7 @@ MonoBehaviour:
     index: 12
   - key: event:/musicaa
     index: 13
-  - key: event:/ambiente/ambientePassaro
+  - key: event:/ambiente/AmbientePassaro
     index: 14
   - key: event:/Village
     index: 15
@@ -627,7 +629,7 @@ MonoBehaviour:
     index: 21
   - key: event:/Dialog1
     index: 22
-  - key: event:/click
+  - key: event:/Click
     index: 23
   - key: event:/musicMenu
     index: 24
@@ -667,6 +669,10 @@ MonoBehaviour:
     index: 41
   - key: event:/Risada
     index: 42
+  - key: event:/ambiente/AndandoGrama
+    index: 43
+  - key: event:/Comemoracao
+    index: 44
 --- !u!114 &51040089917111655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,6 +700,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 99946
+--- !u!114 &189955650429163368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Comemoracao
+  m_EditorClassIdentifier: 
+  Path: event:/Comemoracao
+  Guid:
+    Data1: -94347660
+    Data2: 1127466267
+    Data3: -1822980178
+    Data4: -908981199
+  Banks:
+  - {fileID: 5587919906496919550}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4440
 --- !u!114 &371325575531896298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,9 +845,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/click
+  m_Name: event:/Click
   m_EditorClassIdentifier: 
-  Path: event:/click
+  Path: event:/Click
   Guid:
     Data1: -1763848048
     Data2: 1152374607
@@ -1008,10 +1041,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638995764905310896
+  lastModified: 638999097768456000
   FileSizes:
   - Name: Desktop
-    Value: 2904
+    Value: 3012
   Exists: 1
 --- !u!114 &4371205333129329719
 MonoBehaviour:
@@ -1163,10 +1196,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638995764905285805
+  lastModified: 638999097768421477
   FileSizes:
   - Name: Desktop
-    Value: 38933696
+    Value: 43010368
   Exists: 1
 --- !u!114 &5815557196183896709
 MonoBehaviour:
@@ -1178,9 +1211,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/ambiente/ambientePassaro
+  m_Name: event:/ambiente/AmbientePassaro
   m_EditorClassIdentifier: 
-  Path: event:/ambiente/ambientePassaro
+  Path: event:/ambiente/AmbientePassaro
   Guid:
     Data1: -1161815985
     Data2: 1191865497
@@ -1302,7 +1335,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 197135
+  Length: 176340
 --- !u!114 &8823685445361273615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,6 +1363,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 340
+--- !u!114 &8823994919708638284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ambiente/AndandoGrama
+  m_EditorClassIdentifier: 
+  Path: event:/ambiente/AndandoGrama
+  Guid:
+    Data1: 875639553
+    Data2: 1281961569
+    Data3: -1103415632
+    Data4: 1559002281
+  Banks:
+  - {fileID: 5587919906496919550}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2100
 --- !u!114 &8904221287245807634
 MonoBehaviour:
   m_ObjectHideFlags: 0
