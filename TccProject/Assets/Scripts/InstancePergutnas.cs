@@ -69,11 +69,13 @@ public class InstancePergutnas : MonoBehaviour
     }
     public void fase5Briga()
     {
-        SceneManager.LoadScene("FightMiniGame");
+        StartCoroutine(FadeAndLoad("FightMiniGame"));
+        //SceneManager.LoadScene("FightMiniGame");
     }
     public void fase5Fuga()
     {
-        SceneManager.LoadScene("MiniGameFuga");
+        StartCoroutine(FadeAndLoad("MiniGameFuga"));
+        //SceneManager.LoadScene("MiniGameFuga");
     }
 
 
