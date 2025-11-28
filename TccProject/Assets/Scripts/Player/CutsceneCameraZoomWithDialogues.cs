@@ -9,6 +9,18 @@ using FMOD.Studio;
 
 public class CutsceneCameraZoomWithDialogues : MonoBehaviour
 {
+    // =========================
+    //  NOVA ESTRUTURA DE DIÁLOGO
+    // =========================
+    [System.Serializable]
+    public class DialogueEntry
+    {
+        [TextArea(2, 4)]
+        public string text;          // fala do personagem
+        public string characterName; // nome do personagem
+        public Sprite characterSprite; // fotinha do personagem
+    }
+
     public enum VideoMode
     {
         None,               // MODO NORMAL (diálogos)
@@ -28,11 +40,17 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public float depthAmount = 300f;
     public float zoomDuration = 10f;
 
+    // =========================
+    //     UI DE DIÁLOGO NOVA
+    // =========================
     [Header("Dialogues")]
-    public Image canvasImageOverlay;
-    public TMP_Text dialogueText;
-    [TextArea(2, 4)]
-    public string[] dialogues;
+    public GameObject dialoguePanel;     // painel fixo atrás do diálogo (deixa aqui o painel de fundo) // NEW
+    public Image characterImage;         // imagem do personagem (fotinha)                            // NEW
+    public TMP_Text nameText;            // nome do personagem                                       // NEW
+    public TMP_Text dialogueText;        // texto do diálogo (já existia, só mantive aqui)
+    
+    public DialogueEntry[] dialogues;    // AGORA é um array de estruturas, não mais string[]         // CHANGED
+
     public float dialogueDelay = 2f;
     public bool typewriterEffect = true;
     public float typeSpeed = 0.04f;
@@ -59,8 +77,10 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
     public RawImage videoRawImage;
     public float imageOnScreenBeforeVideo = 3f;
 
-    private bool videoFinished = false;
+    [Header("Overlay da imagem da cutscene")]
+    public Image canvasImageOverlay;
 
+    private bool videoFinished = false;
 
     void Awake()
     {
@@ -89,6 +109,10 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
 
         if (canvasImageOverlay != null)
             canvasImageOverlay.gameObject.SetActive(true);
+
+        // painel de diálogo começa desativado
+        if (dialoguePanel != null)       // NEW
+            dialoguePanel.SetActive(false);
     }
 
     void Start()
@@ -129,7 +153,7 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
         }
 
         // --------------------------------------------------
-        // MODO 1: NORMAL
+        // MODO 1: NORMAL (DIÁLOGOS)
         // --------------------------------------------------
 
         if (enableZoom && imageTransform != null)
@@ -155,6 +179,9 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
 
         if (canvasImageOverlay != null)
             canvasImageOverlay.gameObject.SetActive(false);
+
+        if (dialoguePanel != null)   // garante que o painel de diálogo fique off no modo só vídeo // NEW
+            dialoguePanel.SetActive(false);
 
         fadeOverlay.color = new Color(0, 0, 0, 0);
 
@@ -192,6 +219,9 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
         Color col = canvasImageOverlay.color;
         col.a = 1;
         canvasImageOverlay.color = col;
+
+        if (dialoguePanel != null)   // garante que painel de diálogo não apareça aqui           // NEW
+            dialoguePanel.SetActive(false);
 
         yield return new WaitForSeconds(imageOnScreenBeforeVideo);
 
@@ -272,21 +302,47 @@ public class CutsceneCameraZoomWithDialogues : MonoBehaviour
         imageTransform.anchoredPosition3D = finalPos;
     }
 
+    // =========================
+    //   NOVO SISTEMA DE DIÁLOGO
+    // =========================
     IEnumerator ShowDialogues()
     {
-        foreach (string line in dialogues)
+        if (dialogues == null || dialogues.Length == 0)
+            yield break;
+
+        // liga o painel de diálogo enquanto estiver falando
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(true);
+
+        foreach (DialogueEntry entry in dialogues)
         {
+            // seta nome
+            if (nameText != null)
+                nameText.text = entry.characterName;
+
+            // seta imagem do personagem
+            if (characterImage != null)
+                characterImage.sprite = entry.characterSprite;
+
+            // texto da fala
             if (typewriterEffect)
-                yield return StartCoroutine(TypeText(line));
-            else
-                dialogueText.text = line;
+                yield return StartCoroutine(TypeText(entry.text));
+            else if (dialogueText != null)
+                dialogueText.text = entry.text;
 
             yield return new WaitForSeconds(dialogueDelay);
         }
+
+        // desliga painel depois de terminar todas as falas
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(false);
     }
 
     IEnumerator TypeText(string line)
     {
+        if (dialogueText == null)
+            yield break;
+
         dialogueText.text = "";
         foreach (char c in line)
         {
