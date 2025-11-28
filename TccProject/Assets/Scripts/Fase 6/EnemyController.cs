@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
     public Transform alvo;
     public FighterController playerController;
 
+    private CharacterController controller;
+
     [Header("Status")]
     public float vidaMax = 100f;
     private float vidaAtual;
@@ -48,6 +50,8 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
+        controller = GetComponent<CharacterController>();
+
         vidaAtual = vidaMax;
         estaminaAtual = estaminaMax;
         AtualizarBarras();
@@ -64,7 +68,10 @@ public class EnemyController : MonoBehaviour
         if (estaminaAtual < 20f)
         {
             Vector3 direcaoRecuo = (transform.position - alvo.position).normalized;
-            transform.position += direcaoRecuo * velocidade * Time.deltaTime;
+            direcaoRecuo.y = 0;
+
+            controller.Move(direcaoRecuo * velocidade * Time.deltaTime);
+
             if (animator != null)
                 animator.SetBool(parametroCorrendo, true);
 
@@ -88,7 +95,9 @@ public class EnemyController : MonoBehaviour
     void MoverAtrasDoPlayer()
     {
         Vector3 direcao = (alvo.position - transform.position).normalized;
-        transform.position += direcao * velocidade * Time.deltaTime;
+        direcao.y = 0;
+
+        controller.Move(direcao * velocidade * Time.deltaTime);
 
         transform.LookAt(new Vector3(alvo.position.x, transform.position.y, alvo.position.z));
 
@@ -135,7 +144,7 @@ public class EnemyController : MonoBehaviour
         if (vidaAtual <= 0)
         {
             vidaAtual = 0;
-            StartCoroutine(Morrer());  // Coroutine para animação + mensagem + fade
+            StartCoroutine(Morrer());  
         }
 
         if (efeitoImpacto != null)
@@ -158,10 +167,8 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log("Inimigo derrotado!");
 
-        // Espera animação de morte
         yield return new WaitForSeconds(1.2f);
 
-        // Mensagem do juiz
         if (dialogoSimples != null)
         {
             dialogoSimples.MostrarDialogo("Juiz", spriteJuiz, "O Kenji foi derrotado por pontos!");
@@ -169,7 +176,6 @@ public class EnemyController : MonoBehaviour
             dialogoSimples.FecharDialogo();
         }
 
-        // Fade out
         if (fadeImage != null)
         {
             if (!fadeImage.gameObject.activeSelf)
@@ -187,25 +193,25 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        // Troca de cena
         SceneManager.LoadScene(cenaAoMorrer);
     }
 
     IEnumerator ImpactShake()
     {
-        Vector3 posOriginal = transform.position;
         float shakeTempo = 0.2f;
         float shakeForca = 0.1f;
         float timer = 0f;
 
         while (timer < shakeTempo)
         {
-            transform.position = posOriginal + (Vector3)Random.insideUnitCircle * shakeForca;
+            Vector3 offset = (Vector3)Random.insideUnitCircle * shakeForca;
+            offset.y = 0;
+
+            controller.Move(offset);
+
             timer += Time.deltaTime;
             yield return null;
         }
-
-        transform.position = posOriginal;
     }
 
     void AtualizarBarras()
