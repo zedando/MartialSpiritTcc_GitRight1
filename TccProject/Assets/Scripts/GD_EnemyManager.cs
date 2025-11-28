@@ -32,7 +32,7 @@ public class GD_EnemyManager : MonoBehaviour
         {
             Debug.Log("Todos os inimigos morreram!");
             // Aqui você pode chamar algo: abrir porta, liberar item, trocar cena etc.
-            SceneManager.LoadScene("DojoReflexao_pretorneio");
+            SceneManager.LoadScene("DojoReflexao_BRIGA");
             
         }
     }
