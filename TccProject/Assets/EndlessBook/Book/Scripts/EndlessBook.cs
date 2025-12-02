@@ -1206,10 +1206,10 @@
         /// <param name="onCompleted">The handler to call when the state has completed setting</param>
         /// <param name="stopTurningPages">Optionally stop turning the pages before changing the state, otherwise the method will exit if pages are turning</param>
         public virtual void SetState(StateEnum state,
-            float animationTime = 1f,
-            StateChangedDelegate onCompleted = null,
-            bool stopTurningPages = false
-            )
+    float animationTime = 1f,
+    StateChangedDelegate onCompleted = null,
+    bool stopTurningPages = false
+    )
         {
             if (!hasInitialized)
             {
@@ -1223,6 +1223,9 @@
 
             // make sure we are not already at the state, changing state, or turning pages
             if (state == currentState || isChangingState || isTurningPages) return;
+
+            // 🔊 toca o som sempre que o livro muda de estado (abrir, fechar, etc.)
+            PlayPageTurnSound();
 
             // start the animation in a coroutine so that we can hide the
             // skinned mesh renderer for a frame
