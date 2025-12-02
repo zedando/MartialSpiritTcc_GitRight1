@@ -117,9 +117,6 @@ public class BarraPotencia : MonoBehaviour
     private bool emDialogoInicial = false;
     private int indiceFalaInicial = 0;
 
-    // ==========================================================
-    // START
-    // ==========================================================
     void Start()
     {
         AtualizarBarraEstabilidade();
@@ -131,11 +128,25 @@ public class BarraPotencia : MonoBehaviour
     }
 
     // ==========================================================
-    // SOM DE DIÁLOGO
+    // CONTROLE DO SOM DE DIÁLOGO (FMOD)
     // ==========================================================
     private void IniciarSomDialogo()
     {
-        if (somDialogoAtivo || somDialogo.IsNull) return;
+        if (somDialogo.IsNull) return;
+
+        // Se já existe uma instância válida, checa se já está tocando
+        if (dialogInstance.isValid())
+        {
+            dialogInstance.getPlaybackState(out FMOD.Studio.PLAYBACK_STATE state);
+
+            if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING ||
+                state == FMOD.Studio.PLAYBACK_STATE.STARTING ||
+                state == FMOD.Studio.PLAYBACK_STATE.SUSTAINING)
+            {
+                // Já está tocando, não cria nem inicia de novo
+                return;
+            }
+        }
 
         dialogInstance = RuntimeManager.CreateInstance(somDialogo);
         dialogInstance.start();
@@ -144,17 +155,16 @@ public class BarraPotencia : MonoBehaviour
 
     private void PararSomDialogo(bool pararImediato = false)
     {
-        if (!somDialogoAtivo) return;
+        if (!dialogInstance.isValid()) return;
 
-        if (dialogInstance.isValid())
-        {
-            dialogInstance.stop(pararImediato
+        dialogInstance.stop(
+            pararImediato
                 ? FMOD.Studio.STOP_MODE.IMMEDIATE
-                : FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                : FMOD.Studio.STOP_MODE.ALLOWFADEOUT
+        );
 
-            dialogInstance.release();
-        }
-
+        dialogInstance.release();
+        dialogInstance.clearHandle();
         somDialogoAtivo = false;
     }
 
@@ -162,6 +172,12 @@ public class BarraPotencia : MonoBehaviour
     {
         // Garante que, se o objeto for destruído na troca de cena,
         // o som seja parado imediatamente
+        PararSomDialogo(true);
+    }
+
+    private void OnDisable()
+    {
+        // Se o objeto for desativado (mas não destruído), também para o som
         PararSomDialogo(true);
     }
 
@@ -201,7 +217,9 @@ public class BarraPotencia : MonoBehaviour
             if (string.IsNullOrWhiteSpace(fala)) return;
 
             dialogoSimples.MostrarDialogo("Haruki", spriteDoPersonagemHaruki, fala);
-            PararSomDialogo();   // garante que não acumule
+
+            // Garante que não acumule instância antiga de som
+            PararSomDialogo(true);
             IniciarSomDialogo();
         }
     }
@@ -551,6 +569,9 @@ public class BarraPotencia : MonoBehaviour
         if (dialogoSimples != null)
         {
             dialogoSimples.MostrarDialogo(nome, sprite, fala);
+
+            // Garante que nunca fica som "pendurado" de diálogos anteriores
+            PararSomDialogo(true);
             IniciarSomDialogo();
         }
     }

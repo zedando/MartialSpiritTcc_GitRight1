@@ -56,15 +56,15 @@ public class MinigameMemoria : MonoBehaviour
     {
         string[] frases =
         {
-            "Haruki: Esse homem... parece com ele.",
-            "Haruki: Espera... esse é o Dojo da foto da vila.",
-            "Haruki: Mas por que esconder isso?",
-            "Haruki: Ele parece feliz. Isso não faz sentido.",
-            "Haruki: Ele viveu isso. Por que nega?",
-            "Haruki: Por que jogou isso fora?",
-            "Haruki: Isso é importante pra mim.",
-            "Haruki: Mesmo que ele não entenda...",
-            "Haruki: Eu preciso seguir meu caminho."
+            " Esse homem... parece com ele.",
+            " Espera... esse é o Dojo da foto da vila.",
+            " Mas por que esconder isso?",
+            " Ele parece feliz. Isso não faz sentido.",
+            " Ele viveu isso. Por que nega?",
+            " Por que jogou isso fora?",
+            " Isso é importante pra mim.",
+            " Mesmo que ele não entenda...",
+            " Eu preciso seguir meu caminho."
         };
 
         if (etapa <= frases.Length)

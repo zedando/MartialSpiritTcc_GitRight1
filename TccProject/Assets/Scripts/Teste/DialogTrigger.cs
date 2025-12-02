@@ -124,9 +124,9 @@ public class DialogTrigger : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
-        StopDialogSound();
-        dialogTypingInstance.release();
-
+        // A parada e liberação do FMOD agora são gerenciadas primariamente 
+        // pelo OnDestroy() para cobrir todos os cenários (fim ou troca de cena).
+        
         dialogPanel.SetActive(false);
         Destroy(gameObject);
     }
@@ -172,5 +172,16 @@ public class DialogTrigger : MonoBehaviour
     private string CleanText(string input)
     {
         return input.Replace("\n", " ").Replace("\r", "").Trim();
+    }
+
+    // 🛑 MÉTODO CRUCIAL: Garante que o som pare e seja liberado
+    // quando o objeto é destruído (fim da cena, fim do diálogo, etc.).
+    private void OnDestroy()
+    {
+        // 1. Parar o som se estiver tocando
+        StopDialogSound(); 
+
+        // 2. Liberar a instância do FMOD (MUITO IMPORTANTE!)
+        dialogTypingInstance.release();
     }
 }

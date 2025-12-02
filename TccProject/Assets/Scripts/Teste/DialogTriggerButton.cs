@@ -31,17 +31,12 @@ public class DialogTriggerButton : MonoBehaviour
     public string eventoInteragirObjeto;
     public EventReference SomDialog;
 
-    private EventInstance dialogSound; // Instância do som atual
+    private EventInstance dialogSound; // Instância do som atual (inicializada vazia por default)
 
     void Start()
     {
         dialogPanel.SetActive(false);
         keyEImage.SetActive(false);
-
-        // Não mexo no actionButton aqui,
-        // pois ele é compartilhado com todos pelo mesmo painel.
-        // O OnClick dele será configurado no Inspector para chamar OnDialogClick()
-        // de vários DialogTriggerButton.
     }
 
     void Update()
@@ -92,7 +87,9 @@ public class DialogTriggerButton : MonoBehaviour
     {
         if (!dialogActive) return;
 
-        StopDialogSound();
+        // Não precisa chamar StopDialogSound aqui. A lógica de som é tratada
+        // pelo TypeDialog (ao iniciar a próxima linha) ou ao completar a linha
+        // ou ao sair do isTyping. O FMOD é interrompido no TypeDialog() ou EndDialog().
 
         if (isTyping)
         {
@@ -148,6 +145,10 @@ public class DialogTriggerButton : MonoBehaviour
 
     void NextLine()
     {
+        // Garante que a corrotina anterior foi interrompida antes de começar a próxima
+        if (isTyping)
+            StopCoroutine("TypeDialog");
+
         if (currentLine < dialogLines.Length - 1)
         {
             currentLine++;
@@ -161,12 +162,15 @@ public class DialogTriggerButton : MonoBehaviour
 
     void EndDialog()
     {
-        StopDialogSound();
-
+        // Garante que qualquer corrotina de digitação pendente seja parada
+        StopAllCoroutines(); 
+        
+        StopDialogSound(); // Garante que o som pare ao fim do diálogo
+        
         dialogActive = false;
         dialogPanel.SetActive(false);
 
-        Destroy(gameObject);
+        Destroy(gameObject); // O OnDestroy() será chamado logo após esta linha
     }
 
     // -----------------------------
@@ -174,7 +178,7 @@ public class DialogTriggerButton : MonoBehaviour
     // -----------------------------
     private void PlayDialogSound()
     {
-        StopDialogSound(); // evita duplicação
+        StopDialogSound(); // Para e libera o anterior para evitar acumulação de instâncias
 
         dialogSound = RuntimeManager.CreateInstance(SomDialog);
         dialogSound.start();
@@ -182,10 +186,22 @@ public class DialogTriggerButton : MonoBehaviour
 
     private void StopDialogSound()
     {
+        // Verifica se a instância é válida antes de tentar parar e liberar
         if (dialogSound.isValid())
         {
             dialogSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             dialogSound.release();
+
+            // Limpa a referência após liberar
+            dialogSound = new EventInstance(); 
         }
+    }
+
+    // 🛑 MÉTODO CRUCIAL PARA PREVENIR BUGS NA TROCA DE CENA 🛑
+    private void OnDestroy()
+    {
+        // Garante que o som pare e seja liberado se o objeto for destruído
+        // (especialmente importante ao carregar uma nova cena).
+        StopDialogSound();
     }
 }
