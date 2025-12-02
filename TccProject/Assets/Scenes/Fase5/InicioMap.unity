@@ -9796,6 +9796,7 @@ GameObject:
   - component: {fileID: 1116339201}
   - component: {fileID: 1116339204}
   - component: {fileID: 1116339205}
+  - component: {fileID: 1116339206}
   m_Layer: 0
   m_Name: GameMenager
   m_TagString: Untagged
@@ -9880,6 +9881,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 735442728}
   fadeDuration: 1.2
+--- !u!114 &1116339206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116339200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87992276f9fc5542808428a0cc6d511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joyStick: {fileID: 1504199426}
 --- !u!1 &1125906774
 GameObject:
   m_ObjectHideFlags: 0
@@ -13843,7 +13857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1504199427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18532,6 +18546,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bc66aaa0807894fa5b451d35cbdd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeCanvasGroup: {fileID: 0}
+  fadeDuration: 1.5
+  mensagemVitoriaText: {fileID: 0}
+  textoVitoria: "Voc\xEA derrotou os valent\xF5es!"
+  tempoMensagem: 2
+  nomeCena: DojoReflexao_BRIGA
 --- !u!4 &2136028131
 Transform:
   m_ObjectHideFlags: 0

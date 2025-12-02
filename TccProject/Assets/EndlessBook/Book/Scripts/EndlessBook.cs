@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using UnityEngine;
+    using FMODUnity;
 
     /// <summary>
     /// State change event sent after a state change has completed.
@@ -46,7 +47,6 @@
     /// </summary>
     public class EndlessBook : MonoBehaviour
     {
-
         /// <summary>
         /// Mappings set up on the animated book and all static standins.
         /// These mappings are used to update the materials on all meshes
@@ -250,7 +250,6 @@
         /// </summary>
         [SerializeField]
         protected Animator bookController = null;
-
 
         protected SkinnedMeshRenderer skinnedMeshRenderer = null;
 
@@ -507,6 +506,10 @@
             }
         }
 
+        [Header("FMOD")]
+        [EventRef]
+        [SerializeField]
+        private string pageTurnEvent;   // evento do FMOD para som de virar página (opcional, senão usa event:/Book)
 
         // Some of these methods are public, but should not be used
         // by your scripts. They are made public to allow some access by
@@ -795,6 +798,9 @@
             pages[0].pageTurnCompleted = null;
             pages[0].Turn(direction, 0, GetPageMaterial(pageFrontPage), GetPageMaterial(pageBackPage));
 
+            // toca o som ao começar a arrastar/virar a página
+            PlayPageTurnSound();
+
             // turn dragging was successful
             return true;
         }
@@ -921,6 +927,16 @@
         }
 
         /// <summary>
+        /// Toca o som de virar página usando FMOD
+        /// </summary>
+        protected virtual void PlayPageTurnSound()
+        {
+            // se tiver algo no inspector, usa; senão, usa o padrão event:/Book
+            string path = !string.IsNullOrEmpty(pageTurnEvent) ? pageTurnEvent : "event:/Book";
+            RuntimeManager.PlayOneShot(path, transform.position);
+        }
+
+        /// <summary>
         /// called every frame
         /// </summary>
         protected virtual void Update()
@@ -1010,6 +1026,9 @@
             {
                 turnToPage.onPageTurnStart(page, pageNumberFront, pageNumberBack, pageNumberFirstVisible, pageNumberLastVisible, turnToPage.turnDirection);
             }
+
+            // toca o som sempre que uma página começa a virar
+            PlayPageTurnSound();
 
             // set the materials and start the animation
             page.Turn(turnToPage.turnDirection, turnToPage.pageTurnTime, GetPageMaterial(pageNumberFront), GetPageMaterial(pageNumberBack));
@@ -1756,5 +1775,3 @@
         #endregion
     }
 }
-
-
