@@ -142,18 +142,27 @@ public class BarraPotencia : MonoBehaviour
         somDialogoAtivo = true;
     }
 
-    private void PararSomDialogo()
+    private void PararSomDialogo(bool pararImediato = false)
     {
         if (!somDialogoAtivo) return;
 
-        dialogInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        dialogInstance.release();
+        if (dialogInstance.isValid())
+        {
+            dialogInstance.stop(pararImediato
+                ? FMOD.Studio.STOP_MODE.IMMEDIATE
+                : FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            dialogInstance.release();
+        }
+
         somDialogoAtivo = false;
     }
 
     private void OnDestroy()
     {
-        PararSomDialogo();
+        // Garante que, se o objeto for destruído na troca de cena,
+        // o som seja parado imediatamente
+        PararSomDialogo(true);
     }
 
     // ==========================================================
@@ -199,7 +208,7 @@ public class BarraPotencia : MonoBehaviour
 
     private void AvancarFalaInicial()
     {
-        // Para som da fala atual
+        // Para som da fala atual com fade normal
         PararSomDialogo();
 
         indiceFalaInicial++;
@@ -477,7 +486,8 @@ public class BarraPotencia : MonoBehaviour
         // tempo pro diálogo de vitória/derrota
         yield return new WaitForSeconds(5f);
 
-        PararSomDialogo();
+        // aqui a gente garante que o som some NA HORA antes do fade/cena
+        PararSomDialogo(true);
 
         if (fadeCanvasGroup != null)
         {

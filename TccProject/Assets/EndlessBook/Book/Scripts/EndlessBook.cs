@@ -34,18 +34,19 @@
                                             int pageNumberLastVisible,
                                             Page.TurnDirectionEnum turnDirection);
 
-	/// <summary>
+    /// <summary>
     /// Event that is called when the final turn page animation completes after dragging a page manually
     /// </summary>
     /// <param name="leftPageNumber">The left page number after the turn</param>
     /// <param name="rightPageNumber">The right page number after the turn</param>
-	public delegate void TurnPageDragCompleted(int leftPageNumber, int rightPageNumber);
+    public delegate void TurnPageDragCompleted(int leftPageNumber, int rightPageNumber);
 
     /// <summary>
     /// This class handles state changes and turning of the pages, setting the appropriate materials.
     /// </summary>
     public class EndlessBook : MonoBehaviour
     {
+
         /// <summary>
         /// Mappings set up on the animated book and all static standins.
         /// These mappings are used to update the materials on all meshes
@@ -492,19 +493,19 @@
         /// </summary>
         public bool IsDraggingPage { get { return isDraggingPage; } }
 
-		/// <summary>
+        /// <summary>
         /// Wrapper for the normalized time.
-		/// This is the time based on the direction of the turn.
-		/// Forward: from right to left
-		/// Backward: from left to right
+        /// This is the time based on the direction of the turn.
+        /// Forward: from right to left
+        /// Backward: from left to right
         /// </summary>
-		public float TurnPageDragNormalizedTime
-		{
-			get
-			{
-				return turnPageDragNormalizedTime;
-			}
-		}
+        public float TurnPageDragNormalizedTime
+        {
+            get
+            {
+                return turnPageDragNormalizedTime;
+            }
+        }
 
 
         // Some of these methods are public, but should not be used
@@ -737,132 +738,132 @@
         /// </summary>
         /// <param name="direction">The direction of the turn</param>
         public virtual bool TurnPageDragStart(Page.TurnDirectionEnum direction)
-		{
+        {
             isDraggingPage = true;
 
-			// cache the direction
-			turnPageDragDirection = direction;
+            // cache the direction
+            turnPageDragDirection = direction;
 
-			int bookLeftPage;
-			int bookRightPage;
-			int pageFrontPage;
-			int pageBackPage;
+            int bookLeftPage;
+            int bookRightPage;
+            int pageFrontPage;
+            int pageBackPage;
 
-			if (direction == Page.TurnDirectionEnum.TurnForward)
-			{
-				// exit the turning if we are turning forward and already on the last page group of the book
-				if (IsLastPageGroup)
-				{
-                    // turn dragging was not successful
-                    isDraggingPage = false;
-					return false;
-				}
-
-				// get the book's left and right page numbers
-				bookLeftPage = LeftPageNumber(currentPageNumber);
-				bookRightPage = RightPageNumber(currentPageNumber + 2);
-
-				// get the turning page's front and back page numbers
-				pageFrontPage = RightPageNumber(currentPageNumber);
-				pageBackPage = LeftPageNumber(currentPageNumber + 2);
-			}
-			else
-			{
-				// exit the turning if we are turning backward and already on the first page group of the book
-				if (IsFirstPageGroup)
-				{
+            if (direction == Page.TurnDirectionEnum.TurnForward)
+            {
+                // exit the turning if we are turning forward and already on the last page group of the book
+                if (IsLastPageGroup)
+                {
                     // turn dragging was not successful
                     isDraggingPage = false;
                     return false;
-				}
+                }
 
-				// get the book's left and right page numbers
-				bookLeftPage = LeftPageNumber(currentPageNumber - 2);
-				bookRightPage = RightPageNumber(currentPageNumber);
+                // get the book's left and right page numbers
+                bookLeftPage = LeftPageNumber(currentPageNumber);
+                bookRightPage = RightPageNumber(currentPageNumber + 2);
 
-				// get the turning page's front and back page numbers
-				pageFrontPage = RightPageNumber(currentPageNumber - 2);
-				pageBackPage = LeftPageNumber(currentPageNumber);
-			}
+                // get the turning page's front and back page numbers
+                pageFrontPage = RightPageNumber(currentPageNumber);
+                pageBackPage = LeftPageNumber(currentPageNumber + 2);
+            }
+            else
+            {
+                // exit the turning if we are turning backward and already on the first page group of the book
+                if (IsFirstPageGroup)
+                {
+                    // turn dragging was not successful
+                    isDraggingPage = false;
+                    return false;
+                }
 
-			// set the materials of the book's pages
-			SetMaterial(MaterialEnum.BookPageLeft, GetPageMaterial(bookLeftPage));
+                // get the book's left and right page numbers
+                bookLeftPage = LeftPageNumber(currentPageNumber - 2);
+                bookRightPage = RightPageNumber(currentPageNumber);
+
+                // get the turning page's front and back page numbers
+                pageFrontPage = RightPageNumber(currentPageNumber - 2);
+                pageBackPage = LeftPageNumber(currentPageNumber);
+            }
+
+            // set the materials of the book's pages
+            SetMaterial(MaterialEnum.BookPageLeft, GetPageMaterial(bookLeftPage));
             SetMaterial(MaterialEnum.BookPageRight, GetPageMaterial(bookRightPage));
 
-			// activate a turning page and tell it to begin turning with zero speed
-			pages[0].gameObject.SetActive(true);
-			pages[0].pageTurnCompleted = null;
-			pages[0].Turn(direction, 0,	GetPageMaterial(pageFrontPage), GetPageMaterial(pageBackPage));
+            // activate a turning page and tell it to begin turning with zero speed
+            pages[0].gameObject.SetActive(true);
+            pages[0].pageTurnCompleted = null;
+            pages[0].Turn(direction, 0, GetPageMaterial(pageFrontPage), GetPageMaterial(pageBackPage));
 
-			// turn dragging was successful
-			return true;
-		}
+            // turn dragging was successful
+            return true;
+        }
 
         /// <summary>
         /// This drags the page manually. Only call this after calling TurnPageDragStart
         /// </summary>
         /// <param name="normalizedTime">The normalized time of the page turn animation</param>
         public virtual void TurnPageDrag(float normalizedTime)
-		{
-			// if the turn direction is forward, reverse the normalized time
-			turnPageDragNormalizedTime = turnPageDragDirection == Page.TurnDirectionEnum.TurnForward ? 1f - normalizedTime : normalizedTime;
+        {
+            // if the turn direction is forward, reverse the normalized time
+            turnPageDragNormalizedTime = turnPageDragDirection == Page.TurnDirectionEnum.TurnForward ? 1f - normalizedTime : normalizedTime;
 
-			// set the turning page's normalized time
-			pages[0].SetPageNormalizedTime(turnPageDragNormalizedTime);
-		}
+            // set the turning page's normalized time
+            pages[0].SetPageNormalizedTime(turnPageDragNormalizedTime);
+        }
 
         /// <summary>
         /// This stops the turn page dragging. Only call this after calling TurnPageDragStart
         /// </summary>
         /// <param name="stopSpeed">The speed of the animation after the page is allowed to animate to its final position</param>
         public virtual void TurnPageDragStop(float stopSpeed, TurnPageDragCompleted turnPageDragCompleted, bool reverse = false)
-		{
-			this.turnPageDragCompleted = turnPageDragCompleted;
+        {
+            this.turnPageDragCompleted = turnPageDragCompleted;
 
-			// calculate the final page of the book after the turn is completed
-			if (reverse)
-			{
-				turnPageDragFinalPage = currentPageNumber;
-			}
-			else
-			{
-				turnPageDragFinalPage = currentPageNumber + (turnPageDragDirection == Page.TurnDirectionEnum.TurnForward ? 2 : -2);
-			}
+            // calculate the final page of the book after the turn is completed
+            if (reverse)
+            {
+                turnPageDragFinalPage = currentPageNumber;
+            }
+            else
+            {
+                turnPageDragFinalPage = currentPageNumber + (turnPageDragDirection == Page.TurnDirectionEnum.TurnForward ? 2 : -2);
+            }
 
-			// if the page is turned at least a little
-			if (turnPageDragNormalizedTime > 0)
-			{
-				// set the page turn completion action
-				pages[0].pageTurnCompleted = TurnPageDragTurnCompleted;
+            // if the page is turned at least a little
+            if (turnPageDragNormalizedTime > 0)
+            {
+                // set the page turn completion action
+                pages[0].pageTurnCompleted = TurnPageDragTurnCompleted;
 
-				// tell the turn page to complete its animation.
-				pages[0].PlayRemainder(stopSpeed, reverse);
-			}
-			else
-			{
-				// we already completed the turn, so no final animation is necessary.
-				// just call the completed action.
-				TurnPageDragTurnCompleted(pages[0]);
-			}
-		}
+                // tell the turn page to complete its animation.
+                pages[0].PlayRemainder(stopSpeed, reverse);
+            }
+            else
+            {
+                // we already completed the turn, so no final animation is necessary.
+                // just call the completed action.
+                TurnPageDragTurnCompleted(pages[0]);
+            }
+        }
 
         /// <summary>
         /// This is called when the turn page completes its final animation
         /// </summary>
         /// <param name="page">The page that completes the animation</param>
         protected virtual void TurnPageDragTurnCompleted(Page page)
-		{
+        {
             isDraggingPage = false;
 
-			// set the final book page number
-			SetPageNumber(turnPageDragFinalPage);
+            // set the final book page number
+            SetPageNumber(turnPageDragFinalPage);
 
-			if (turnPageDragCompleted != null)
-			{
-				// fire the turn completed event
-				turnPageDragCompleted(CurrentLeftPageNumber, CurrentRightPageNumber);
-			}
-		}
+            if (turnPageDragCompleted != null)
+            {
+                // fire the turn completed event
+                turnPageDragCompleted(CurrentLeftPageNumber, CurrentRightPageNumber);
+            }
+        }
 
         /// <summary>
         /// Called when a page has completed its turn animation
@@ -941,7 +942,7 @@
                             turnToPage.delayTimeRemaining -= Time.unscaledDeltaTime;
                             break;
                     }
-    
+
                     // if the delay timer is zero
                     if (turnToPage.delayTimeRemaining <= 0)
                     {
@@ -1193,7 +1194,7 @@
         {
             if (!hasInitialized)
             {
-              Initialize();
+                Initialize();
             }
 
             if (stopTurningPages)
@@ -1755,3 +1756,5 @@
         #endregion
     }
 }
+
+

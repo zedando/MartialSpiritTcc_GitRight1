@@ -432,6 +432,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 85365
+--- !u!114 &-2608193607326652122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/book
+  m_EditorClassIdentifier: 
+  Path: event:/book
+  Guid:
+    Data1: 1958402812
+    Data2: 1273296204
+    Data3: 2097353856
+    Data4: -1919027788
+  Banks:
+  - {fileID: 5587919906496919550}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 983
 --- !u!114 &-1954799916008372946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,13 +601,15 @@ MonoBehaviour:
   - {fileID: 3718715478083442903}
   - {fileID: 8823994919708638284}
   - {fileID: 189955650429163368}
+  - {fileID: 8957498767709369720}
+  - {fileID: -2608193607326652122}
   EditorParameters: []
   MasterBanks:
   - {fileID: 5587919906496919550}
   StringsBanks:
   - {fileID: 4343205601810957473}
   cacheVersion: 131849
-  cacheTime: 638999154243397502
+  cacheTime: 639002657712084499
   SerializableEventsDict:
   - key: event:/SocoChute/somDano
     index: 0
@@ -673,6 +702,10 @@ MonoBehaviour:
     index: 43
   - key: event:/Comemoracao
     index: 44
+  - key: event:/Splash
+    index: 45
+  - key: event:/book
+    index: 46
 --- !u!114 &51040089917111655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,10 +1074,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638999154243397502
+  lastModified: 639002657712084499
   FileSizes:
   - Name: Desktop
-    Value: 3012
+    Value: 3104
   Exists: 1
 --- !u!114 &4371205333129329719
 MonoBehaviour:
@@ -1196,10 +1229,10 @@ MonoBehaviour:
   Path: Assets/SONSfmod/tcc/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638999154243347628
+  lastModified: 639002657712051087
   FileSizes:
   - Name: Desktop
-    Value: 43010368
+    Value: 43035776
   Exists: 1
 --- !u!114 &5815557196183896709
 MonoBehaviour:
@@ -1417,3 +1450,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &8957498767709369720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Splash
+  m_EditorClassIdentifier: 
+  Path: event:/Splash
+  Guid:
+    Data1: 846103175
+    Data2: 1319759338
+    Data3: 815466135
+    Data4: 85212255
+  Banks:
+  - {fileID: 5587919906496919550}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1437
