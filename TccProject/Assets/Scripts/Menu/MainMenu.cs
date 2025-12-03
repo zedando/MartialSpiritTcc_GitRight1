@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
 
     void PlayGame()
     {
-        Loader.SceneToLoad = "ct-bullyng";  
+        Loader.SceneToLoad = "Map";  
         SceneManager.LoadScene("LoadingScene");
     }
 

@@ -138,7 +138,7 @@ public class Tutorial2 : MonoBehaviour
                     SkipOrNext();
                 break;
 
-            case 3:
+            /*case 3:
                 if (pressedM)
                     SkipOrNext();
                 break;
@@ -151,7 +151,7 @@ public class Tutorial2 : MonoBehaviour
             case 5:
                 if (pressedE)
                     SkipOrNext();
-                break;
+                break;*/
         }
     }
 
@@ -221,7 +221,7 @@ public class Tutorial2 : MonoBehaviour
                 ));
                 break;
 
-            case 3:
+            /*case 3:
                 if (mapKeyImage != null)
                     mapKeyImage.SetActive(true);
 
@@ -249,9 +249,9 @@ public class Tutorial2 : MonoBehaviour
                     "Por fim, aperte E para interagir com personagens e objetos importantes pelo caminho. Tente agora.",
                     0.055f
                 ));
-                break;
+                break;*/
 
-            case 6:
+            case 3:
                 typingCoroutine = StartCoroutine(TypeText(
                     "Excelente, guerreiro. Agora você domina os controles essenciais. Boa jornada!",
                     0.055f,

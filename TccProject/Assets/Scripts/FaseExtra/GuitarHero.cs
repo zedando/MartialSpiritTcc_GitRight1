@@ -104,6 +104,7 @@ public class GuitarHero : MonoBehaviour
 
         MoverHUDVertical();
 
+        // CONTINUA FUNCIONANDO NO PC COM TECLADO
         if (Input.GetKeyDown(teclaOiZuki)) VerificarAcerto(Golpe.OiZuki);
         if (Input.GetKeyDown(teclaMaeGeri)) VerificarAcerto(Golpe.MaeGeri);
         if (Input.GetKeyDown(teclaMawashiGeri)) VerificarAcerto(Golpe.MawashiGeri);
@@ -165,6 +166,40 @@ public class GuitarHero : MonoBehaviour
             rt.anchoredPosition += Vector2.up * velocidadeHUD * Time.deltaTime;
         }
     }
+
+    // =========================
+    // MÉTODOS PARA BOTÕES MOBILE
+    // =========================
+    public void BotaoOiZuki()
+    {
+        if (!minigameIniciado || !comboAtivo) return;
+        VerificarAcerto(Golpe.OiZuki);
+    }
+
+    public void BotaoMaeGeri()
+    {
+        if (!minigameIniciado || !comboAtivo) return;
+        VerificarAcerto(Golpe.MaeGeri);
+    }
+
+    public void BotaoMawashiGeri()
+    {
+        if (!minigameIniciado || !comboAtivo) return;
+        VerificarAcerto(Golpe.MawashiGeri);
+    }
+
+    public void BotaoGedanBarai()
+    {
+        if (!minigameIniciado || !comboAtivo) return;
+        VerificarAcerto(Golpe.GedanBarai);
+    }
+
+    public void BotaoJodanUke()
+    {
+        if (!minigameIniciado || !comboAtivo) return;
+        VerificarAcerto(Golpe.JodanUke);
+    }
+    // =========================
 
     void VerificarAcerto(Golpe golpeTentado)
     {

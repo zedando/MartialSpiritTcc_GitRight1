@@ -224,7 +224,7 @@ public class BarraPotencia : MonoBehaviour
         }
     }
 
-    private void AvancarFalaInicial()
+    public void AvancarFalaInicial()
     {
         // Para som da fala atual com fade normal
         PararSomDialogo();
